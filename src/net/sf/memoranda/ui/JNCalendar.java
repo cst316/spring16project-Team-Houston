@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Vector;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -58,7 +60,7 @@ public class JNCalendar extends JTable {
 		ListSelectionListener lsl = new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 					//Ignore extra messages.
-	if (e.getValueIsAdjusting())
+				if (e.getValueIsAdjusting())
 					return;
 				if (ignoreChange)
 					return;
@@ -85,6 +87,17 @@ public class JNCalendar extends JTable {
 		};
 		rowSM.addListSelectionListener(lsl);
 		colSM.addListSelectionListener(lsl);
+		
+		class TestPopupMenu extends JPopupMenu {
+			JMenuItem myItem;
+			
+			public TestPopupMenu() {
+				myItem = new JMenuItem("Coming Soon...");
+				this.add(myItem);
+			}
+		}
+		
+		this.setComponentPopupMenu(new TestPopupMenu());
 	}
 
 	int getSelRow() {
