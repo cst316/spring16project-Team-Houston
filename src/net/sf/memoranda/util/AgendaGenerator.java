@@ -350,7 +350,9 @@ public class AgendaGenerator {
 					+ e.getTimeString()
 					+ "</td>"
 					+ "<td width=\"100%\" class=\"eventtext\">&nbsp;&nbsp;"
+					+ "<a href=\"memoranda:events\"><b>"
 					+ txt
+					+ "</b></a>\n"
 					+ "</td>\n"
 					+ "</tr>";
 
