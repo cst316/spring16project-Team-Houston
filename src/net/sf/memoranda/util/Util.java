@@ -44,7 +44,33 @@ public class Util {
 				"-"+Integer.toString(r.nextInt(65535), 16);
                     
     }
-
+    
+    /*
+     * Used for converting a time String of Format "hh:mm aa" to 24 hour 
+     * time String of format "HH:mm"
+     * 
+     * Victor Best 1/2016
+     */
+    public static String getMilitaryTime(String time){
+    	
+    	if(time.length() == 0){
+    		return time;
+    	}
+    	
+    	String milTime = "";   	
+    	String hours = time.substring(0, time.indexOf(":"));
+    	String minutes = time.substring((time.indexOf(":") + 1), (time.length() - 2));
+    	
+    	int hrs = Integer.parseInt(hours);
+    	
+    	if(time.contains("PM")){
+    		hrs += 12;
+    	}
+    	
+    	milTime = hrs + ":" + minutes;
+    	return milTime;
+    }
+    
     public static String getDateStamp(Calendar cal) {
         return cal.get(Calendar.DAY_OF_MONTH)
             + "/"
