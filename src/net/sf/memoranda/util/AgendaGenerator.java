@@ -338,6 +338,16 @@ public class AgendaGenerator {
 							.toExternalForm();
 				}
 			}
+			/*
+			 * Format time String based on user preference
+			 * 
+			 * Victor 1/2016
+			 */
+			String timeString = e.getTimeString();
+			if(Configuration.get("TIME_FORMAT").toString().equalsIgnoreCase("military")){
+				timeString = Util.getMilitaryTime(e.getTimeString());
+			}
+			
 			String icon =
 					"<img align=\"right\" width=\"16\" height=\"16\" src=\""
 							+ iurl
@@ -347,7 +357,7 @@ public class AgendaGenerator {
 					+ icon
 					+ "</td>"
 					+ "<td nowrap class=\"eventtime\">"
-					+ e.getTimeString()
+					+ timeString
 					+ "</td>"
 					+ "<td width=\"100%\" class=\"eventtext\">&nbsp;&nbsp;"
 					+ "<a href=\"memoranda:events\"><b>"

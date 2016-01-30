@@ -37,7 +37,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Local;
+import net.sf.memoranda.util.Util;
 
 /*$Id: EventDialog.java,v 1.28 2005/02/19 10:06:25 rawsushi Exp $*/
 public class EventDialog extends JDialog implements WindowListener {	
@@ -113,7 +115,7 @@ public class EventDialog extends JDialog implements WindowListener {
         gbc.insets = new Insets(10, 10, 5, 10);
         gbc.anchor = GridBagConstraints.WEST;
         eventPanel.add(lblTime, gbc);
-        timeSpin.setPreferredSize(new Dimension(60, 24));
+        timeSpin.setPreferredSize(new Dimension(70, 24));
         gbc = new GridBagConstraints();
         gbc.gridx = 1; gbc.gridy = 0;
         gbc.insets = new Insets(10, 0, 5, 0);
@@ -404,7 +406,17 @@ public class EventDialog extends JDialog implements WindowListener {
             }
         });
         disableElements();
-        ((JSpinner.DateEditor) timeSpin.getEditor()).getFormat().applyPattern("HH:mm");
+        
+        /*
+         * Adjust time spinner to reflect user time format preference
+         */
+   		String timeform = Configuration.get("TIME_FORMAT").toString();
+   		if (timeform.equalsIgnoreCase("military")){
+   			((JSpinner.DateEditor) timeSpin.getEditor()).getFormat().applyPattern("HH:mm"); 
+   		}
+   		else{
+   			((JSpinner.DateEditor) timeSpin.getEditor()).getFormat().applyPattern("hh:mm aa");
+   		}
         enableEndDateCB_actionPerformed(null);
         
     }

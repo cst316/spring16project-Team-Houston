@@ -16,6 +16,7 @@ import javax.swing.border.Border;
 
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Local;
+import net.sf.memoranda.util.Util;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
@@ -46,6 +47,12 @@ public class EventNotificationDialog extends JFrame {
     catch(Exception ex) {
       new ExceptionDialog(ex);
     }
+    /*
+     * Adjust how time is shown in event notification "pop up", based on user time format preference
+     */
+	if(Configuration.get("TIME_FORMAT").toString().equalsIgnoreCase("military")){
+		time = Util.getMilitaryTime(time);
+	}
     timeLabel.setText(time);
     timeLabel.setIcon(new ImageIcon(net.sf.memoranda.ui.TaskDialog.class.getResource(
             "resources/icons/event48.png")));

@@ -3,10 +3,14 @@ package net.sf.memoranda.ui;
 import java.io.File;
 import java.util.Vector;
 
+import net.sf.memoranda.date.CurrentDate;
+import net.sf.memoranda.util.AgendaGenerator;
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
 import net.sf.memoranda.util.MimeTypesList;
+import net.sf.memoranda.util.Util;
+
 import java.awt.*;
 
 import javax.swing.*;
@@ -30,7 +34,15 @@ public class PreferencesDialog extends JDialog {
 	JRadioButton minTaskbarRB = new JRadioButton();
 
 	JRadioButton minHideRB = new JRadioButton();
+	
+	JRadioButton standardTimeRB = new JRadioButton();
 
+	JRadioButton militaryTimeRB = new JRadioButton();
+	
+	ButtonGroup timeGroup = new ButtonGroup();
+	
+	JLabel jLabel7 = new JLabel();
+	
 	ButtonGroup closeGroup = new ButtonGroup();
 
 	JLabel jLabel2 = new JLabel();
@@ -195,6 +207,7 @@ public class PreferencesDialog extends JDialog {
 		jPanel2.setLayout(borderLayout2);
 		soundPanel.add(jPanel2, BorderLayout.CENTER);
 		jPanel2.add(jPanel1, BorderLayout.NORTH);
+		
 		jPanel1.add(soundDefaultRB, null);
 		jPanel1.add(soundBeepRB, null);
 		jPanel1.add(soundCustomRB, null);
@@ -280,7 +293,7 @@ public class PreferencesDialog extends JDialog {
 
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
-		gbc.gridy = 4;
+		gbc.gridy = 4; 
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 
@@ -409,6 +422,55 @@ public class PreferencesDialog extends JDialog {
 		gbc.insets = new Insets(2, 0, 10, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		GeneralPanel.add(askConfirmChB, gbc);
+		
+		/*
+		 * Time format setting added to preferences
+		 * 
+		 * Victor Best 1/2016
+		 */
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 16;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(standardTimeRB, gbc);
+		jLabel7.setHorizontalAlignment(SwingConstants.RIGHT);
+		jLabel7.setText(Local.getString("Time format:"));
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 17;
+		gbc.insets = new Insets(2, 10, 0, 15);
+		gbc.anchor = GridBagConstraints.EAST;
+		GeneralPanel.add(jLabel7, gbc);
+		timeGroup.add(standardTimeRB);
+		standardTimeRB.setSelected(true);
+		standardTimeRB.setText(Local.getString("12 Hour"));
+		standardTimeRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				standardTimeRB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 17;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(standardTimeRB, gbc);
+
+		timeGroup.add(militaryTimeRB);
+		militaryTimeRB.setText(Local.getString("24 Hour"));
+		militaryTimeRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				militaryTimeRB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 18;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(militaryTimeRB, gbc);
 
 		// Build Tab2
 		rstPanelBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -491,6 +553,13 @@ public class PreferencesDialog extends JDialog {
 				.toString().equalsIgnoreCase("yes"));
 		firstdow.setSelected(Configuration.get("FIRST_DAY_OF_WEEK").toString()
 				.equalsIgnoreCase("mon"));
+		
+		String timeform = Configuration.get("TIME_FORMAT").toString();
+		System.out.println("TimeForm:" + timeform);
+		if (timeform.equalsIgnoreCase("standard"))
+			standardTimeRB.setSelected(true);
+		else if (timeform.equalsIgnoreCase("military"))
+			militaryTimeRB.setSelected(true);
 
 		enableCustomLF(false);
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();
@@ -566,6 +635,12 @@ public class PreferencesDialog extends JDialog {
 	}
 
 	void apply() {
+		
+		if (this.standardTimeRB.isSelected())
+			Configuration.put("TIME_FORMAT", "standard");
+		else
+			Configuration.put("TIME_FORMAT", "military");
+		
 		if (this.firstdow.isSelected())
 			Configuration.put("FIRST_DAY_OF_WEEK", "mon");
 		else
@@ -659,6 +734,8 @@ public class PreferencesDialog extends JDialog {
 		App.getFrame().workPanel.dailyItemsPanel.editorPanel.editor.editor.setAntiAlias(antialiasChB.isSelected());
 		App.getFrame().workPanel.dailyItemsPanel.editorPanel.initCSS();
 		App.getFrame().workPanel.dailyItemsPanel.editorPanel.editor.repaint();
+		App.getFrame().workPanel.dailyItemsPanel.agendaPanel.refresh(CurrentDate.get());
+		App.getFrame().workPanel.dailyItemsPanel.eventsPanel.updateUI();
 		
 		Configuration.saveConfig();
 		
@@ -674,6 +751,7 @@ public class PreferencesDialog extends JDialog {
 		this.soundFileBrowseB.setEnabled(is);
 		this.jLabel6.setEnabled(is);
 	}
+	
 
 	void enableSound(boolean is) {
 		this.soundDefaultRB.setEnabled(is);
@@ -706,6 +784,14 @@ public class PreferencesDialog extends JDialog {
 
 	void closeExitRB_actionPerformed(ActionEvent e) {
 		// this.askConfirmChB.setEnabled(true);
+	}
+	
+	void standardTimeRB_actionPerformed(ActionEvent e) {
+		//System.out.println("standard time selected");		
+	}
+	
+	void militaryTimeRB_actionPerformed(ActionEvent e) {
+		//System.out.println("military time selected");	
 	}
 
 	void askConfirmChB_actionPerformed(ActionEvent e) {

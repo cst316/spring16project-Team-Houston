@@ -22,7 +22,9 @@ import net.sf.memoranda.EventsManager;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Local;
+import net.sf.memoranda.util.Util;
 /**
  *
  */
@@ -50,7 +52,6 @@ public class EventsTable extends JTable {
     }
 
     public void initTable(CalendarDate d) {
-    	this.setAutoCreateRowSorter(true);
         events = (Vector)EventsManager.getEventsForDate(d);
         getColumnModel().getColumn(0).setPreferredWidth(60);
         getColumnModel().getColumn(0).setMaxWidth(60);
@@ -123,9 +124,19 @@ public class EventsTable extends JTable {
 
         public Object getValueAt(int row, int col) {
            Event ev = (Event)events.get(row);
-           if (col == 0)
+           if (col == 0){
                 //return ev.getHour()+":"+ev.getMinute();
-                return ev.getTimeString();
+        	   
+        	   	/*
+        	   	 * Return time String based on user preference
+        	   	 */
+	       		String timeform = Configuration.get("TIME_FORMAT").toString();
+	       		if (timeform.equalsIgnoreCase("military")){
+	       			return Util.getMilitaryTime(ev.getTimeString());
+	       		}
+	       		else   	   	
+	       			return ev.getTimeString();
+           }     
            else if (col == 1)
                 return ev.getText();
            else if (col == EVENT_ID)
