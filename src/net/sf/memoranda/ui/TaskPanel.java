@@ -56,7 +56,7 @@ public class TaskPanel extends JPanel {
 	JCheckBoxMenuItem ppShowActiveOnlyChB = new JCheckBoxMenuItem();
 		
     JScrollPane scrollPane = new JScrollPane();
-    TaskTable taskTable = new TaskTable();
+    static TaskTable taskTable = new TaskTable();
 	JMenuItem ppEditTask = new JMenuItem();
 	JPopupMenu taskPPMenu = new JPopupMenu();
 	JMenuItem ppRemoveTask = new JMenuItem();
@@ -562,20 +562,8 @@ public class TaskPanel extends JPanel {
         //taskTable.updateUI();
     }
 
-    void calcTask_actionPerformed(ActionEvent e) {
-        //TaskCalcDialog dlg = new TaskCalcDialog(App.getFrame());
-        //dlg.pack();
-        Task t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
-        
-        //Dimension frmSize = App.getFrame().getSize();
-        //Point loc = App.getFrame().getLocation();
-        
-        //dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
-        //dlg.setVisible(true);
-        //if (dlg.CANCELLED) {
-        //    return;            
-        //}
-        
+    public static void calculate(){
+    	Task t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());      
         TaskList tl = CurrentProject.getTaskList();
         if(Configuration.get("CALC_EFFORT").equals("yes")) {
             t.setEffort(tl.calculateTotalEffortFromSubTasks(t));
@@ -592,21 +580,34 @@ public class TaskPanel extends JPanel {
             t.setProgress(thisProgress);
         }
         
-//        CalendarDate sd = new CalendarDate((Date) dlg.startDate.getModel().getValue());
-////        CalendarDate ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
-//          CalendarDate ed;
-// 		if(dlg.chkEndDate.isSelected())
-// 			ed = new CalendarDate((Date) dlg.endDate.getModel().getValue());
-// 		else
-// 			ed = new CalendarDate(0,0,0);
-//        long effort = Util.getMillisFromHours(dlg.effortField.getText());
-//		Task newTask = CurrentProject.getTaskList().createTask(sd, ed, dlg.todoField.getText(), dlg.priorityCB.getSelectedIndex(),effort, dlg.descriptionField.getText(),parentTaskId);
-//		
-		
+
         CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
         taskTable.tableChanged();
-//        parentPanel.updateIndicators();
-        //taskTable.updateUI();
+    }
+    
+    void calcTask_actionPerformed(ActionEvent e) {
+        
+        Task t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());      
+        TaskList tl = CurrentProject.getTaskList();
+        if(Configuration.get("CALC_EFFORT").equals("yes")) {
+            t.setEffort(tl.calculateTotalEffortFromSubTasks(t));
+        }
+        
+        if(Configuration.get("COMPACT_DATES").equals("yes")) {
+            t.setStartDate(tl.getEarliestStartDateFromSubTasks(t));
+            t.setEndDate(tl.getLatestEndDateFromSubTasks(t));
+        }
+        
+        if(Configuration.get("CALC_COMPLETION").equals("yes")) {
+            long[] res = tl.calculateCompletionFromSubTasks(t);
+            int thisProgress = (int) Math.round((((double)res[0] / (double)res[1]) * 100));
+            t.setProgress(thisProgress);
+        }
+        
+
+        CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
+        taskTable.tableChanged();
+
     }
 
     void listSubTasks_actionPerformed(ActionEvent e) {
