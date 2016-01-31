@@ -23,115 +23,61 @@ import java.awt.event.*;
 /*$Id: PreferencesDialog.java,v 1.16 2006/06/28 22:58:31 alexeya Exp $*/
 public class PreferencesDialog extends JDialog {
 	JPanel topPanel = new JPanel(new BorderLayout());
-
 	JTabbedPane tabbedPanel = new JTabbedPane();
-
 	JPanel GeneralPanel = new JPanel(new GridBagLayout());
-
 	GridBagConstraints gbc;
-
 	JLabel jLabel1 = new JLabel();
-
 	ButtonGroup minGroup = new ButtonGroup();
-
 	JRadioButton minTaskbarRB = new JRadioButton();
-
 	JRadioButton minHideRB = new JRadioButton();
-	
 	JRadioButton standardTimeRB = new JRadioButton();
-
 	JRadioButton militaryTimeRB = new JRadioButton();
-	
 	ButtonGroup timeGroup = new ButtonGroup();
-	
 	JLabel jLabel7 = new JLabel();
-	
+	JLabel jLabel8 = new JLabel();
 	ButtonGroup closeGroup = new ButtonGroup();
-
 	JLabel jLabel2 = new JLabel();
-
 	JRadioButton closeExitRB = new JRadioButton();
-
 	JCheckBox askConfirmChB = new JCheckBox();
-
 	JRadioButton closeHideRB = new JRadioButton();
-
 	JLabel jLabel3 = new JLabel();
-
 	ButtonGroup lfGroup = new ButtonGroup();
-
 	JRadioButton lfSystemRB = new JRadioButton();
-
 	JRadioButton lfJavaRB = new JRadioButton();
-
 	JRadioButton lfCustomRB = new JRadioButton();
-
 	JLabel classNameLabel = new JLabel();
-
 	JTextField lfClassName = new JTextField();
-
 	JLabel jLabel4 = new JLabel();
-
 	JCheckBox enSystrayChB = new JCheckBox();
-
 	JCheckBox startMinimizedChB = new JCheckBox();
-
 	JCheckBox enSplashChB = new JCheckBox();
-
 	JCheckBox enL10nChB = new JCheckBox();
-
 	JCheckBox firstdow = new JCheckBox();
-
 	JPanel resourcePanel = new JPanel(new BorderLayout());
-
 	ResourceTypePanel resourceTypePanel = new ResourceTypePanel();
-
 	Border rstPanelBorder;
-
 	TitledBorder rsbpBorder;
-
 	JButton okB = new JButton();
-
 	JButton cancelB = new JButton();
-
 	JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-
 	JLabel lblExit = new JLabel();
-
 	JPanel soundPanel = new JPanel();
-
 	JCheckBox enableSoundCB = new JCheckBox();
-
 	BorderLayout borderLayout1 = new BorderLayout();
-
 	TitledBorder titledBorder1;
-
 	ButtonGroup soundGroup = new ButtonGroup();
-
 	JPanel jPanel2 = new JPanel();
-
 	JButton soundFileBrowseB = new JButton();
-
 	GridLayout gridLayout1 = new GridLayout();
-
 	JPanel jPanel1 = new JPanel();
-
 	JRadioButton soundBeepRB = new JRadioButton();
-
 	JLabel jLabel6 = new JLabel();
-
 	JTextField soundFile = new JTextField();
-
 	JRadioButton soundDefaultRB = new JRadioButton();
-
 	BorderLayout borderLayout3 = new BorderLayout();
-
 	JPanel jPanel3 = new JPanel();
-
 	JRadioButton soundCustomRB = new JRadioButton();
-
 	BorderLayout borderLayout2 = new BorderLayout();
-	
 	JPanel editorConfigPanel = new JPanel(new BorderLayout());
 	JPanel econfPanel = new JPanel(new GridLayout(5, 2));
 	Vector fontnames = getFontNames();
@@ -145,10 +91,7 @@ public class PreferencesDialog extends JDialog {
 	JLabel monoFontLabel = new JLabel();
 	JLabel baseFontSizeLabel = new JLabel();
 	
-	//begin adding calculation preferences
 	JButton calcButton = new JButton("Progress Calculation Preferences");
-	
-	//end edit
 
 	public PreferencesDialog(Frame frame) {
 		super(frame, Local.getString("Preferences"), true);
@@ -276,14 +219,237 @@ public class PreferencesDialog extends JDialog {
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		GeneralPanel.add(closeExitRB, gbc);
+
+		closeGroup.add(closeHideRB);
+		closeHideRB.setText(Local.getString("Hide"));
+		closeHideRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				closeHideRB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(closeHideRB, gbc);
+		jLabel3.setHorizontalAlignment(SwingConstants.RIGHT);
+		jLabel3.setText(Local.getString("Look and feel:"));
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		gbc.insets = new Insets(2, 10, 0, 15);
+		gbc.anchor = GridBagConstraints.EAST;
+		GeneralPanel.add(jLabel3, gbc);
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(lfSystemRB, gbc);
+		lfSystemRB.setText(Local.getString("System Default"));
+		lfSystemRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lfCustomRB_actionPerformed(e);
+			}
+		});
+		lfGroup.add(lfSystemRB);
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 5;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(lfJavaRB, gbc);
+		lfJavaRB.setText(Local.getString("Java Default"));
+		lfJavaRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lfCustomRB_actionPerformed(e);
+			}
+		});
+		lfGroup.add(lfJavaRB);
+		lfGroup.add(lfCustomRB);
+		lfCustomRB.setText(Local.getString("Custom"));
+		lfCustomRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lfCustomRB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 6;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(lfCustomRB, gbc);
+		classNameLabel.setEnabled(false);
+		classNameLabel.setText(Local.getString("L&F class name:"));
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 7;
+		gbc.insets = new Insets(2, 20, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(classNameLabel, gbc);
+		lfClassName.setEnabled(false);
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 8;
+		gbc.insets = new Insets(7, 20, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		GeneralPanel.add(lfClassName, gbc);
+		jLabel4.setHorizontalAlignment(SwingConstants.RIGHT);
+		jLabel4.setText(Local.getString("Startup:"));
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 9;
+		gbc.insets = new Insets(2, 10, 0, 15);
+		gbc.anchor = GridBagConstraints.EAST;
+		GeneralPanel.add(jLabel4, gbc);
+		enSystrayChB.setText(Local.getString("Enable system tray icon"));
+		enSystrayChB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				enSystrayChB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 9;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(enSystrayChB, gbc);
+		startMinimizedChB.setText(Local.getString("Start minimized"));
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 10;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(startMinimizedChB, gbc);
+		enSplashChB.setText(Local.getString("Show splash screen"));
+		enSplashChB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				enSplashChB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 11;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(enSplashChB, gbc);
+		enL10nChB.setText(Local.getString("Enable localization"));
+		enL10nChB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				enL10nChB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 12;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(enL10nChB, gbc);
+		firstdow.setText(Local.getString("First day of week - Monday"));
+		firstdow.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 13;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(firstdow, gbc);
+		lblExit.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblExit.setText(Local.getString("Exit") + ":");
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 14;
+		gbc.insets = new Insets(2, 0, 10, 15);
+		gbc.anchor = GridBagConstraints.EAST;
+		GeneralPanel.add(lblExit, gbc);
+		askConfirmChB.setSelected(true);
+		askConfirmChB.setText(Local.getString("Ask confirmation"));
+		askConfirmChB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				askConfirmChB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 14;
+		gbc.insets = new Insets(2, 0, 10, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(askConfirmChB, gbc);
 		
-		//begin edit
-		GeneralPanel.add(calcButton);
+		/*
+		 * Time format setting added to preferences
+		 * 
+		 * Victor Best 1/2016
+		 */
+
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 16;
+		gbc.insets = new Insets(2, 0, 0, 15);
+		gbc.anchor = GridBagConstraints.EAST;
+		GeneralPanel.add(jLabel7, gbc);
+		jLabel7.setHorizontalAlignment(SwingConstants.RIGHT);
+		jLabel7.setText(Local.getString("Time format:"));
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 15;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(standardTimeRB, gbc);
+		timeGroup.add(standardTimeRB);
+		standardTimeRB.setSelected(true);
+		standardTimeRB.setText(Local.getString("12 Hour"));
+		standardTimeRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				standardTimeRB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 16;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(standardTimeRB, gbc);
+
+		timeGroup.add(militaryTimeRB);
+		militaryTimeRB.setText(Local.getString("24 Hour"));
+		militaryTimeRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				militaryTimeRB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 17;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(militaryTimeRB, gbc);
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 18;
+		gbc.insets = new Insets(2, 0, 0, 15);
+		gbc.anchor = GridBagConstraints.EAST;
+		GeneralPanel.add(jLabel8, gbc);
+		jLabel8.setHorizontalAlignment(SwingConstants.RIGHT);
+		jLabel8.setText(Local.getString("Task Progress Calculation:"));
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 18;
+		gbc.insets = new Insets(7, 0, 10, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(calcButton, gbc);
+		calcButton.setToolTipText("Controls how task progress is calculated");
 		calcButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				TaskCalcDialog dlg = new TaskCalcDialog(App.getFrame());
 		        dlg.pack();
-		        
 		        
 		        Dimension frmSize = App.getFrame().getSize();
 		        Point loc = App.getFrame().getLocation();
@@ -318,210 +484,6 @@ public class PreferencesDialog extends JDialog {
 		        Configuration.saveConfig();
 			}
 		});
-		//end edit
-
-		closeGroup.add(closeHideRB);
-		closeHideRB.setText(Local.getString("Hide"));
-		closeHideRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				closeHideRB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 3;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(closeHideRB, gbc);
-		jLabel3.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel3.setText(Local.getString("Look and feel:"));
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		gbc.insets = new Insets(2, 10, 0, 15);
-		gbc.anchor = GridBagConstraints.EAST;
-		GeneralPanel.add(jLabel3, gbc);
-
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 4; 
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 5;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(lfSystemRB, gbc);
-
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 6;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(lfJavaRB, gbc);
-		lfGroup.add(lfCustomRB);
-		lfCustomRB.setText(Local.getString("Custom"));
-		lfCustomRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				lfCustomRB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 7;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(lfCustomRB, gbc);
-		classNameLabel.setEnabled(false);
-		classNameLabel.setText(Local.getString("L&F class name:"));
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 8;
-		gbc.insets = new Insets(2, 20, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(classNameLabel, gbc);
-		lfClassName.setEnabled(false);
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 9;
-		gbc.insets = new Insets(7, 20, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		GeneralPanel.add(lfClassName, gbc);
-		jLabel4.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel4.setText(Local.getString("Startup:"));
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 10;
-		gbc.insets = new Insets(2, 10, 0, 15);
-		gbc.anchor = GridBagConstraints.EAST;
-		GeneralPanel.add(jLabel4, gbc);
-		enSystrayChB.setText(Local.getString("Enable system tray icon"));
-		enSystrayChB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				enSystrayChB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 10;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(enSystrayChB, gbc);
-		startMinimizedChB.setText(Local.getString("Start minimized"));
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 11;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(startMinimizedChB, gbc);
-		enSplashChB.setText(Local.getString("Show splash screen"));
-		enSplashChB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				enSplashChB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 12;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(enSplashChB, gbc);
-		enL10nChB.setText(Local.getString("Enable localization"));
-		enL10nChB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				enL10nChB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 13;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(enL10nChB, gbc);
-		firstdow.setText(Local.getString("First day of week - Monday"));
-		firstdow.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 14;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(firstdow, gbc);
-		lblExit.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblExit.setText(Local.getString("Exit") + ":");
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 15;
-		gbc.insets = new Insets(2, 10, 10, 15);
-		gbc.anchor = GridBagConstraints.EAST;
-		GeneralPanel.add(lblExit, gbc);
-		askConfirmChB.setSelected(true);
-		askConfirmChB.setText(Local.getString("Ask confirmation"));
-		askConfirmChB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				askConfirmChB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 15;
-		gbc.insets = new Insets(2, 0, 10, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(askConfirmChB, gbc);
-		
-		/*
-		 * Time format setting added to preferences
-		 * 
-		 * Victor Best 1/2016
-		 */
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 16;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(standardTimeRB, gbc);
-		jLabel7.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel7.setText(Local.getString("Time format:"));
-		
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 17;
-		gbc.insets = new Insets(2, 10, 0, 15);
-		gbc.anchor = GridBagConstraints.EAST;
-		GeneralPanel.add(jLabel7, gbc);
-		timeGroup.add(standardTimeRB);
-		standardTimeRB.setSelected(true);
-		standardTimeRB.setText(Local.getString("12 Hour"));
-		standardTimeRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				standardTimeRB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 17;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(standardTimeRB, gbc);
-
-		timeGroup.add(militaryTimeRB);
-		militaryTimeRB.setText(Local.getString("24 Hour"));
-		militaryTimeRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				militaryTimeRB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 18;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(militaryTimeRB, gbc);
 
 		// Build Tab2
 		rstPanelBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -538,6 +500,7 @@ public class PreferencesDialog extends JDialog {
 		baseFontSizeLabel.setText(Local.getString("Base font size"));
 		baseFontSizeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		antialiasChB.setText(Local.getString("Antialias text"));
+		antialiasChB.setToolTipText("Smoothes the edges of text");
 		JPanel bfsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); 
 		bfsPanel.add(baseFontSize);
 		econfPanel.add(normalFontLabel);
@@ -606,7 +569,6 @@ public class PreferencesDialog extends JDialog {
 				.equalsIgnoreCase("mon"));
 		
 		String timeform = Configuration.get("TIME_FORMAT").toString();
-		System.out.println("TimeForm:" + timeform);
 		if (timeform.equalsIgnoreCase("standard"))
 			standardTimeRB.setSelected(true);
 		else if (timeform.equalsIgnoreCase("military"))
@@ -862,7 +824,10 @@ public class PreferencesDialog extends JDialog {
 	}
 
 	void lfCustomRB_actionPerformed(ActionEvent e) {
-		this.enableCustomLF(true);
+		if (lfGroup.getSelection().equals(lfCustomRB.getModel()))
+			this.enableCustomLF(true);
+		else
+			this.enableCustomLF(false);
 	}
 
 	void enSystrayChB_actionPerformed(ActionEvent e) {
