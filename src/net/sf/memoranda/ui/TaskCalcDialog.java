@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Local;
 
 /*$Id: TaskCalcDialog.java,v 1.3 2005/06/10 18:36:24 velhonoja Exp $*/
@@ -138,9 +139,18 @@ public class TaskCalcDialog extends JDialog {
 	}
 
 	void setValues() {
-		calcCompletionChB.setSelected(true);
-		compactDatesChB.setSelected(true);
-		calcEffortChB.setSelected(true);
+		if(Configuration.get("CALC_COMPLETION").equals("yes"))
+			calcCompletionChB.setSelected(true);
+		else
+			calcCompletionChB.setSelected(false);
+		if(Configuration.get("COMPACT_DATES").equals("yes"))
+			compactDatesChB.setSelected(true);
+		else
+			compactDatesChB.setSelected(false);
+		if(Configuration.get("CALC_EFFORT").equals("yes"))
+			calcEffortChB.setSelected(true);
+		else
+			calcEffortChB.setSelected(false);
 	}
 
 	void okB_actionPerformed(ActionEvent e) {
