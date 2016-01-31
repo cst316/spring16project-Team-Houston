@@ -42,11 +42,14 @@ public class TaskProgressEditor extends JPanel implements TableCellEditor{
 					current.setProgress( current.getProgress()-5 );
 				}
 				repaint();
+				TaskPanel.calculate();
 			}
 		});
 		setLayout(new java.awt.BorderLayout());
 		label.setOpaque(false);
 	}
+	
+	
 	
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int r, int c) { 
 		current = (Task) value;
