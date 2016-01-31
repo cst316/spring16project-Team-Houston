@@ -35,6 +35,7 @@ import net.sf.memoranda.TaskList;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.date.DateListener;
+import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
@@ -562,30 +563,30 @@ public class TaskPanel extends JPanel {
     }
 
     void calcTask_actionPerformed(ActionEvent e) {
-        TaskCalcDialog dlg = new TaskCalcDialog(App.getFrame());
-        dlg.pack();
+        //TaskCalcDialog dlg = new TaskCalcDialog(App.getFrame());
+        //dlg.pack();
         Task t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());
         
-        Dimension frmSize = App.getFrame().getSize();
-        Point loc = App.getFrame().getLocation();
+        //Dimension frmSize = App.getFrame().getSize();
+        //Point loc = App.getFrame().getLocation();
         
-        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
-        dlg.setVisible(true);
-        if (dlg.CANCELLED) {
-            return;            
-        }
+        //dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+        //dlg.setVisible(true);
+        //if (dlg.CANCELLED) {
+        //    return;            
+        //}
         
         TaskList tl = CurrentProject.getTaskList();
-        if(dlg.calcEffortChB.isSelected()) {
+        if(Configuration.get("CALC_EFFORT").equals("yes")) {
             t.setEffort(tl.calculateTotalEffortFromSubTasks(t));
         }
         
-        if(dlg.compactDatesChB.isSelected()) {
+        if(Configuration.get("COMPACT_DATES").equals("yes")) {
             t.setStartDate(tl.getEarliestStartDateFromSubTasks(t));
             t.setEndDate(tl.getLatestEndDateFromSubTasks(t));
         }
         
-        if(dlg.calcCompletionChB.isSelected()) {
+        if(Configuration.get("CALC_COMPLETION").equals("yes")) {
             long[] res = tl.calculateCompletionFromSubTasks(t);
             int thisProgress = (int) Math.round((((double)res[0] / (double)res[1]) * 100));
             t.setProgress(thisProgress);

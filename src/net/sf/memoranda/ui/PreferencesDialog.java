@@ -3,8 +3,11 @@ package net.sf.memoranda.ui;
 import java.io.File;
 import java.util.Vector;
 
+
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.util.AgendaGenerator;
+import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.Task;
 import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
@@ -141,6 +144,11 @@ public class PreferencesDialog extends JDialog {
 	JLabel headerFontLabel = new JLabel();
 	JLabel monoFontLabel = new JLabel();
 	JLabel baseFontSizeLabel = new JLabel();
+	
+	//begin adding calculation preferences
+	JButton calcButton = new JButton("Progress Calculation Preferences");
+	
+	//end edit
 
 	public PreferencesDialog(Frame frame) {
 		super(frame, Local.getString("Preferences"), true);
@@ -268,6 +276,49 @@ public class PreferencesDialog extends JDialog {
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		GeneralPanel.add(closeExitRB, gbc);
+		
+		//begin edit
+		GeneralPanel.add(calcButton);
+		calcButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				TaskCalcDialog dlg = new TaskCalcDialog(App.getFrame());
+		        dlg.pack();
+		        
+		        
+		        Dimension frmSize = App.getFrame().getSize();
+		        Point loc = App.getFrame().getLocation();
+		        
+		        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+		        dlg.setVisible(true);
+		        
+		        if (dlg.CANCELLED) {
+		            return;            
+		        }
+		        
+		        if(dlg.calcEffortChB.isSelected()) {
+		        	Configuration.put("CALC_EFFORT", "yes");
+		        }
+		        else{
+		        	Configuration.put("CALC_EFFORT", "no");
+		        }
+		        
+		        if(dlg.compactDatesChB.isSelected()) {
+		           Configuration.put("COMPACT_DATES", "yes");
+		        }
+		        else{
+		        	Configuration.put("COMPACT_DATES", "no");
+		        }
+		        
+		        if(dlg.calcCompletionChB.isSelected()) {
+		            Configuration.put("CALC_COMPLETION", "yes");
+		        }
+		        else{
+		        	Configuration.put("CALC_COMPLETION", "no");
+		        }
+		        Configuration.saveConfig();
+			}
+		});
+		//end edit
 
 		closeGroup.add(closeHideRB);
 		closeHideRB.setText(Local.getString("Hide"));
