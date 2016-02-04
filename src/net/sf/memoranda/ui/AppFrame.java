@@ -91,13 +91,13 @@ public class AppFrame extends JFrame {
 
     static Vector exitListeners = new Vector();
 
-    public Action prjPackAction = new AbstractAction("Pack current project") {
+    public Action prjPackAction = new AbstractAction("Backup current project") {
         public void actionPerformed(ActionEvent e) {
             doPrjPack();
         }
     };
 
-    public Action prjUnpackAction = new AbstractAction("Unpack project") {
+    public Action prjUnpackAction = new AbstractAction("Restore project") {
         public void actionPerformed(ActionEvent e) {
             doPrjUnPack();
         }
@@ -429,11 +429,9 @@ public class AppFrame extends JFrame {
         jMenuFormatProperties.setToolTipText(Local.getString(
                 "Object properties"));
 
-        jMenuGo.setText(Local.getString("Go"));
-        jMenuGoHBack.setText(Local.getString("History back"));
-        jMenuGoHBack.setToolTipText(Local.getString("History back"));
-        jMenuGoFwd.setText(Local.getString("History forward"));
-        jMenuGoFwd.setToolTipText(Local.getString("History forward"));
+        jMenuGo.setText(Local.getString("History"));
+        jMenuGoHBack.setText(Local.getString("Back"));        
+        jMenuGoFwd.setText(Local.getString("Forward"));
         jMenuGoDayBack.setText(Local.getString("One day back"));
         jMenuGoDayFwd.setText(Local.getString("One day forward"));
         jMenuGoToday.setText(Local.getString("To today"));
