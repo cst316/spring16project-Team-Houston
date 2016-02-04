@@ -294,15 +294,7 @@ public class EditorPanel extends JPanel {
 		previewB.setMaximumSize(new Dimension(24, 24));
 		previewB.setText("");
 
-		/*
-		 * printB.setAction(printAction); printB.setMaximumSize(new
-		 * Dimension(24, 24)); printB.setMinimumSize(new Dimension(24, 24));
-		 * printB.setPreferredSize(new Dimension(24, 24));
-		 * printB.setRequestFocusEnabled(false);
-		 * printB.setToolTipText(Local.getString("Print"));
-		 * printB.setBorderPainted(false); printB.setFocusable(false);
-		 * printB.setText("");
-		 */
+
 
 		jPanel1.setLayout(borderLayout2);
 		titleLabel.setFont(new java.awt.Font("Dialog", 1, 10));
@@ -506,15 +498,7 @@ public class EditorPanel extends JPanel {
 		else
 			titleField.setText("");
 		initialTitle = titleField.getText();
-		/*
-		 * } catch (Exception ex) { new ExceptionDialog(ex); }
-		 */
-		/*
-		 * Document doc = CurrentStorage.get().openNote(note); try {
-		 * this.editor.editor.setText(doc.getText(0, doc.getLength())); } catch
-		 * (Exception ex){ ex.printStackTrace(); }
-		 */
-		// .setDocument(CurrentStorage.get().openNote(note));
+		
 	}
 
 	public javax.swing.text.Document getDocument() {
