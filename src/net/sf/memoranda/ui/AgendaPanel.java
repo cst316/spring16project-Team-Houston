@@ -272,23 +272,7 @@ public class AgendaPanel extends JPanel {
 		});
 		refresh(CurrentDate.get());
 
-		//        agendaPPMenu.setFont(new java.awt.Font("Dialog", 1, 10));
-		//        agendaPPMenu.add(ppShowActiveOnlyChB);
-		//        PopupListener ppListener = new PopupListener();
-		//        viewer.addMouseListener(ppListener);
-		//		ppShowActiveOnlyChB.setFont(new java.awt.Font("Dialog", 1, 11));
-		//		ppShowActiveOnlyChB.setText(
-		//			Local.getString("Show Active only"));
-		//		ppShowActiveOnlyChB.addActionListener(new java.awt.event.ActionListener() {
-		//			public void actionPerformed(ActionEvent e) {
-		//				toggleShowActiveOnly_actionPerformed(e);
-		//			}
-		//		});		
-		//		boolean isShao =
-		//			(Context.get("SHOW_ACTIVE_TASKS_ONLY") != null)
-		//				&& (Context.get("SHOW_ACTIVE_TASKS_ONLY").equals("true"));
-		//		ppShowActiveOnlyChB.setSelected(isShao);
-		//		toggleShowActiveOnly_actionPerformed(null);		
+		
 	}
 
 	public void refresh(CalendarDate date) {
