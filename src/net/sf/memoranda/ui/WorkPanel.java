@@ -3,19 +3,24 @@ package net.sf.memoranda.ui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.Local;
 
@@ -225,9 +230,18 @@ public class WorkPanel extends JPanel {
 				tasksB_actionPerformed(null);
 			else if (pan.equals("EVENTS"))
 				eventsB_actionPerformed(null);
-			else if (pan.equals("FILES"))
-				filesB_actionPerformed(null);
+			else if (pan.equals("FILES")) {
+					filesB_actionPerformed(null);
+			}
 		}
+	}
+	
+	public static boolean isWindows() {
+
+	    String os = System.getProperty("os.name").toLowerCase();
+	    // windows
+	    return (os.indexOf("win") >= 0);
+
 	}
 
 	public void agendaB_actionPerformed(ActionEvent e) {
@@ -259,9 +273,21 @@ public class WorkPanel extends JPanel {
 	}
 
 	public void filesB_actionPerformed(ActionEvent e) {
-		cardLayout1.show(panel, "FILES");
-		setCurrentButton(filesB);
-		Context.put("CURRENT_PANEL", "FILES");
+		if (Configuration.get("RESOURCE_PATH").equals("nothing")) {
+			JFileChooser picker = new JFileChooser();
+			picker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			picker.showOpenDialog(picker);
+			File chosen = picker.getSelectedFile();
+			Configuration.put("RESOURCE_PATH", chosen.toString());
+		}
+		if(isWindows()){
+			try {
+				Desktop.getDesktop().open(new File((String) Configuration.get("RESOURCE_PATH")));
+			} catch (IOException exc) {
+				// TODO Auto-generated catch block
+				exc.printStackTrace();
+			}
+		}
 	}
 
 	void setCurrentButton(JButton cb) {
