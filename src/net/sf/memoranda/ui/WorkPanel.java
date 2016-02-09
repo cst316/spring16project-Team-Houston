@@ -231,21 +231,7 @@ public class WorkPanel extends JPanel {
 			else if (pan.equals("EVENTS"))
 				eventsB_actionPerformed(null);
 			else if (pan.equals("FILES")) {
-				if (Configuration.get("RESOURCE_PATH").equals("nothing")) {
-					JFileChooser picker = new JFileChooser();
-					picker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-					picker.showOpenDialog(picker);
-					File chosen = picker.getSelectedFile();
-					Configuration.put("RESOURCE_PATH", chosen.toString());
-				}
-				if(isWindows()){
-					try {
-						Desktop.getDesktop().open(new File((String) Configuration.get("RESOURCE_PATH")));
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+					filesB_actionPerformed(null);
 			}
 		}
 	}
