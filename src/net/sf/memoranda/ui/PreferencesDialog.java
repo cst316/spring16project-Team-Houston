@@ -488,8 +488,22 @@ public class PreferencesDialog extends JDialog {
 		// Build Tab2
 		rstPanelBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 		resourceTypePanel.setBorder(rstPanelBorder);
-		resourcePanel.add(resourceTypePanel, BorderLayout.CENTER);
 		
+		JButton resourceSelector = new JButton();
+		resourceSelector.setText("Choose resource location");
+		resourceSelector.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser picker = new JFileChooser();
+				picker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				picker.showOpenDialog(picker);
+				File chosen = picker.getSelectedFile();
+				Configuration.put("RESOURCE_PATH", chosen.toString());
+			}
+		});
+		
+		
+		
+		resourcePanel.add(resourceSelector);
 		// Build editorConfigPanel
 		normalFontLabel.setText(Local.getString("Normal text font"));
 		normalFontLabel.setHorizontalAlignment(SwingConstants.RIGHT);
