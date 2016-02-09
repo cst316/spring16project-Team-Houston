@@ -140,6 +140,13 @@ public class EventImpl implements Event, Comparable {
         return false;
 	}
 	
+	public int getTimesSnoozed() {
+		Attribute a = _elem.getAttribute("timesSnoozed");
+		if (a != null)
+			return new Integer(a.getValue()).intValue();
+		return 0;
+	}
+	
 	public int compareTo(Object o) {
 		Event event = (Event) o;
 		return (getHour() * 60 + getMinute()) - (event.getHour() * 60 + event.getMinute());

@@ -17,6 +17,8 @@ import java.util.Collections;
 
 
 import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.ui.App;
+import net.sf.memoranda.ui.DailyItemsPanel;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Util;
 import nu.xom.Attribute;
@@ -116,10 +118,20 @@ public class EventsManager {
 		int hh,
 		int mm,
 		String text) {
+		return createEvent(date,hh,mm,text,0);
+	}
+	
+	public static Event createEvent(
+		CalendarDate date,
+		int hh,
+		int mm,
+		String text,
+		int timesSnoozed) {
 		Element el = new Element("event");
 		el.addAttribute(new Attribute("id", Util.generateId()));
 		el.addAttribute(new Attribute("hour", String.valueOf(hh)));
 		el.addAttribute(new Attribute("min", String.valueOf(mm)));
+		el.addAttribute(new Attribute("timesSnoozed", String.valueOf(timesSnoozed)));
 		el.appendChild(text);
 		Day d = getDay(date);
 		if (d == null)
@@ -153,6 +165,7 @@ public class EventsManager {
 		el.addAttribute(new Attribute("period", String.valueOf(period)));
 		// new attribute for wrkin days - ivanrise
 		el.addAttribute(new Attribute("workingDays",String.valueOf(workDays)));
+		el.addAttribute(new Attribute("timesSnoozed",String.valueOf(0)));
 		el.appendChild(text);
 		rep.appendChild(el);
 		return new EventImpl(el);
@@ -248,6 +261,15 @@ public class EventsManager {
 	public static void removeEvent(Event ev) {
 		ParentNode parent = ev.getContent().getParent();
 		parent.removeChild(ev.getContent());
+	}
+	
+	public static void saveEvents() {
+		DailyItemsPanel dip = App.getFrame().workPanel.dailyItemsPanel;
+		CurrentStorage.get().storeEventsManager();
+    	EventsScheduler.init();
+    	if (dip.getCurrentPanel().equalsIgnoreCase("events"))
+    		dip.selectPanel("EVENTS");
+    	dip.updateIndicators();
 	}
 
 	private static Day createDay(CalendarDate date) {
