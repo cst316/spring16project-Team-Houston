@@ -138,12 +138,33 @@ public class App {
 
 	}
 
+	/*
+	 * close window completely
+	 */
 	public static void closeWindow() {
 		if (frame == null)
 			return;
 		frame.dispose();
 	}
-
+	
+	/*
+	 * minimize window to system tray
+	 */
+	public static void minimizeWindow() {
+		if (frame == null)
+			return;
+		frame.setState(Frame.ICONIFIED);
+	}
+	
+	/*
+	 * Reopen window when minimized to system tray
+	 */
+	public static void reOpenWindow() {
+		if (frame == null)
+			return;
+		frame.setState(Frame.NORMAL);
+	}	
+	
 	/**
 	 * Method showSplash.
 	 */
