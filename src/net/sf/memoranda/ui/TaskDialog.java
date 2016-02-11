@@ -242,7 +242,7 @@ public class TaskDialog extends JDialog {
                     startDate.getModel().setValue(startDateMin.getDate());
                     sd = startDateMin.getDate();
                 }
-                startCalFrame.cal.set(new CalendarDate(sd));
+                startCalFrame.cal.setSpecial(new CalendarDate(sd));
                 ignoreStartChanged = false;
             }
         });
@@ -294,7 +294,7 @@ public class TaskDialog extends JDialog {
                     endDate.getModel().setValue(endDateMin.getDate());
                     ed = endDateMin.getDate();
                 }
-				endCalFrame.cal.set(new CalendarDate(ed));
+				endCalFrame.cal.setSpecial(new CalendarDate(ed));
                 ignoreEndChanged = false;
             }
         });

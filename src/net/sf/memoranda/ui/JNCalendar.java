@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
@@ -269,7 +268,7 @@ public class JNCalendar extends JTable {
 		}
 
 	}
-
+	
 	class CalendarPopup extends JPopupMenu {
 		JMenuItem addTask;
 		JMenuItem viewTasks;

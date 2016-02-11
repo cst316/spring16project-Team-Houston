@@ -36,4 +36,5 @@ public class CalendarFrame extends JInternalFrame {
     this.getContentPane().getHeight()));
     this.getContentPane().add(cal,  BorderLayout.CENTER);
   }
+
 }
