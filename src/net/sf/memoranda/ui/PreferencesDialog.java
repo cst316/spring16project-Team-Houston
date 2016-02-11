@@ -54,7 +54,6 @@ public class PreferencesDialog extends JDialog {
 	JCheckBox enL10nChB = new JCheckBox();
 	JCheckBox firstdow = new JCheckBox();
 	JPanel resourcePanel = new JPanel(new BorderLayout());
-	ResourceTypePanel resourceTypePanel = new ResourceTypePanel();
 	Border rstPanelBorder;
 	TitledBorder rsbpBorder;
 	JButton okB = new JButton();
@@ -487,7 +486,7 @@ public class PreferencesDialog extends JDialog {
 
 		// Build Tab2
 		rstPanelBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-		resourceTypePanel.setBorder(rstPanelBorder);
+		
 		
 		JButton resourceSelector = new JButton();
 		
