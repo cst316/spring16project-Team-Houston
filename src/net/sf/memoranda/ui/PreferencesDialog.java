@@ -490,6 +490,7 @@ public class PreferencesDialog extends JDialog {
 		resourceTypePanel.setBorder(rstPanelBorder);
 		
 		JButton resourceSelector = new JButton();
+		
 		resourceSelector.setText("Choose resource location");
 		resourceSelector.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -502,8 +503,9 @@ public class PreferencesDialog extends JDialog {
 		});
 		
 		
-		
-		resourcePanel.add(resourceSelector);
+		JPanel buttonPane = new JPanel();
+		buttonPane.add(resourceSelector);
+		resourcePanel.add(buttonPane, BorderLayout.WEST);
 		// Build editorConfigPanel
 		normalFontLabel.setText(Local.getString("Normal text font"));
 		normalFontLabel.setHorizontalAlignment(SwingConstants.RIGHT);
