@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
@@ -274,22 +275,43 @@ public class WorkPanel extends JPanel {
 
 	public void filesB_actionPerformed(ActionEvent e) {
 		if (Configuration.get("RESOURCE_PATH").equals("nothing")) {
+			JOptionPane.showMessageDialog(null, "Please choose resource location");
 			JFileChooser picker = new JFileChooser();
 			picker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			picker.showOpenDialog(picker);
 			File chosen = picker.getSelectedFile();
 			Configuration.put("RESOURCE_PATH", chosen.toString());
 		}
-		if(isWindows()){
-			try {
-				Desktop.getDesktop().open(new File((String) Configuration.get("RESOURCE_PATH")));
-			} catch (IOException exc) {
-				// TODO Auto-generated catch block
-				exc.printStackTrace();
-			}
-		}
+		
+		File resources = new File((String) Configuration.get("RESOURCE_PATH"));
+		open(resources);
 	}
 
+	/*** 
+	 * Opens a file in Windows, Mac, or Linux. Credit to stack overflow for the method itself.
+	 * I modified the code, but it's originally theirs. 
+	 * URL: http://stackoverflow.com/questions/7024031/java-open-a-file-windows-mac
+	 * */
+	public static void open(File file)
+	{
+	    try
+	    {
+	        if (isWindows())
+	        {
+	            Runtime.getRuntime().exec(new String[]
+	            {"rundll32", "url.dll,FileProtocolHandler",
+	             file.getAbsolutePath()});
+	        } else
+	        {
+	            Runtime.getRuntime().exec(new String[]{"/usr/bin/open",
+	                                                   file.getAbsolutePath()});
+	        }
+	    } catch (Exception e)
+	    {
+	        e.printStackTrace(System.err);
+	    }
+	}
+	
 	void setCurrentButton(JButton cb) {
 		currentB.setBackground(Color.white);
 		currentB.setOpaque(false);
