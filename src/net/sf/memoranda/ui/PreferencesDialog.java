@@ -501,9 +501,17 @@ public class PreferencesDialog extends JDialog {
 			}
 		});
 		
+		JButton resetter = new JButton();
+		resetter.setText("Reset Resource Location");
+		resetter.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Configuration.put("RESOURCE_PATH", "nothing");
+			}
+		});
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.add(resourceSelector);
+		buttonPane.add(resetter);
 		resourcePanel.add(buttonPane, BorderLayout.WEST);
 		// Build editorConfigPanel
 		normalFontLabel.setText(Local.getString("Normal text font"));
@@ -533,7 +541,7 @@ public class PreferencesDialog extends JDialog {
 		editorConfigPanel.add(econfPanel, BorderLayout.NORTH);
 		// Build TabbedPanel
 		tabbedPanel.add(GeneralPanel, Local.getString("General"));
-		tabbedPanel.add(resourcePanel, Local.getString("Resource types"));
+		tabbedPanel.add(resourcePanel, Local.getString("Resource location"));
 		tabbedPanel.add(soundPanel, Local.getString("Sound"));
 		tabbedPanel.add(editorConfigPanel, Local.getString("Editor"));
 
