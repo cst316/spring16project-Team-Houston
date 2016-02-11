@@ -279,6 +279,8 @@ public class WorkPanel extends JPanel {
 			JFileChooser picker = new JFileChooser();
 			picker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			picker.showOpenDialog(picker);
+			if(picker.getSelectedFile() == null)
+				return;
 			File chosen = picker.getSelectedFile();
 			Configuration.put("RESOURCE_PATH", chosen.toString());
 		}
