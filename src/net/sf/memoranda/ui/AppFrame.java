@@ -1,13 +1,22 @@
 package net.sf.memoranda.ui;
 
 import java.awt.AWTEvent;
+import java.awt.AWTException;
 import java.awt.BorderLayout;
+import java.awt.CheckboxMenuItem;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Menu;
+import java.awt.MenuItem;
 import java.awt.Point;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -27,6 +36,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
@@ -662,9 +672,18 @@ public class AppFrame extends JFrame {
         System.exit(0);
     }
 
+    /*
+     * Minimize window to system tray
+     */
     public void doMinimize() {
-        exitNotify();
-        App.closeWindow();
+        App.minimizeWindow();
+    }
+    
+    /*
+     * Maximize window from system tray
+     */
+    public void doMaximize() {
+        App.reOpenWindow();
     }
 
     //Help | About action performed
@@ -680,18 +699,67 @@ public class AppFrame extends JFrame {
 
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            if (Configuration.get("ON_CLOSE").equals("exit"))
-                doExit();
-            else
-                doMinimize();
+            if (Configuration.get("ON_CLOSE").equals("exit")){
+            	doExit();   	
+            }
+            else{
+            	addSystemTrayIcon();
+            	setVisible(false);
+            	doMinimize();
+            }
         }
-        else if ((e.getID() == WindowEvent.WINDOW_ICONIFIED)) {
-            super.processWindowEvent(new WindowEvent(this,
-                    WindowEvent.WINDOW_CLOSING));
-            doMinimize();
-        }
-        else
+        else 
             super.processWindowEvent(e);
+    }
+    
+    /*
+     * Create system tray icon, with open exit option
+     */
+    public void addSystemTrayIcon(){
+    	
+    	//Check the SystemTray is supported
+        if (!SystemTray.isSupported()) {
+            System.out.println("SystemTray is not supported");
+            return;
+        }
+        final PopupMenu popup = new PopupMenu();
+        final TrayIcon trayIcon = new TrayIcon(new ImageIcon(AppFrame.class.getResource("resources/icons/date.png")).getImage());
+        final SystemTray tray = SystemTray.getSystemTray();
+        trayIcon.setToolTip("Memoranda");
+       
+        //Create a popup menu components
+        MenuItem openItem = new MenuItem("Open");
+        MenuItem exitItem = new MenuItem("Exit");
+         
+        //Add components to popup menu
+        popup.add(openItem);
+        popup.addSeparator();  
+        popup.add(exitItem);
+         
+        trayIcon.setPopupMenu(popup);
+         
+        try {
+            tray.add(trayIcon);
+        } catch (AWTException e) {
+            System.out.println("TrayIcon could not be added.");
+            return;
+        }
+      
+        exitItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tray.remove(trayIcon);
+                System.exit(0);
+            }
+        });
+        
+        openItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tray.remove(trayIcon);
+                setVisible(true);
+                doMaximize();
+            }
+        });
+        
     }
 
     public static void addExitListener(ActionListener al) {
