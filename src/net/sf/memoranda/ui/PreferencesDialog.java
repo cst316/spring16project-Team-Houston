@@ -110,14 +110,8 @@ public class PreferencesDialog extends JDialog {
 				Color.white, new Color(156, 156, 158)), Local
 				.getString("Sound"));
 		this.setResizable(false);
+		
 		// Build Tab1
-		jLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel1.setText(Local.getString("Window minimize action:"));
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.insets = new Insets(10, 10, 0, 15);
-		gbc.anchor = GridBagConstraints.EAST;
 		enableSoundCB.setText(Local.getString("Enable sound notifications"));
 		enableSoundCB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -168,34 +162,7 @@ public class PreferencesDialog extends JDialog {
 		jPanel3.add(soundFile, BorderLayout.CENTER);
 		jPanel3.add(soundFileBrowseB, BorderLayout.EAST);
 		jPanel3.add(jLabel6, BorderLayout.WEST);
-		GeneralPanel.add(jLabel1, gbc);
-		minGroup.add(minTaskbarRB);
-		minTaskbarRB.setSelected(true);
-		minTaskbarRB.setText(Local.getString("Minimize to taskbar"));
-		minTaskbarRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				minTaskbarRB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		gbc.insets = new Insets(10, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(minTaskbarRB, gbc);
-		minGroup.add(minHideRB);
-		minHideRB.setText(Local.getString("Hide"));
-		minHideRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				minHideRB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(minHideRB, gbc);
+
 		jLabel2.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabel2.setText(Local.getString("Window close action:"));
 		gbc = new GridBagConstraints();
@@ -220,7 +187,7 @@ public class PreferencesDialog extends JDialog {
 		GeneralPanel.add(closeExitRB, gbc);
 
 		closeGroup.add(closeHideRB);
-		closeHideRB.setText(Local.getString("Hide"));
+		closeHideRB.setText(Local.getString("Minimize to system tray"));
 		closeHideRB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				closeHideRB_actionPerformed(e);
