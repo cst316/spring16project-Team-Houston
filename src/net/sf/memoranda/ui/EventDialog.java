@@ -202,7 +202,7 @@ public class EventDialog extends JDialog implements WindowListener {
                   endDate.getModel().setValue(sd);
                   ed = sd;
                 }
-                startCalFrame.cal.set(new CalendarDate(sd));
+                startCalFrame.cal.setSpecial(new CalendarDate(sd));
                 ignoreStartChanged = false;
             }
         });
@@ -282,7 +282,7 @@ public class EventDialog extends JDialog implements WindowListener {
                     endDate.getModel().setValue(sd);
                     ed = sd;
                 }
-                endCalFrame.cal.set(new CalendarDate(ed));
+                endCalFrame.cal.setSpecial(new CalendarDate(ed));
                 ignoreEndChanged = false;
             }
         });
