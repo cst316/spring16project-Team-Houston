@@ -505,7 +505,7 @@ public class PreferencesDialog extends JDialog {
 		resetter.setText("Reset Resource Location");
 		resetter.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Configuration.put("RESOURCE_PATH", "nothing");
+				Configuration.put("RESOURCE_PATH", "");
 			}
 		});
 		
