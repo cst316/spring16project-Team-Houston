@@ -274,7 +274,7 @@ public class WorkPanel extends JPanel {
 	}
 
 	public void filesB_actionPerformed(ActionEvent e) {
-		if (Configuration.get("RESOURCE_PATH").equals("nothing")) {
+		if (Configuration.get("RESOURCE_PATH").equals("")) {
 			JOptionPane.showMessageDialog(null, "Please choose resource location");
 			JFileChooser picker = new JFileChooser();
 			picker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
