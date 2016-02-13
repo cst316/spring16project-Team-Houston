@@ -32,13 +32,18 @@ public class PreferencesDialog extends JDialog {
 	JRadioButton minHideRB = new JRadioButton();
 	JRadioButton standardTimeRB = new JRadioButton();
 	JRadioButton militaryTimeRB = new JRadioButton();
+	JRadioButton confirmSwitchRB = new JRadioButton();
+	JRadioButton declineSwitchRB = new JRadioButton();
 	ButtonGroup timeGroup = new ButtonGroup();
+	ButtonGroup projectGroup = new ButtonGroup();
 	JLabel jLabel7 = new JLabel();
 	JLabel jLabel8 = new JLabel();
+	JLabel jLabel9 = new JLabel();
 	ButtonGroup closeGroup = new ButtonGroup();
 	JLabel jLabel2 = new JLabel();
 	JRadioButton closeExitRB = new JRadioButton();
 	JCheckBox askConfirmChB = new JCheckBox();
+	JCheckBox askConfirmProjectChB = new JCheckBox();
 	JRadioButton closeHideRB = new JRadioButton();
 	JLabel jLabel3 = new JLabel();
 	ButtonGroup lfGroup = new ButtonGroup();
@@ -61,6 +66,7 @@ public class PreferencesDialog extends JDialog {
 	JButton cancelB = new JButton();
 	JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
 	JLabel lblExit = new JLabel();
+	JLabel lblSwitchProj = new JLabel();
 	JPanel soundPanel = new JPanel();
 	JCheckBox enableSoundCB = new JCheckBox();
 	BorderLayout borderLayout1 = new BorderLayout();
@@ -347,12 +353,28 @@ public class PreferencesDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.WEST;
 		GeneralPanel.add(askConfirmChB, gbc);
 		
-		/*
-		 * Time format setting added to preferences
-		 * 
-		 * Victor Best 1/2016
-		 */
-
+		lblSwitchProj.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblSwitchProj.setText(Local.getString("Auto-switch projects") + ":");
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 15;
+		gbc.insets = new Insets(2, 0, 10, 15);
+		gbc.anchor = GridBagConstraints.EAST;
+		GeneralPanel.add(lblSwitchProj, gbc);
+		askConfirmProjectChB.setSelected(true);
+		askConfirmProjectChB.setText(Local.getString("Ask confirmation"));
+		askConfirmProjectChB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				askConfirmProjectChB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 15;
+		gbc.insets = new Insets(2, 0, 10, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(askConfirmProjectChB, gbc);
+		
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 16;
@@ -402,13 +424,57 @@ public class PreferencesDialog extends JDialog {
 		gbc.gridy = 18;
 		gbc.insets = new Insets(2, 0, 0, 15);
 		gbc.anchor = GridBagConstraints.EAST;
+		GeneralPanel.add(jLabel9, gbc);
+		jLabel9.setHorizontalAlignment(SwingConstants.RIGHT);
+		jLabel9.setText(Local.getString("Auto-switch to new projects:"));
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 17;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(confirmSwitchRB, gbc);
+		projectGroup.add(confirmSwitchRB);
+		confirmSwitchRB.setSelected(true);
+		confirmSwitchRB.setText(Local.getString("Yes"));
+		confirmSwitchRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				confirmSwitchRB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 18;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(confirmSwitchRB, gbc);
+
+		projectGroup.add(declineSwitchRB);
+		declineSwitchRB.setText(Local.getString("No"));
+		declineSwitchRB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				declineSwitchRB_actionPerformed(e);
+			}
+		});
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 19;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(declineSwitchRB, gbc);
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 20;
+		gbc.insets = new Insets(2, 0, 0, 15);
+		gbc.anchor = GridBagConstraints.EAST;
 		GeneralPanel.add(jLabel8, gbc);
 		jLabel8.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabel8.setText(Local.getString("Task Progress Calculation:"));
 		
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
-		gbc.gridy = 18;
+		gbc.gridy = 20;
 		gbc.insets = new Insets(7, 0, 10, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		GeneralPanel.add(calcButton, gbc);
@@ -540,7 +606,19 @@ public class PreferencesDialog extends JDialog {
 			standardTimeRB.setSelected(true);
 		else if (timeform.equalsIgnoreCase("military"))
 			militaryTimeRB.setSelected(true);
+		
+		String autoSelect = Configuration.get("AUTO_SWITCH_PROJECT").toString();
+		if (autoSelect.equalsIgnoreCase("yes"))
+			confirmSwitchRB.setSelected(true);
+		else if (autoSelect.equalsIgnoreCase("no"))
+			declineSwitchRB.setSelected(true);
 
+		String onNew = Configuration.get("ASK_ON_NEW").toString();
+		if (onNew.equalsIgnoreCase("yes"))
+			askConfirmProjectChB.setSelected(true);
+		else if (onNew.equalsIgnoreCase("no"))
+			askConfirmProjectChB.setSelected(false);
+		
 		enableCustomLF(false);
 		String lf = Configuration.get("LOOK_AND_FEEL").toString();
 		if (lf.equalsIgnoreCase("system"))
@@ -621,6 +699,11 @@ public class PreferencesDialog extends JDialog {
 		else
 			Configuration.put("TIME_FORMAT", "military");
 		
+		if (this.confirmSwitchRB.isSelected())
+			Configuration.put("AUTO_SWITCH_PROJECT", "yes");
+		else
+			Configuration.put("AUTO_SWITCH_PROJECT", "no");
+		
 		if (this.firstdow.isSelected())
 			Configuration.put("FIRST_DAY_OF_WEEK", "mon");
 		else
@@ -650,6 +733,11 @@ public class PreferencesDialog extends JDialog {
 			Configuration.put("ASK_ON_EXIT", "yes");
 		else
 			Configuration.put("ASK_ON_EXIT", "no");
+		
+		if (this.askConfirmProjectChB.isSelected())
+			Configuration.put("ASK_ON_NEW", "yes");
+		else
+			Configuration.put("ASK_ON_NEW", "no");
 
 		if (this.closeExitRB.isSelected())
 			Configuration.put("ON_CLOSE", "exit");
@@ -773,6 +861,19 @@ public class PreferencesDialog extends JDialog {
 	void militaryTimeRB_actionPerformed(ActionEvent e) {
 		//System.out.println("military time selected");	
 	}
+	
+	void confirmSwitchRB_actionPerformed(ActionEvent e) {
+			
+	}
+	
+	void declineSwitchRB_actionPerformed(ActionEvent e) {
+		
+	}
+	
+	void askConfirmProjectChB_actionPerformed(ActionEvent e) {
+		
+	}
+	
 
 	void askConfirmChB_actionPerformed(ActionEvent e) {
 
