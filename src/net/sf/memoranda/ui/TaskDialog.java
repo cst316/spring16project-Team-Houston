@@ -39,6 +39,7 @@ import javax.swing.JCheckBox;
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.util.Local;
+import net.sf.memoranda.util.Util;
 
 /*$Id: TaskDialog.java,v 1.25 2005/12/01 08:12:26 alexeya Exp $*/
 public class TaskDialog extends JDialog {
@@ -86,7 +87,9 @@ public class TaskDialog extends JDialog {
     JButton setEndDateB = new JButton();
     //JPanel jPanel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
     JPanel jPanel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    JPanel jPanelAllEffort = new JPanel(new BorderLayout());
     JPanel jPanelEffort = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    JPanel jPanelActualEffort = new JPanel(new FlowLayout(FlowLayout.LEFT));
 //    JPanel jPanelNotes = new JPanel(new FlowLayout(FlowLayout.LEFT));
     
     JButton setNotifB = new JButton();
@@ -94,6 +97,8 @@ public class TaskDialog extends JDialog {
     JLabel jLabel7 = new JLabel();
     // added by rawsushi
     JLabel jLabelEffort = new JLabel();
+    JLabel jLabelActualEffort = new JLabel();
+    JLabel actualEffortText = new JLabel();
     JLabel jLabelDescription = new JLabel();
 	JCheckBox chkEndDate = new JCheckBox();
 	
@@ -209,8 +214,10 @@ public class TaskDialog extends JDialog {
         jLabelEffort.setMaximumSize(new Dimension(100, 16));
         jLabelEffort.setMinimumSize(new Dimension(60, 16));
         jLabelEffort.setText(Local.getString("Est Effort(hrs)"));
+        jLabelActualEffort.setText(Local.getString("Actual Effort") + ": ");
         effortField.setBorder(border8);
         effortField.setPreferredSize(new Dimension(30, 24));
+        actualEffortText.setPreferredSize(new Dimension(80, 24));
 
         startDate.setBorder(border8);
         startDate.setPreferredSize(new Dimension(80, 24));                
@@ -319,7 +326,6 @@ public class TaskDialog extends JDialog {
         });
         jLabel7.setMaximumSize(new Dimension(100, 16));
         jLabel7.setMinimumSize(new Dimension(60, 16));
-        //jLabel7.setPreferredSize(new Dimension(60, 16));
         jLabel7.setText(Local.getString("Priority"));
 
         priorityCB.setFont(new java.awt.Font("Dialog", 0, 11));
@@ -345,10 +351,13 @@ public class TaskDialog extends JDialog {
         jPanel1.add(jLabel2, null);
         jPanel1.add(endDate, null);
         jPanel1.add(setEndDateB, null);
-        // added by rawsushi
-        jPanel2.add(jPanelEffort, null);
+        jPanel2.add(jPanelAllEffort, null);
+        jPanelAllEffort.add(jPanelEffort, BorderLayout.NORTH);
+        jPanelAllEffort.add(jPanelActualEffort, BorderLayout.SOUTH);
         jPanelEffort.add(jLabelEffort, null);
         jPanelEffort.add(effortField, null);
+        jPanelActualEffort.add(jLabelActualEffort, null);
+        jPanelActualEffort.add(actualEffortText, null);
 
         jPanel2.add(jPanel4, null);
         jPanel4.add(priorityCB, null);

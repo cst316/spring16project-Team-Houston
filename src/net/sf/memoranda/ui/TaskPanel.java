@@ -405,7 +405,8 @@ public class TaskPanel extends JPanel {
         dlg.startDate.getModel().setValue(t.getStartDate().getDate());
         dlg.endDate.getModel().setValue(t.getEndDate().getDate());
         dlg.priorityCB.setSelectedIndex(t.getPriority());                
-        dlg.effortField.setText(Util.getHoursFromMillis(t.getEffort()));
+        dlg.effortField.setText(Util.getHoursFromMillis(t.getEstimatedEffort()));
+        dlg.actualEffortText.setText(Util.formatTimeDuration(t.getActualEffort(), "DHMS"));
 	if((t.getStartDate().getDate()).after(t.getEndDate().getDate()))
 		dlg.chkEndDate.setSelected(false);
 	else
@@ -427,7 +428,7 @@ public class TaskPanel extends JPanel {
         t.setText(dlg.todoField.getText());
         t.setDescription(dlg.descriptionField.getText());
         t.setPriority(dlg.priorityCB.getSelectedIndex());
-        t.setEffort(Util.getMillisFromHours(dlg.effortField.getText()));
+        t.setEstimatedEffort(Util.getMillisFromHours(dlg.effortField.getText()));
         t.setProgress(((Integer)dlg.progress.getValue()).intValue());
         
 //		CurrentProject.getTaskList().adjustParentTasks(t);
@@ -448,6 +449,7 @@ public class TaskPanel extends JPanel {
         dlg.startDate.getModel().setValue(CurrentDate.get().getDate());
         dlg.endDate.getModel().setValue(CurrentDate.get().getDate());
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+        dlg.actualEffortText.setText(Util.formatTimeDuration(0L, "DHMS"));
         dlg.setVisible(true);
         if (dlg.CANCELLED)
             return;
@@ -490,6 +492,7 @@ public class TaskPanel extends JPanel {
 		dlg.setStartDateLimit(parent.getStartDate(), parent.getEndDate());
 		dlg.setEndDateLimit(parent.getStartDate(), parent.getEndDate());
         dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+        dlg.actualEffortText.setText(Util.formatTimeDuration(0L, "DHMS"));
         dlg.setVisible(true);
         if (dlg.CANCELLED)
             return;
@@ -515,7 +518,7 @@ public class TaskPanel extends JPanel {
     	Task t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());      
         TaskList tl = CurrentProject.getTaskList();
         if(Configuration.get("CALC_EFFORT").equals("yes")) {
-            t.setEffort(tl.calculateTotalEffortFromSubTasks(t));
+            t.setEstimatedEffort(tl.calculateTotalEffortFromSubTasks(t));
         }
         
         if(Configuration.get("COMPACT_DATES").equals("yes")) {
@@ -539,7 +542,7 @@ public class TaskPanel extends JPanel {
         Task t = CurrentProject.getTaskList().getTask(taskTable.getModel().getValueAt(taskTable.getSelectedRow(), TaskTable.TASK_ID).toString());      
         TaskList tl = CurrentProject.getTaskList();
         if(Configuration.get("CALC_EFFORT").equals("yes")) {
-            t.setEffort(tl.calculateTotalEffortFromSubTasks(t));
+            t.setEstimatedEffort(tl.calculateTotalEffortFromSubTasks(t));
         }
         
         if(Configuration.get("COMPACT_DATES").equals("yes")) {
