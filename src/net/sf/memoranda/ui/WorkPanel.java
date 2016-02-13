@@ -3,19 +3,25 @@ package net.sf.memoranda.ui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.Context;
 import net.sf.memoranda.util.Local;
 
@@ -78,7 +84,7 @@ public class WorkPanel extends JPanel {
 		agendaB.setContentAreaFilled(false);
 		agendaB.setFocusPainted(false);
 		agendaB.setHorizontalTextPosition(SwingConstants.CENTER);
-		agendaB.setText(Local.getString("Agenda"));
+		agendaB.setText(Local.getString("Home"));
 		agendaB.setVerticalAlignment(SwingConstants.TOP);
 		agendaB.setVerticalTextPosition(SwingConstants.BOTTOM);
 		agendaB.addActionListener(new java.awt.event.ActionListener() {
@@ -225,9 +231,18 @@ public class WorkPanel extends JPanel {
 				tasksB_actionPerformed(null);
 			else if (pan.equals("EVENTS"))
 				eventsB_actionPerformed(null);
-			else if (pan.equals("FILES"))
-				filesB_actionPerformed(null);
+			else if (pan.equals("FILES")) {
+					filesB_actionPerformed(null);
+			}
 		}
+	}
+	
+	public static boolean isWindows() {
+
+	    String os = System.getProperty("os.name").toLowerCase();
+	    // windows
+	    return (os.indexOf("win") >= 0);
+
 	}
 
 	public void agendaB_actionPerformed(ActionEvent e) {
@@ -259,11 +274,46 @@ public class WorkPanel extends JPanel {
 	}
 
 	public void filesB_actionPerformed(ActionEvent e) {
-		cardLayout1.show(panel, "FILES");
-		setCurrentButton(filesB);
-		Context.put("CURRENT_PANEL", "FILES");
+		if (Configuration.get("RESOURCE_PATH").equals("")) {
+			JOptionPane.showMessageDialog(null, "Please choose resource location");
+			JFileChooser picker = new JFileChooser();
+			picker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			picker.showOpenDialog(picker);
+			if(picker.getSelectedFile() == null)
+				return;
+			File chosen = picker.getSelectedFile();
+			Configuration.put("RESOURCE_PATH", chosen.toString());
+		}
+		
+		File resources = new File((String) Configuration.get("RESOURCE_PATH"));
+		open(resources);
 	}
 
+	/*** 
+	 * Opens a file in Windows, Mac, or Linux. Credit to stack overflow for the method itself.
+	 * I modified the code, but it's originally theirs. 
+	 * URL: http://stackoverflow.com/questions/7024031/java-open-a-file-windows-mac
+	 * */
+	public static void open(File file)
+	{
+	    try
+	    {
+	        if (isWindows())
+	        {
+	            Runtime.getRuntime().exec(new String[]
+	            {"rundll32", "url.dll,FileProtocolHandler",
+	             file.getAbsolutePath()});
+	        } else
+	        {
+	            Runtime.getRuntime().exec(new String[]{"/usr/bin/open",
+	                                                   file.getAbsolutePath()});
+	        }
+	    } catch (Exception e)
+	    {
+	        e.printStackTrace(System.err);
+	    }
+	}
+	
 	void setCurrentButton(JButton cb) {
 		currentB.setBackground(Color.white);
 		currentB.setOpaque(false);

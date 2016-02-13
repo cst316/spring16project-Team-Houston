@@ -155,17 +155,7 @@ public class Local {
         return dateFormat.format(d);
     }
     public static String getDateString(Calendar cal, int f) {
-        /*@todo: Get date string format from locale*/
-        /*String s =
-            getMonthName(cal.get(Calendar.MONTH))
-                + " "
-                + cal.get(Calendar.DAY_OF_MONTH)
-                + ", "
-                + cal.get(Calendar.YEAR)
-                + " ("
-                + getWeekdayName(cal.get(Calendar.DAY_OF_WEEK))
-                + ")";
-        return s;*/
+        
         return getDateString(cal.getTime(), f);
     }
 
@@ -179,7 +169,7 @@ public class Local {
         cal.set(Calendar.DAY_OF_MONTH, d);
         cal.set(Calendar.YEAR, y);
 
-        //String s = getMonthName(m) + " " + d + ", " + y + " (" + getWeekdayName(cal.get(Calendar.DAY_OF_WEEK)) + ")";
+        
         return getDateString(cal.getTime(), f);
     }
 
@@ -190,28 +180,12 @@ public class Local {
     }
 
     public static String getTimeString(Calendar cal) {
-        /*String h = String.valueOf(cal.get(Calendar.HOUR_OF_DAY));
-        if (h.length() < 2) {
-            h = "0" + h;
-        }
-        String m = String.valueOf(cal.get(Calendar.MINUTE));
-        if (m.length() < 2) {
-            m = "0" + m;
-        }
-        return h + ":" + m;*/
+        
         return getTimeString(cal.getTime());
     }
 
     public static String getTimeString(int hh, int mm) {
-        /*String h = String.valueOf(hh);
-        if (h.length() < 2) {
-            h = "0" + h;
-        }
-        String m = String.valueOf(mm);
-        if (m.length() < 2) {
-            m = "0" + m;
-        }
-        return h + ":" + m;*/
+        
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, hh);
         cal.set(Calendar.MINUTE, mm);
