@@ -673,6 +673,20 @@ public class AppFrame extends JFrame {
     }
 
     /*
+     * Prompt user if to auto-switch to new project
+     */
+    public void doNewProject() {
+        if (Configuration.get("ASK_ON_NEW").equals("yes")) {
+                        Dimension frmSize = this.getSize();
+                        Point loc = this.getLocation();
+                        
+                        AutoSwitchProjectsConfirmationDialog dlg = new AutoSwitchProjectsConfirmationDialog(this,Local.getString("Notice"));
+                        dlg.setLocation((frmSize.width - dlg.getSize().width) / 2 + loc.x, (frmSize.height - dlg.getSize().height) / 2 + loc.y);
+                        dlg.setVisible(true);
+        }
+    }
+    
+    /*
      * Minimize window to system tray
      */
     public void doMinimize() {
