@@ -31,6 +31,7 @@ import javax.swing.event.ChangeListener;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.date.CalendarDate;
+import net.sf.memoranda.util.Configuration;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
 
@@ -57,6 +58,7 @@ public class ProjectDialog extends JDialog {
     JPanel bottomPanel = new JPanel();
     JButton okButton = new JButton();
     JButton cancelButton = new JButton();
+    static AppFrame frame = new AppFrame();
     
     public ProjectDialog(Frame frame, String title) {
         super(frame, title, true);
@@ -270,6 +272,7 @@ public class ProjectDialog extends JDialog {
     
     void okButton_actionPerformed(ActionEvent e) {
         CANCELLED = false;
+        frame.doNewProject();
         this.dispose();
     }
     
@@ -306,7 +309,7 @@ public class ProjectDialog extends JDialog {
         endCalFrame.show();
     }
     
-    public static void newProject() {
+    public static Project newProject() {
         ProjectDialog dlg = new ProjectDialog(null, Local.getString("New project"));
         
         Dimension dlgSize = dlg.getSize();
@@ -316,7 +319,7 @@ public class ProjectDialog extends JDialog {
         dlg.setLocation((frmSize.width - dlgSize.width) / 2 + loc.x, (frmSize.height - dlgSize.height) / 2 + loc.y);
         dlg.setVisible(true);
         if (dlg.CANCELLED)
-            return;
+            return null;
         String title = dlg.prTitleField.getText();
         CalendarDate startD = new CalendarDate((Date) dlg.startDate.getModel().getValue());
         CalendarDate endD = null;
@@ -326,5 +329,7 @@ public class ProjectDialog extends JDialog {
         /*if (dlg.freezeChB.isSelected())
             prj.freeze();*/
         CurrentStorage.get().storeProjectManager();
+        return prj;
     }
+    
 }
