@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
@@ -57,6 +58,7 @@ public class JNCalendarPanel extends JPanel {
   BorderLayout borderLayout4 = new BorderLayout();
   JNCalendar jnCalendar = new JNCalendar(CurrentDate.get());
   JPanel jnCalendarPanel = new JPanel();
+  JScrollPane scrollPane = new JScrollPane();
   BorderLayout borderLayout5 = new BorderLayout();
   JSpinner yearSpin = new JSpinner(new SpinnerNumberModel(jnCalendar.get().getYear(), 1980, 2999, 1));
   JSpinner.NumberEditor yearSpinner = new JSpinner.NumberEditor(yearSpin, "####");
@@ -185,9 +187,12 @@ public class JNCalendarPanel extends JPanel {
     mntyPanel.add(monthsCB, BorderLayout.CENTER);
     mntyPanel.add(yearSpin,  BorderLayout.EAST);
     this.add(jnCalendarPanel,  BorderLayout.CENTER);
-    jnCalendar.getTableHeader().setPreferredSize(new Dimension(200, 15));
+    jnCalendar.getTableHeader().setPreferredSize(new Dimension(200, 40));
+    jnCalendar.setRowHeight(105);
     jnCalendarPanel.add(jnCalendar.getTableHeader(), BorderLayout.NORTH);
-    jnCalendarPanel.add(jnCalendar, BorderLayout.CENTER);
+    scrollPane = new JScrollPane(jnCalendar);
+    scrollPane.setPreferredSize(new Dimension(800, 670));
+    jnCalendarPanel.add(scrollPane, BorderLayout.CENTER);
     jnCalendar.addSelectionListener(new ActionListener()  {
       public void actionPerformed(ActionEvent e) {
         setCurrentDateDay(jnCalendar.get(), jnCalendar.get().getDay());
@@ -228,6 +233,18 @@ public class JNCalendarPanel extends JPanel {
   public void set(CalendarDate date) {
     _date = date;
     refreshView();
+  }
+  
+  /*
+   * Used for generating a smaller calendar for
+   * editing event/task start and end dates
+   * 
+   */
+  public void setSpecial(CalendarDate date) {
+	    _date = date;
+	    jnCalendar.getTableHeader().setPreferredSize(new Dimension(200, 15));
+	    jnCalendar.setRowHeight(20);
+	    refreshView();
   }
 
   public CalendarDate get() {

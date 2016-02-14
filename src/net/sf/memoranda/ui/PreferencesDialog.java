@@ -54,7 +54,6 @@ public class PreferencesDialog extends JDialog {
 	JCheckBox enL10nChB = new JCheckBox();
 	JCheckBox firstdow = new JCheckBox();
 	JPanel resourcePanel = new JPanel(new BorderLayout());
-	ResourceTypePanel resourceTypePanel = new ResourceTypePanel();
 	Border rstPanelBorder;
 	TitledBorder rsbpBorder;
 	JButton okB = new JButton();
@@ -111,14 +110,8 @@ public class PreferencesDialog extends JDialog {
 				Color.white, new Color(156, 156, 158)), Local
 				.getString("Sound"));
 		this.setResizable(false);
+		
 		// Build Tab1
-		jLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel1.setText(Local.getString("Window minimize action:"));
-		gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.insets = new Insets(10, 10, 0, 15);
-		gbc.anchor = GridBagConstraints.EAST;
 		enableSoundCB.setText(Local.getString("Enable sound notifications"));
 		enableSoundCB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -169,34 +162,7 @@ public class PreferencesDialog extends JDialog {
 		jPanel3.add(soundFile, BorderLayout.CENTER);
 		jPanel3.add(soundFileBrowseB, BorderLayout.EAST);
 		jPanel3.add(jLabel6, BorderLayout.WEST);
-		GeneralPanel.add(jLabel1, gbc);
-		minGroup.add(minTaskbarRB);
-		minTaskbarRB.setSelected(true);
-		minTaskbarRB.setText(Local.getString("Minimize to taskbar"));
-		minTaskbarRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				minTaskbarRB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		gbc.insets = new Insets(10, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(minTaskbarRB, gbc);
-		minGroup.add(minHideRB);
-		minHideRB.setText(Local.getString("Hide"));
-		minHideRB.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				minHideRB_actionPerformed(e);
-			}
-		});
-		gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.insets = new Insets(2, 0, 0, 10);
-		gbc.anchor = GridBagConstraints.WEST;
-		GeneralPanel.add(minHideRB, gbc);
+
 		jLabel2.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabel2.setText(Local.getString("Window close action:"));
 		gbc = new GridBagConstraints();
@@ -221,7 +187,7 @@ public class PreferencesDialog extends JDialog {
 		GeneralPanel.add(closeExitRB, gbc);
 
 		closeGroup.add(closeHideRB);
-		closeHideRB.setText(Local.getString("Hide"));
+		closeHideRB.setText(Local.getString("Minimize to system tray"));
 		closeHideRB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				closeHideRB_actionPerformed(e);
@@ -487,9 +453,33 @@ public class PreferencesDialog extends JDialog {
 
 		// Build Tab2
 		rstPanelBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-		resourceTypePanel.setBorder(rstPanelBorder);
-		resourcePanel.add(resourceTypePanel, BorderLayout.CENTER);
 		
+		
+		JButton resourceSelector = new JButton();
+		
+		resourceSelector.setText("Choose resource location");
+		resourceSelector.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser picker = new JFileChooser();
+				picker.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				picker.showOpenDialog(picker);
+				File chosen = picker.getSelectedFile();
+				Configuration.put("RESOURCE_PATH", chosen.toString());
+			}
+		});
+		
+		JButton resetter = new JButton();
+		resetter.setText("Reset Resource Location");
+		resetter.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Configuration.put("RESOURCE_PATH", "");
+			}
+		});
+		
+		JPanel buttonPane = new JPanel();
+		buttonPane.add(resourceSelector);
+		buttonPane.add(resetter);
+		resourcePanel.add(buttonPane, BorderLayout.WEST);
 		// Build editorConfigPanel
 		normalFontLabel.setText(Local.getString("Normal text font"));
 		normalFontLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -518,7 +508,7 @@ public class PreferencesDialog extends JDialog {
 		editorConfigPanel.add(econfPanel, BorderLayout.NORTH);
 		// Build TabbedPanel
 		tabbedPanel.add(GeneralPanel, Local.getString("General"));
-		tabbedPanel.add(resourcePanel, Local.getString("Resource types"));
+		tabbedPanel.add(resourcePanel, Local.getString("Resource location"));
 		tabbedPanel.add(soundPanel, Local.getString("Sound"));
 		tabbedPanel.add(editorConfigPanel, Local.getString("Editor"));
 
