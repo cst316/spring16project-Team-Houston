@@ -141,6 +141,7 @@ public class TaskListImpl implements TaskList {
      */
 
     public void removeTask(Task task) {
+    	if (task.isLocked()) return;
         String parentTaskId = task.getParentId();
         if (parentTaskId == null) {
             _root.removeChild(task.getContent());            
@@ -208,11 +209,11 @@ public class TaskListImpl implements TaskList {
             	Task e = (Task) iter.next();
             	totalEffort = totalEffort + calculateTotalEffortFromSubTasks(e);
             }
-            t.setEffort(totalEffort);
+            t.setEstimatedEffort(totalEffort);
             return totalEffort;            
         }
         else {
-            return t.getEffort();
+            return t.getEstimatedEffort();
         }
     }
 
@@ -299,7 +300,7 @@ public class TaskListImpl implements TaskList {
             return res;            
         }
         else {
-            long eff = t.getEffort();
+            long eff = t.getEstimatedEffort();
             // if effort was not filled in, it is assumed to be "1 hr" for the purpose of calculation
             if (eff == 0) {
                 eff = 1;

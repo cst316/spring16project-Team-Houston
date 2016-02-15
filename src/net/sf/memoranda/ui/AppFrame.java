@@ -242,7 +242,8 @@ public class AppFrame extends JFrame {
             workPanel.dailyItemsPanel.calendar.dayForwardAction);
     JMenuItem jMenuGoToday = new JMenuItem(
             workPanel.dailyItemsPanel.calendar.todayAction);
-
+    JMenuItem jMenuGoTimer = new JMenuItem();
+    
     JMenuItem jMenuEditPref = new JMenuItem(preferencesAction);
 
     JMenu jMenuInsertSpecial = new JMenu();
@@ -316,6 +317,13 @@ public class AppFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 jMenuHelpAbout_actionPerformed(e);
             }
+        });
+        
+        jMenuGoTimer.setText(Local.getString("Task Timer"));
+        jMenuGoTimer.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		EffortTimerFrame.getInstance().setVisible(true);
+        	}
         });
         //jButton3.setIcon(image3);
         jButton3.setToolTipText(Local.getString("Help"));
@@ -561,6 +569,7 @@ public class AppFrame extends JFrame {
         jMenuGo.add(jMenuGoDayBack);
         jMenuGo.add(jMenuGoDayFwd);
         jMenuGo.add(jMenuGoToday);
+        jMenuGo.add(jMenuGoTimer);
 
         splitPane.setBorder(null);
         workPanel.setBorder(null);

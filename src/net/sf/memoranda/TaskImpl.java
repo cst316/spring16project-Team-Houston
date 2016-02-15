@@ -68,7 +68,7 @@ public class TaskImpl implements Task, Comparable {
 		setAttr("endDate", date.toString());
     }
 
-    public long getEffort() {
+    public long getEstimatedEffort() {
     	Attribute attr = _element.getAttribute("effort");
     	if (attr == null) {
     		return 0;
@@ -83,7 +83,7 @@ public class TaskImpl implements Task, Comparable {
     	}
     }
 
-    public void setEffort(long effort) {
+    public void setEstimatedEffort(long effort) {
         setAttr("effort", String.valueOf(effort));
     }
 	
@@ -139,7 +139,9 @@ public class TaskImpl implements Task, Comparable {
         if (isFrozen())
             return Task.FROZEN;
         if (isCompleted())
-                return Task.COMPLETED;
+            return Task.COMPLETED;
+        if (isLocked())
+        	return Task.LOCKED;
         
 		if (date.inPeriod(start, end)) {
             if (date.equals(end))
@@ -180,6 +182,10 @@ public class TaskImpl implements Task, Comparable {
     private boolean isCompleted() {
         return getProgress() == 100;
     }
+    
+    public boolean isLocked() {
+    	return _element.getAttribute("locked") != null;
+    }
 
     /**
      * @see net.sf.memoranda.Task#getID()
@@ -219,7 +225,22 @@ public class TaskImpl implements Task, Comparable {
      */
     public void unfreeze() {
         if (this.isFrozen())
-            _element.removeAttribute(new Attribute("frozen", "yes"));
+            _element.removeAttribute(_element.getAttribute("frozen"));
+    }
+    
+    /**
+     * @see net.sf.memoranda.Task#lock()
+     */
+    public void lock() {
+    	setAttr("locked", "yes");
+    }
+    
+    /**
+     * @see net.sf.memoranda.Task#unlock()
+     */
+    public void unlock() {
+    	if (this.isLocked())
+    		_element.removeAttribute(_element.getAttribute("locked"));
     }
 
     /**
@@ -386,6 +407,27 @@ public class TaskImpl implements Task, Comparable {
 			if (subTasks.get(i).getAttribute("id").getValue().equals(id))
 				return true;
 		return false;
+	}
+
+	@Override
+	public void setActualEffort(long effort) {
+		setAttr("effort_actual", String.valueOf(effort));
+	}
+
+	@Override
+	public long getActualEffort() {
+		Attribute attr = _element.getAttribute("effort_actual");
+    	if (attr == null) {
+    		return 0;
+    	}
+    	else {
+    		try {
+        		return Long.parseLong(attr.getValue());
+    		}
+    		catch (NumberFormatException e) {
+    			return 0;
+    		}
+    	}
 	}
 
 	

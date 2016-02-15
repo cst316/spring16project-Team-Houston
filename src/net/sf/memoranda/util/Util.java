@@ -7,6 +7,8 @@
  * Copyright (c) 2003 Memoranda team: http://memoranda.sf.net
  */
 package net.sf.memoranda.util;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.Iterator;
 
 import javax.swing.JFileChooser;
@@ -27,6 +30,7 @@ import java.util.Random;
 /**
  *
  */
+/*$Id: Util.java,v 1.13 2007/03/20 08:22:41 alexeya Exp $*/
 public class Util {
 
 	static long seed = 0;
@@ -92,7 +96,16 @@ public class Util {
         date[1] = new Integer(s.substring(i1 + 1, i2)).intValue();
         date[2] = new Integer(s.substring(i2 + 1)).intValue();
         return date;
-       
+        /*DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, currentLocale);
+        Date d = null;
+        try {
+            d = dateFormat.parse(s);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new int[3];
+        }
+        int[] ret = {d.getDay(), d.getMonth(), d.getYear()};
+        return ret;*/
     }
 
     public static String getEnvDir() {
@@ -136,7 +149,9 @@ public class Util {
         chooser.setDialogTitle(Local.getString("Select the web-browser executable"));
         chooser.setAcceptAllFileFilterUsed(true);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        
+        /*java.io.File lastSel = (java.io.File) Context.get("LAST_SELECTED_RESOURCE_FILE");
+        if (lastSel != null)
+            chooser.setCurrentDirectory(lastSel);*/
         if (chooser.showOpenDialog(App.getFrame()) != JFileChooser.APPROVE_OPTION)
             return false;
         appList.setBrowserExec(chooser.getSelectedFile().getPath());
@@ -195,4 +210,54 @@ public class Util {
         }
         System.out.println("[ERROR] Stack Trace: " + stackTrace);
     }
+    
+    /**
+     * The following translucency support check code utilized from:
+     * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html
+     * 
+     * @return true if translucency is supported
+     */
+    public static boolean checkTranslucentSupport() {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice gd = ge.getDefaultScreenDevice();
+		
+		return gd.isWindowTranslucencySupported(java.awt.GraphicsDevice.WindowTranslucency.TRANSLUCENT);
+	}
+    
+    /**
+     * Returns a formatted string representing time difference duration. 
+     * The returned string is formatted according to the format specified.
+     * If no format is specified, returned format is "HMS" (HH:MM:SS).
+     * @param timeDifference long representing time delta in nanoseconds
+     * @param timeFormat string containing return value formatting. Valid values are "D", "H", "M", "S"
+     * 
+     * @return string representing time duration in specified timeFormat
+     * @see System.nanoTime()
+     */
+    public static String formatTimeDuration(Long timeDifference, String timeFormat) {
+    	final String acceptableFormats = "dhms";
+    	if (timeFormat == null || timeFormat.isEmpty())
+    		timeFormat = "HMS";
+    	TimeUnit[] unitList = {TimeUnit.DAYS, TimeUnit.HOURS, TimeUnit.MINUTES, TimeUnit.SECONDS};
+    	long[] timeValues = new long[4];
+		StringBuilder returnValue = new StringBuilder();
+		timeFormat = timeFormat.toLowerCase();
+		for (int i = 0; i < acceptableFormats.length(); i++) {
+			if (i > 0) {
+				timeDifference -= TimeUnit.NANOSECONDS.convert(timeValues[i-1], unitList[i-1]);
+			}
+			if (timeFormat.contains(String.valueOf(acceptableFormats.charAt(i)))) {
+				timeValues[i] = unitList[i].convert(timeDifference, TimeUnit.NANOSECONDS);
+				returnValue.append(String.format("%02d:", timeValues[i]));
+			}
+		}
+		if (!returnValue.toString().isEmpty())
+			return returnValue.substring(0, returnValue.length()-1);
+		return "";
+	}
+    
+    public static String formatTimeDuration(Long timeDifference) {
+    	return formatTimeDuration(timeDifference, null);
+    }
+    
 }

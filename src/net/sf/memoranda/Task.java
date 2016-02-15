@@ -60,20 +60,17 @@ public interface Task {
     
     String getText();
     void setText(String s);
-    
-    /*Collection getDependsFrom();
-    
-    void addDependsFrom(Task task);
-    
-    void removeDependsFrom(Task task);*/
             
     Collection getSubTasks();    
     Task getSubTask(String id);
     
     boolean hasSubTasks(String id);
     
-    void setEffort(long effort);
-    long getEffort();
+    void setEstimatedEffort(long effort);
+    long getEstimatedEffort();
+    
+    void setActualEffort(long effort);
+    long getActualEffort();
     
     void setDescription(String description);
     String getDescription();
@@ -83,6 +80,9 @@ public interface Task {
     
     void freeze();
     void unfreeze();
+    void lock();
+    void unlock();
+    boolean isLocked();
 	long getRate();
     
     nu.xom.Element getContent();
