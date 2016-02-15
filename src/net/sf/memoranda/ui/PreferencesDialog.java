@@ -118,7 +118,7 @@ public class PreferencesDialog extends JDialog {
 		titledBorder1 = new TitledBorder(BorderFactory.createEtchedBorder(
 				Color.white, new Color(156, 156, 158)), Local
 				.getString("Sound"));
-		this.setResizable(false);
+		this.setResizable(true);
 		
 		// Build Tab1
 		enableSoundCB.setText(Local.getString("Enable sound notifications"));
@@ -522,7 +522,7 @@ public class PreferencesDialog extends JDialog {
 		
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
-		gbc.gridy = 19;
+		gbc.gridy = 21;
 		gbc.insets = new Insets(2, 0, 0, 15);
 		gbc.anchor = GridBagConstraints.EAST;
 		GeneralPanel.add(jLabel9, gbc);
@@ -531,14 +531,14 @@ public class PreferencesDialog extends JDialog {
 		
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
-		gbc.gridy = 19;
+		gbc.gridy = 21;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		GeneralPanel.add(snoozeVals, gbc);
 		
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
-		gbc.gridy = 20;
+		gbc.gridy = 22;
 		gbc.insets = new Insets(2, 0, 0, 15);
 		gbc.anchor = GridBagConstraints.EAST;
 		GeneralPanel.add(jLabel10, gbc);
@@ -547,7 +547,7 @@ public class PreferencesDialog extends JDialog {
 		
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
-		gbc.gridy = 20;
+		gbc.gridy = 22;
 		gbc.insets = new Insets(2, 0, 0, 10);
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
