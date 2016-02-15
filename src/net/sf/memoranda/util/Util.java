@@ -27,7 +27,6 @@ import java.util.Random;
 /**
  *
  */
-/*$Id: Util.java,v 1.13 2007/03/20 08:22:41 alexeya Exp $*/
 public class Util {
 
 	static long seed = 0;
@@ -93,16 +92,7 @@ public class Util {
         date[1] = new Integer(s.substring(i1 + 1, i2)).intValue();
         date[2] = new Integer(s.substring(i2 + 1)).intValue();
         return date;
-        /*DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, currentLocale);
-        Date d = null;
-        try {
-            d = dateFormat.parse(s);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return new int[3];
-        }
-        int[] ret = {d.getDay(), d.getMonth(), d.getYear()};
-        return ret;*/
+       
     }
 
     public static String getEnvDir() {
@@ -146,9 +136,7 @@ public class Util {
         chooser.setDialogTitle(Local.getString("Select the web-browser executable"));
         chooser.setAcceptAllFileFilterUsed(true);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        /*java.io.File lastSel = (java.io.File) Context.get("LAST_SELECTED_RESOURCE_FILE");
-        if (lastSel != null)
-            chooser.setCurrentDirectory(lastSel);*/
+        
         if (chooser.showOpenDialog(App.getFrame()) != JFileChooser.APPROVE_OPTION)
             return false;
         appList.setBrowserExec(chooser.getSelectedFile().getPath());

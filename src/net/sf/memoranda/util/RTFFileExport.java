@@ -16,7 +16,6 @@ import javax.swing.text.rtf.RTFEditorKit;
 /**
  * 
  */
-/*$Id: RTFFileExport.java,v 1.3 2004/01/30 12:17:42 alexeya Exp $*/
 public class RTFFileExport {
 
     /**

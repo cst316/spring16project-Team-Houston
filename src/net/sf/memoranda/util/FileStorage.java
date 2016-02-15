@@ -125,8 +125,7 @@ public class FileStorage implements Storage {
             writer.write();
             fw.flush();
             fw.close();
-            //editorKit.write(new FileOutputStream(filename), doc, 0, doc.getLength());
-            //editorKit.write(fw, doc, 0, doc.getLength());
+            
         }
         catch (Exception ex) {
             new ExceptionDialog(
@@ -134,27 +133,7 @@ public class FileStorage implements Storage {
                 "Failed to write a document to " + filename,
                 "");
         }
-        /*String filename = JN_DOCPATH + note.getProject().getID() + "/";
-        doc.putProperty(javax.swing.text.Document.TitleProperty, note.getTitle());
-        CalendarDate d = note.getDate();
-        filename += d.getDay() + "-" + d.getMonth() + "-" + d.getYear();
-        try {
-            long t1 = new java.util.Date().getTime();
-            FileOutputStream ostream = new FileOutputStream(filename);
-            ObjectOutputStream oos = new ObjectOutputStream(ostream);
         
-            oos.writeObject((HTMLDocument)doc);
-        
-            oos.flush();
-            oos.close();
-            ostream.close();
-            long t2 = new java.util.Date().getTime();
-            System.out.println(filename+" save:"+ (t2-t1) );
-        }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }*/
-
     }
     /**
      * @see net.sf.memoranda.util.Storage#openNote(net.sf.memoranda.Note)
@@ -164,17 +143,10 @@ public class FileStorage implements Storage {
         HTMLDocument doc = (HTMLDocument) editorKit.createDefaultDocument();
         if (note == null)
             return doc;
-        /*
-                String filename = JN_DOCPATH + note.getProject().getID() + File.separator;
-                CalendarDate d = note.getDate();
-                filename += d.getDay() + "-" + d.getMonth() + "-" + d.getYear();
-        */
+       
         String filename = getNotePath(note);
         try {
-            /*DEBUG*/
 
-//            Util.debug("Open note: " + filename);
-//        	Util.debug("Note Title: " + note.getTitle());
         	doc.setBase(new URL(getNoteURL(note)));
         	editorKit.read(
                 new InputStreamReader(new FileInputStream(filename), "UTF-8"),
@@ -182,30 +154,12 @@ public class FileStorage implements Storage {
                 0);
         }
         catch (Exception ex) {
-            //ex.printStackTrace();
+            
             // Do nothing - we've got a new empty document!
         }
         
         return doc;
-        /*HTMLDocument doc = (HTMLDocument)editorKit.createDefaultDocument();
-        if (note == null) return doc;
-        String filename = JN_DOCPATH + note.getProject().getID() + "/";
-        CalendarDate d = note.getDate();
-        filename += d.getDay() + "-" + d.getMonth() + "-" + d.getYear();
-        try {
-            long t1 = new java.util.Date().getTime();
-            FileInputStream istream = new FileInputStream(filename);
-            ObjectInputStream ois = new ObjectInputStream(istream);
-            doc = (HTMLDocument)ois.readObject();
-            ois.close();
-            istream.close();
-            long t2 = new java.util.Date().getTime();
-            System.out.println(filename+" open:"+ (t2-t1) );
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return doc;*/
+        
     }
 
     public String getNoteURL(Note note) {        
@@ -274,27 +228,18 @@ public class FileStorage implements Storage {
                     + ".tasklist");
             
             Document tasklistDoc = openDocument(fn);
-            /*DocType tasklistDoctype = tasklistDoc.getDocType();
-            String publicId = null;
-            if (tasklistDoctype != null) {
-                publicId = tasklistDoctype.getPublicID();
-            }
-            boolean upgradeOccurred = TaskListVersioning.upgradeTaskList(publicId);
-            if (upgradeOccurred) {
-                // reload from new file
-                tasklistDoc = openDocument(fn);
-            }*/
+            
             return new TaskListImpl(tasklistDoc, prj);   
         }
         else {
-            /*DEBUG*/
+            
             System.out.println("[DEBUG] New task list created");
             return new TaskListImpl(prj);
         }
     }
 
     public void storeTaskList(TaskList tasklist, Project prj) {
-        /*DEBUG*/
+        
         System.out.println(
             "[DEBUG] Save task list: "
                 + JN_DOCPATH
@@ -302,7 +247,7 @@ public class FileStorage implements Storage {
                 + File.separator
                 + ".tasklist");
         Document tasklistDoc = tasklist.getXMLContent();
-        //tasklistDoc.setDocType(TaskListVersioning.getCurrentDocType());
+        
         saveDocument(tasklistDoc,JN_DOCPATH + prj.getID() + File.separator + ".tasklist");
     }
     /**

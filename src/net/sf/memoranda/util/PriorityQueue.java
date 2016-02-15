@@ -4,9 +4,7 @@ import nu.xom.Element;
 
 public class PriorityQueue {
         
-        /* Cola de Prioridad implementada con Estructura de Datos Heap,
-         * para ordenar las anotaciones por prioridad 
-         */
+        
         
         private Pair[] a;
         private int n;
