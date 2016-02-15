@@ -16,10 +16,7 @@ import java.util.Collections;
 
 import javax.swing.text.html.HTMLDocument;
 
-/**
- *  
- */
-/* $Id: ProjectExporter.java,v 1.7 2005/07/05 08:17:28 alexeya Exp $ */
+
 public class ProjectExporter {
 
     static boolean _chunked = false;
@@ -50,7 +47,7 @@ public class ProjectExporter {
             output = f;
         NoteList nl = CurrentStorage.get().openNoteList(prj);
         Vector notes = (Vector) nl.getAllNotes();
-        //NotesVectorSorter.sort(notes);
+        
         Collections.sort(notes);
 
         Writer fw;
