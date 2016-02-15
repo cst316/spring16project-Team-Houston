@@ -43,5 +43,7 @@ public interface Event {
     String getTimeString();
     
 	boolean getWorkingDays();
+	
+	int getTimesSnoozed();
     
 }

@@ -39,6 +39,9 @@ public class PreferencesDialog extends JDialog {
 	JLabel jLabel7 = new JLabel();
 	JLabel jLabel8 = new JLabel();
 	JLabel jLabel9 = new JLabel();
+	JLabel jLabel10 = new JLabel();
+	JComboBox<String> snoozeVals = new JComboBox<String>(PreferencesDialog.getSnoozeDurations());
+	JTextField maxSnoozeAmt = new JTextField();
 	ButtonGroup closeGroup = new ButtonGroup();
 	JLabel jLabel2 = new JLabel();
 	JRadioButton closeExitRB = new JRadioButton();
@@ -97,7 +100,7 @@ public class PreferencesDialog extends JDialog {
 	JLabel baseFontSizeLabel = new JLabel();
 	
 	JButton calcButton = new JButton("Progress Calculation Preferences");
-
+	
 	public PreferencesDialog(Frame frame) {
 		super(frame, Local.getString("Preferences"), true);
 		try {
@@ -469,7 +472,7 @@ public class PreferencesDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.EAST;
 		GeneralPanel.add(jLabel8, gbc);
 		jLabel8.setHorizontalAlignment(SwingConstants.RIGHT);
-		jLabel8.setText(Local.getString("Task Progress Calculation:"));
+		jLabel8.setText(String.format("%s:", Local.getString("Task Progress Calculation")));
 		
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
@@ -516,6 +519,39 @@ public class PreferencesDialog extends JDialog {
 		        Configuration.saveConfig();
 			}
 		});
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 19;
+		gbc.insets = new Insets(2, 0, 0, 15);
+		gbc.anchor = GridBagConstraints.EAST;
+		GeneralPanel.add(jLabel9, gbc);
+		jLabel9.setHorizontalAlignment(SwingConstants.RIGHT);
+		jLabel9.setText(Local.getString("Default snooze duration") + ":");
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 19;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		GeneralPanel.add(snoozeVals, gbc);
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 20;
+		gbc.insets = new Insets(2, 0, 0, 15);
+		gbc.anchor = GridBagConstraints.EAST;
+		GeneralPanel.add(jLabel10, gbc);
+		jLabel10.setHorizontalAlignment(SwingConstants.RIGHT);
+		jLabel10.setText(Local.getString("Maximum snoozes allowed") + ":");
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 20;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		GeneralPanel.add(maxSnoozeAmt, gbc);
 
 		// Build Tab2
 		rstPanelBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -713,6 +749,18 @@ public class PreferencesDialog extends JDialog {
 			baseFontSize.setValue(Integer.decode(Configuration.get("BASE_FONT_SIZE").toString()));
 		else
 			baseFontSize.setValue(new Integer(16));
+		
+		String snoozeDuration = Configuration.get("SNZ_DURATION").toString();
+		if (snoozeDuration.matches("^[0-9]+ ?(minutes?|hours?)$"))
+			snoozeVals.setSelectedItem(snoozeDuration);
+		else
+			snoozeVals.setSelectedIndex(0);
+		String maxSnoozeAmount = Configuration.get("SNZ_AMOUNT").toString();
+		if (maxSnoozeAmount.matches("^[0-9]+$")) 
+			maxSnoozeAmt.setText(maxSnoozeAmount);
+		else 
+			maxSnoozeAmt.setText("0");
+		
 	}
 
 	void apply() {
@@ -827,6 +875,9 @@ public class PreferencesDialog extends JDialog {
 		App.getFrame().workPanel.dailyItemsPanel.editorPanel.editor.repaint();
 		App.getFrame().workPanel.dailyItemsPanel.agendaPanel.refresh(CurrentDate.get());
 		App.getFrame().workPanel.dailyItemsPanel.eventsPanel.updateUI();
+		
+		Configuration.put("SNZ_DURATION",snoozeVals.getSelectedItem());
+		Configuration.put("SNZ_AMOUNT", maxSnoozeAmt.getText());
 		
 		Configuration.saveConfig();
 		
@@ -995,5 +1046,21 @@ public class PreferencesDialog extends JDialog {
         for (int i = 0; i < envfonts.length; i++)
             fonts.add(envfonts[i]);
 		return fonts;
+	}
+	
+	public static Vector<String> getSnoozeDurations() {
+		Vector<String> durations = new Vector<String>();
+		durations.add("1 minute");
+		durations.add("5 minutes");
+		durations.add("10 minutes");
+		durations.add("15 minutes");
+		durations.add("30 minutes");
+		durations.add("45 minutes");
+		durations.add("1 hour");
+		durations.add("2 hours");
+		durations.add("3 hours");
+		durations.add("6 hours");
+		durations.add("12 hours");
+		return durations;
 	}
 }

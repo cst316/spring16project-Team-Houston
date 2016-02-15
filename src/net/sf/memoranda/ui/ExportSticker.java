@@ -43,9 +43,9 @@ public class ExportSticker {
          * Function to eliminate special chars from a string
          */
         public static String remove1(String input) {
-
+            
             String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ";
-
+            
             String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcC";
             String output = input;
             for (int i=0; i<original.length(); i++) {
