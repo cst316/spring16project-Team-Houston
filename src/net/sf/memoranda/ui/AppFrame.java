@@ -98,7 +98,7 @@ public class AppFrame extends JFrame {
 
     public WorkPanel workPanel = new WorkPanel();
     HTMLEditor editor = workPanel.dailyItemsPanel.editorPanel.editor;
-
+    
     static Vector exitListeners = new Vector();
 
     public Action prjPackAction = new AbstractAction("Backup current project") {

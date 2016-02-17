@@ -1,6 +1,7 @@
 package net.sf.memoranda.ui;
 
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
 
 public class PSPControlPanel extends JPanel {
     
