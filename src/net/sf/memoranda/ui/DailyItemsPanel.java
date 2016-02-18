@@ -90,7 +90,7 @@ public class DailyItemsPanel extends JPanel {
     FlowLayout flowLayout1 = new FlowLayout();
     JButton taskB = new JButton();
     JPanel mainTabsPanel = new JPanel();
-    NotesControlPanel notesControlPane = new NotesControlPanel();
+    
     CardLayout cardLayout2 = new CardLayout();
         
     JTabbedPane tasksTabbedPane = new JTabbedPane();
@@ -187,7 +187,7 @@ public class DailyItemsPanel extends JPanel {
         taskB.setOpaque(false);
         taskB.setIcon(new ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/task.png")));
 
-        notesControlPane.setFont(new java.awt.Font("Dialog", 1, 10));
+        
         mainTabsPanel.setLayout(cardLayout2);
         this.add(splitPane, BorderLayout.CENTER);
 
@@ -199,11 +199,11 @@ public class DailyItemsPanel extends JPanel {
         statusPanel.add(indicatorsPanel, BorderLayout.EAST);
 
         mainPanel.add(editorsPanel, BorderLayout.CENTER);
-        
+        PSPControlPanel pspPanel = new PSPControlPanel();
         editorsPanel.add(agendaPanel, "AGENDA");
         editorsPanel.add(eventsPanel, "EVENTS");
         editorsPanel.add(tasksPanel, "TASKS");
-        editorsPanel.add(editorPanel, "NOTES");
+        editorsPanel.add(pspPanel, "NOTES");
         
         splitPane.add(mainPanel, JSplitPane.RIGHT);
         splitPane.add(controlPanel, JSplitPane.LEFT);
@@ -297,7 +297,6 @@ public class DailyItemsPanel extends JPanel {
         cmainPanel.add(mainTabsPanel, BorderLayout.CENTER);
         mainTabsPanel.add(eventsTabbedPane, "EVENTSTAB");
         mainTabsPanel.add(tasksTabbedPane, "TASKSTAB");
-        mainTabsPanel.add(notesControlPane, "NOTESTAB");
 		mainTabsPanel.add(agendaTabbedPane, "AGENDATAB");
         updateIndicators(CurrentDate.get(), CurrentProject.getTaskList());
         mainPanel.setBorder(null);
@@ -348,12 +347,7 @@ public class DailyItemsPanel extends JPanel {
 	void currentNoteChanged(Note note, boolean toSaveCurrentNote) {
 //		Util.debug("currentNoteChanged");
 		
-		if (editorPanel.isDocumentChanged()) {
-			if (toSaveCurrentNote) {
-	            saveNote();				
-			}
-			notesControlPane.refresh();
-        }
+		
 		currentNote = note;
 		editorPanel.setDocument(currentNote);
         calendar.set(CurrentDate.get());
