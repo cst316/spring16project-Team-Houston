@@ -1104,7 +1104,7 @@ public class AppFrame extends JFrame {
                             note.setId(Util.generateId());
                     CurrentStorage.get().storeNote(note, doc);
                     }
-                    workPanel.dailyItemsPanel.notesControlPane.refresh();
+                    
                     
             }catch(Exception exc){
                     exc.printStackTrace();
@@ -1186,7 +1186,7 @@ public class AppFrame extends JFrame {
                             note.setId(Util.generateId());
                     CurrentStorage.get().storeNote(note, doc);
                     }
-                    workPanel.dailyItemsPanel.notesControlPane.refresh();
+                    
                     
             }catch(Exception exc){
                     exc.printStackTrace();

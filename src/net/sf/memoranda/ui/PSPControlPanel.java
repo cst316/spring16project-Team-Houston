@@ -1,6 +1,10 @@
 package net.sf.memoranda.ui;
 
 import javax.swing.JPanel;
+
+/**
+ * Panel for adding time tracker, bug tracker, LOC tracker. Replaces Notes Panel
+ */
 import javax.swing.event.ChangeEvent;
 
 public class PSPControlPanel extends JPanel {
