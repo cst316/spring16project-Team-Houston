@@ -92,10 +92,7 @@ public class AppFrame extends JFrame {
     ProjectsPanel projectsPanel = new ProjectsPanel();
     boolean prPanelExpanded = false;
 
-    JMenu jMenuEdit = new JMenu();
-    JMenu jMenuFormat = new JMenu();
-    JMenu jMenuInsert = new JMenu();
-
+    
     public WorkPanel workPanel = new WorkPanel();
     HTMLEditor editor = workPanel.dailyItemsPanel.editorPanel.editor;
     
@@ -359,8 +356,7 @@ public class AppFrame extends JFrame {
         jMenuFileMin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10,
                 InputEvent.ALT_MASK));
 
-        jMenuEdit.setText(Local.getString("Edit"));
-
+        
         jMenuEditUndo.setText(Local.getString("Undo"));
         jMenuEditUndo.setToolTipText(Local.getString("Undo"));
         jMenuEditRedo.setText(Local.getString("Redo"));
@@ -379,8 +375,7 @@ public class AppFrame extends JFrame {
 
         jMenuEditPref.setText(Local.getString("Preferences") + "...");
 
-        jMenuInsert.setText(Local.getString("Insert"));
-
+        
         jMenuInsertImage.setText(Local.getString("Image") + "...");
         jMenuInsertImage.setToolTipText(Local.getString("Insert Image"));
         jMenuInsertTable.setText(Local.getString("Table") + "...");
@@ -406,7 +401,6 @@ public class AppFrame extends JFrame {
         jMenuInsertTime.setText(Local.getString("Current time"));
         jMenuInsertFile.setText(Local.getString("File") + "...");
 
-        jMenuFormat.setText(Local.getString("Format"));
         jMenuFormatPStyle.setText(Local.getString("Paragraph style"));
         jMenuFormatP.setText(Local.getString("Paragraph"));
         jMenuFormatH1.setText(Local.getString("Header") + " 1");
@@ -485,54 +479,14 @@ public class AppFrame extends JFrame {
         jMenuHelp.add(jMenuHelpAbout);
         
         menuBar.add(jMenuFile);
-        menuBar.add(jMenuEdit);
-        menuBar.add(jMenuInsert);
-        menuBar.add(jMenuFormat);
         menuBar.add(jMenuGo);
         menuBar.add(jMenuHelp);
         this.setJMenuBar(menuBar);
-        //contentPane.add(toolBar, BorderLayout.NORTH);
         contentPane.add(statusBar, BorderLayout.SOUTH);
         contentPane.add(splitPane, BorderLayout.CENTER);
         splitPane.add(projectsPanel, JSplitPane.TOP);
         splitPane.add(workPanel, JSplitPane.BOTTOM);
-        jMenuEdit.add(jMenuEditUndo);
-        jMenuEdit.add(jMenuEditRedo);
-        jMenuEdit.addSeparator();
-        jMenuEdit.add(jMenuEditCut);
-        jMenuEdit.add(jMenuEditCopy);
-        jMenuEdit.add(jMenuEditPaste);
-        jMenuEdit.add(jMenuEditPasteSpec);
-        jMenuEdit.addSeparator();
-        jMenuEdit.add(jMenuEditSelectAll);
-        jMenuEdit.addSeparator();
-        jMenuEdit.add(jMenuEditFind);
-
-        jMenuInsert.add(jMenuInsertImage);
-        jMenuInsert.add(jMenuInsertTable);
-        jMenuInsert.add(jMenuInsertLink);
-        jMenuInsert.add(jMenuInsertList);
-        //jMenuInsert.add(jMenuInsertSpecial);
-        jMenuInsertList.add(jMenuInsertListUL);
-        jMenuInsertList.add(jMenuInsertListOL);
-        jMenuInsert.addSeparator();
-        jMenuInsert.add(jMenuInsertBR);
-        jMenuInsert.add(jMenuInsertHR);
-        jMenuInsert.add(jMenuInsertChar);
-        jMenuInsert.addSeparator();
-        jMenuInsert.add(jMenuInsertDate);
-        jMenuInsert.add(jMenuInsertTime);
-        jMenuInsert.addSeparator();
-        jMenuInsert.add(jMenuInsertFile);
-
-        jMenuFormat.add(jMenuFormatPStyle);
-        jMenuFormat.add(jjMenuFormatChStyle);
-        jMenuFormat.add(jMenuFormatAlign);
-        jMenuFormat.addSeparator();
-        jMenuFormat.add(jMenuFormatTable);
-        jMenuFormat.addSeparator();
-        jMenuFormat.add(jMenuFormatProperties);
-        jMenuFormatPStyle.add(jMenuFormatP);
+                jMenuFormatPStyle.add(jMenuFormatP);
         jMenuFormatPStyle.addSeparator();
         jMenuFormatPStyle.add(jMenuFormatH1);
         jMenuFormatPStyle.add(jMenuFormatH2);
@@ -799,9 +753,6 @@ public class AppFrame extends JFrame {
     }
 
     public void setEnabledEditorMenus(boolean enabled) {
-        this.jMenuEdit.setEnabled(enabled);
-        this.jMenuFormat.setEnabled(enabled);
-        this.jMenuInsert.setEnabled(enabled);
         this.jMenuFileNewNote.setEnabled(enabled);
         this.jMenuFileExportNote.setEnabled(enabled);
     }
