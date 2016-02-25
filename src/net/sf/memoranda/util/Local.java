@@ -33,7 +33,7 @@ public class Local {
 	        		System.out.println(" - found");
 	        	}
 	        	catch (IOException ex) {
-	        		// Do nothing ...
+	        		
 	        		System.out.println(" - not found");
 	        		ex.printStackTrace();
 	        	}
@@ -45,13 +45,13 @@ public class Local {
 		                    "localmessages/"+fn));            
 		        }
 		        catch (Exception e) {
-		            // Do nothing ...
+		            
 		        }
 	        }
     	}
     	else {
     		currentLocale = new Locale("en", "US");
-    		/*DEBUG*/
+    		
     		System.out.println("* DEBUG: Locales are disabled");
     	}       
     	if (messages.size() == 0) 
@@ -71,7 +71,11 @@ public class Local {
                     + currentLocale.getLanguage()
                     + ".properties");
         }        
-        /**********************/
+        
+    }
+    
+    public static void setLocale(Locale prCurrentLocale){
+    	currentLocale = prCurrentLocale;
     }
 
     public static Hashtable getMessages() {
