@@ -98,7 +98,7 @@ public class PreferencesDialog extends JDialog {
 	JLabel headerFontLabel = new JLabel();
 	JLabel monoFontLabel = new JLabel();
 	JLabel baseFontSizeLabel = new JLabel();
-	String[] languages = {"English" , "Spanish"};
+	String[] languages = {"English" , "Espanol"};
 	JComboBox languageCB = new JComboBox(languages);
 	JLabel languageLabel = new JLabel("Language Selection");
 	
@@ -583,8 +583,8 @@ public class PreferencesDialog extends JDialog {
 				else if(languageCB.getSelectedItem().equals("Espanol")){
 					Local.setLocale(new Locale("es"));
 					Configuration.put("LOCALES_DIR", "es");
-					JOptionPane.showMessageDialog(null, "El cambio no tendrá lugar "
-							+ "hasta que aparezca ");
+					JOptionPane.showMessageDialog(null, "Los cambios no se van a aplicar hasta "
+							+ "que se reinicie Memoranda.");
 				}
 			}
 		});
