@@ -189,10 +189,7 @@ depend on this property (it is always in your "${user.home}/.memoranda"
 directory).
 
 ------------------
-LITTLE TRICKS WITH STICKERS:
-An unobvious but amusing feature of the Stickers is that you can use HTML tags 
-in the sticker's text. So, you can change a font and color or even place images 
-right into the stickers. 
+ 
 
 
 
