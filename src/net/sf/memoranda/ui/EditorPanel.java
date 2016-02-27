@@ -27,9 +27,7 @@ import javax.swing.UIManager;
 import javax.swing.text.html.HTMLDocument;
 
 import net.sf.memoranda.History;
-import net.sf.memoranda.Note;
 import net.sf.memoranda.date.CurrentDate;
-import net.sf.memoranda.CurrentNote;
 import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.Util;
 import net.sf.memoranda.util.Context;
@@ -67,7 +65,6 @@ public class EditorPanel extends JPanel {
 
 	JButton insTimeB = new JButton();
 
-	// JButton printB = new JButton();
 	JButton undoB = new JButton();
 
 	JButton cutB = new JButton();
@@ -113,11 +110,7 @@ public class EditorPanel extends JPanel {
 		}
 	};
 
-	/*
-	 * public Action printAction = new AbstractAction( "Print", new
-	 * ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/print.png"))) {
-	 * public void actionPerformed(ActionEvent e) { doPrint(); } };
-	 */
+	
 
 	public Action newAction = new AbstractAction(Local.getString("New note"),
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class
@@ -323,7 +316,6 @@ public class EditorPanel extends JPanel {
 		editorToolBar.add(exportB, null);
 		editorToolBar.addSeparator(new Dimension(8, 24));
 		editorToolBar.add(previewB, null);
-		// editorToolBar.add(printB, null);
 		jPanel1.add(editorToolBar, BorderLayout.NORTH);
 		jPanel1.add(editor, BorderLayout.CENTER);
 		this.add(titleBar, BorderLayout.NORTH);
@@ -331,8 +323,6 @@ public class EditorPanel extends JPanel {
 		titleBar.add(titleField, null);
 		initCSS();
 		editor.editor.setAntiAlias(Configuration.get("ANTIALIAS_TEXT").toString().equalsIgnoreCase("yes"));
-		// editor.editor.enableInputMethods(false);
-		// editor.editor.getInputContext().selectInputMethod(Locale.getDefault());
 		titleField.addKeyListener(new KeyListener() {
 
 			public void keyPressed(KeyEvent ke) {
@@ -378,7 +368,6 @@ public class EditorPanel extends JPanel {
 		String usercss = (String) Configuration.get("USER_CSS");
 		if (usercss.length() > 0)
 			try {
-				// DEBUG
 				System.out.println("***[DEBUG] User css used: " + usercss);
 				editor.setStyleSheet(new InputStreamReader(
 						new java.io.FileInputStream(usercss)));
@@ -400,7 +389,6 @@ public class EditorPanel extends JPanel {
 	}
 
 	void exportB_actionPerformed(ActionEvent e) {
-		// Fix until Sun's JVM supports more locales...
 		UIManager.put("FileChooser.lookInLabelText", Local
 				.getString("Save in:"));
 		UIManager.put("FileChooser.upFolderToolTipText", Local
@@ -431,8 +419,6 @@ public class EditorPanel extends JPanel {
 		chooser
 				.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
-		// chooser.addChoosableFileFilter(new
-		// AllFilesFilter(AllFilesFilter.RTF));
 		String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
 		if (lastSel != null)
 			chooser.setCurrentDirectory(new File(lastSel));
@@ -471,35 +457,15 @@ public class EditorPanel extends JPanel {
 			template = dlg.templF.getText();
 			Context.put("EXPORT_TEMPLATE", template);
 		}
-		/*
-		 * if (chooser.getFileFilter().getDescription().equals("Rich Text
-		 * Format")) new RTFFileExport(chooser.getSelectedFile(),
-		 * editor.document); else
-		 */
 		int ei = dlg.encCB.getSelectedIndex();
 		enc = null;
 		if (ei == 1)
 			enc = "UTF-8";
 		File f = chooser.getSelectedFile();
-		new HTMLFileExport(f, editor.document, CurrentNote.get(), enc,
-				dlg.numentChB.isSelected(), template, dlg.xhtmlChB.isSelected());
+		
 	}
 
 	String initialTitle = "";
-
-	public void setDocument(Note note) {
-		// Note note = CurrentProject.getNoteList().getActiveNote();
-		// try {
-		// this.editor.editor.setPage(CurrentStorage.get().getNoteURL(note));
-		editor.document = (HTMLDocument) CurrentStorage.get().openNote(note);
-		editor.initEditor();
-		if (note != null)
-			titleField.setText(note.getTitle());
-		else
-			titleField.setText("");
-		initialTitle = titleField.getText();
-		
-	}
 
 	public javax.swing.text.Document getDocument() {
 		return this.editor.document;
@@ -555,8 +521,6 @@ public class EditorPanel extends JPanel {
 	}
 
 	void newB_actionPerformed(ActionEvent e) {
-		CurrentNote.set(null, true);
-		setDocument(null);
 		this.titleField.requestFocus();
 	}
 
@@ -564,8 +528,6 @@ public class EditorPanel extends JPanel {
 		File f;
 		try {
 			f = Util.getTempFile();
-			new HTMLFileExport(f, editor.document, CurrentNote.get(), "UTF-8",
-					false, null, false);
 			Util.runBrowser("file:" + f.getAbsolutePath());
 		} catch (IOException ioe) {
 			new ExceptionDialog(ioe, "Cannot create temporary file", null);

@@ -22,8 +22,6 @@ import javax.swing.event.CaretEvent;
 import javax.swing.text.Document;
 
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.Note;
-import net.sf.memoranda.NoteList;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectListener;
 import net.sf.memoranda.ResourcesList;
@@ -34,7 +32,6 @@ import net.sf.memoranda.util.Local;
 /*$Id: SearchPanel.java,v 1.5 2004/04/05 10:05:44 alexeya Exp $*/
 public class SearchPanel extends JPanel {
     BorderLayout borderLayout1 = new BorderLayout();
-    NotesList notesList = new NotesList(NotesList.EMPTY);
     JScrollPane scrollPane = new JScrollPane();
     JPanel jPanel1 = new JPanel();
     BorderLayout borderLayout2 = new BorderLayout();
@@ -104,7 +101,6 @@ public class SearchPanel extends JPanel {
         jPanel4.setLayout(borderLayout4);
         this.add(scrollPane, BorderLayout.CENTER);
         this.add(jPanel1, BorderLayout.NORTH);
-        scrollPane.getViewport().add(notesList);
         jPanel1.add(jPanel2, BorderLayout.NORTH);
         jPanel2.add(searchField, BorderLayout.CENTER);
         jPanel1.add(jPanel3, BorderLayout.CENTER);
@@ -114,12 +110,12 @@ public class SearchPanel extends JPanel {
         jPanel4.add(regexpCB, BorderLayout.CENTER);
         jPanel3.add(searchB, BorderLayout.SOUTH);
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {
-                notesList.update(new Vector());
+            public void projectChange(Project p, TaskList tl, ResourcesList rl) {
+                
             }
             public void projectWasChanged() {}
         });
-        //notesList.update(new Vector());
+        
 
     }
 
@@ -139,7 +135,7 @@ public class SearchPanel extends JPanel {
     
     void doSearch() {
         Pattern pattern;
-        //this.add(progressBar, BorderLayout.SOUTH);
+        
         int flags = Pattern.DOTALL;
         if (!caseSensCB.isSelected())
             flags = flags + Pattern.CASE_INSENSITIVE + Pattern.UNICODE_CASE;
@@ -155,29 +151,8 @@ public class SearchPanel extends JPanel {
             new ExceptionDialog(ex, "Error in regular expression", "Check the regular expression syntax");
             return;
         }
-        /*progressBar.setMinimum(0);
-        progressBar.setStringPainted(true);*/
-        Vector notes = (Vector) CurrentProject.getNoteList().getAllNotes();
         Vector found = new Vector();
-        /*progressBar.setMaximum(notes.size()-1);
-        progressBar.setIndeterminate(false);
-        this.add(progressBar, BorderLayout.SOUTH);*/
-        for (int i = 0; i < notes.size(); i++) {
-            //progressBar.setValue(i);
-            Note note = (Note) notes.get(i);
-            Document doc = CurrentStorage.get().openNote(note);
-            try {
-                String txt = doc.getText(0, doc.getLength());
-                Matcher matcher = pattern.matcher(txt);
-                if (matcher.find())
-                    found.add(note);
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        //this.remove(progressBar);
-        this.notesList.update(found);
+        
     }
 
 }

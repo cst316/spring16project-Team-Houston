@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
 
-import net.sf.memoranda.Note;
 import net.sf.memoranda.ui.ExceptionDialog;
 import net.sf.memoranda.ui.htmleditor.AltHTMLWriter;
 
@@ -33,17 +32,15 @@ public class HTMLFileExport {
     String charset = "";
     File f = null;
     HTMLDocument doc;
-    Note note = null;
     boolean xhtml = false;
     boolean num = false;
     String templFile = null;
     /**
      * Constructor for HTMLFileExport.
      */
-    public HTMLFileExport(File f, Document doc, Note note, String charset, boolean num, String templFile, boolean xhtml) {
+    public HTMLFileExport(File f, Document doc, String charset, boolean num, String templFile, boolean xhtml) {
         this.f = f;
         this.doc = (HTMLDocument)doc;
-        this.note = note;
         this.charset = charset;
         this.num = num;
         this.templFile = templFile;
@@ -53,24 +50,17 @@ public class HTMLFileExport {
     
     private void doExport() {
         try {
-                    //FileWriter fw = new FileWriter(f);
                     Writer fw;
                     
-					//Added to fix the file if there was no extention given
-					//jcscoobyrs 17-Nov-2003 at 09:08:55
-					//------------------------------------------------------
 					if(f.getName().indexOf(".htm") == -1)
 					{
 						String dir = f.getPath();
 						String ext = ".html";
-						//String ps = System.getProperty("file.separator");
 						String nfile = dir + ext;
 			
 						f = new File(nfile);                    	
 					}
-					//------------------------------------------------------
-					//End appendage
-                    
+					
                     if (charset != null)    
                         fw = new OutputStreamWriter(new FileOutputStream(f), charset);
                     else
@@ -112,17 +102,9 @@ public class HTMLFileExport {
      
 	 private String applyTemplate() {
         String body = getNoteBody();        
-		String title = note != null? note.getTitle() : "";
-		String id = note != null? note.getId() : "";
-		String project = note != null? note.getProject().getTitle() : "";
-		String date = note != null? note.getDate().getFullDateString() : "";
 		String now = new Date().toString();
 		String templ = getTemplateString(templFile);
 		templ = templ.replaceAll("@CONTENT@", body);
-		templ = templ.replaceAll("@TITLE@", title);
-		templ = templ.replaceAll("@ID@", id);
-		templ = templ.replaceAll("@PROJECT@", project);
-		templ = templ.replaceAll("@DATE@", date);
 		templ = templ.replaceAll("@NOW@", now);
 		if ((charset != null) && (charset.length() >0))
 		    templ = templ.replaceAll("@METACHARSET@", "<meta http-equiv=\"Content-Type\" content=\"text/html; charset="
@@ -159,7 +141,6 @@ public class HTMLFileExport {
         InputSource source;
         OutputFormat outputFormat = new OutputFormat();
         try {
-            //parser.setProperty("http://cyberneko.org/html/properties/default-encoding", charset);
             parser.setProperty("http://cyberneko.org/html/properties/names/elems", "lower");
             outputFormat.setOmitDocumentType(true);
             outputFormat.setOmitXMLDeclaration(true);

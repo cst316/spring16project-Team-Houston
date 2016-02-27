@@ -48,14 +48,11 @@ public class FileStorage implements Storage {
     private HTMLEditorKit editorKit = new HTMLEditorKit();
 
     public FileStorage() {
-        /*The 'MEMORANDA_HOME' key is an undocumented feature for 
-          hacking the default location (Util.getEnvDir()) of the memoranda 
-          storage dir. Note that memoranda.config file is always placed at fixed 
-          location (Util.getEnvDir()) anyway */
-        String mHome = (String) Configuration.get("MEMORANDA_HOME");
+       String mHome = (String) Configuration.get("MEMORANDA_HOME");
         if (mHome.length() > 0) {
             JN_DOCPATH = mHome;
-        	System.out.println("[DEBUG]***Memoranda storage path has set to: " +
+           System.out.println("[DEBUG]***Memoranda storage path has set to: " +
+
         	 JN_DOCPATH);
         }
     }
@@ -65,9 +62,6 @@ public class FileStorage implements Storage {
          * @todo: Configurable parameters
          */
         try {
-            /*The XOM bug: reserved characters are not escaped*/
-            //Serializer serializer = new Serializer(new FileOutputStream(filePath), "UTF-8");
-            //serializer.write(doc);
             OutputStreamWriter fw =
                 new OutputStreamWriter(new FileOutputStream(filePath), "UTF-8");
             fw.write(doc.toXML());
