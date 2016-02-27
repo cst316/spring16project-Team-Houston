@@ -48,8 +48,7 @@ public class AutoSwitchProjectsConfirmationDialog extends JDialog{
 	void jbInit() throws Exception {
 		this.setResizable(false);
         
-		// Build headerPanel
-        headerPanel.setBackground(Color.WHITE);
+		headerPanel.setBackground(Color.WHITE);
         headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
         header.setFont(new java.awt.Font("Dialog", 0, 20));
         header.setForeground(new Color(0, 0, 124));
@@ -58,7 +57,6 @@ public class AutoSwitchProjectsConfirmationDialog extends JDialog{
             "resources/icons/pr_highest.png")));
         headerPanel.add(header);
 		
-		// Build mainPanel
 		JLabel confirm = new JLabel();
 		confirm.setText("<HTML>"+Local.getString("Do you want to automatically switch to new projects?"));
 										
@@ -69,8 +67,7 @@ public class AutoSwitchProjectsConfirmationDialog extends JDialog{
 		mainPanel.add(donotaskCB,BorderLayout.SOUTH);
 		mainPanel.add(confirm,BorderLayout.CENTER);
 		
-	    // Build ButtonsPanel
-        yesB.setMaximumSize(new Dimension(100, 26));
+	    yesB.setMaximumSize(new Dimension(100, 26));
         yesB.setMinimumSize(new Dimension(100, 26));
         yesB.setPreferredSize(new Dimension(100, 26));
         yesB.setText(Local.getString("Yes"));
@@ -95,13 +92,11 @@ public class AutoSwitchProjectsConfirmationDialog extends JDialog{
 		
 		this.getRootPane().setDefaultButton(yesB);
 		
-		// Build dialog
 		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		this.getContentPane().add(headerPanel, BorderLayout.NORTH);
 		this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 	}
 	
-	// if donotaskCB is checked update Configuration.
 	public void  checkDoNotAsk() {
 		if (this.donotaskCB.isSelected()) {
 			Configuration.put("ASK_ON_NEW", "no");
@@ -109,17 +104,14 @@ public class AutoSwitchProjectsConfirmationDialog extends JDialog{
 		}
 	}
 	
-	//yes button action
-    void yesB_actionPerformed(ActionEvent e) {
+	void yesB_actionPerformed(ActionEvent e) {
 		checkDoNotAsk();
 		Configuration.put("AUTO_SWITCH_PROJECT", "yes");
         this.dispose();
     }
 
-	//cancel button action
-    void noB_actionPerformed(ActionEvent e) {
-    //	NO = true;
-		checkDoNotAsk();
+	void noB_actionPerformed(ActionEvent e) {
+    	checkDoNotAsk();
 		Configuration.put("AUTO_SWITCH_PROJECT", "no");
         this.dispose();
     }

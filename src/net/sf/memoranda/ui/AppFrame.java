@@ -255,7 +255,6 @@ public class AppFrame extends JFrame {
     JMenuItem jMenuHelpBug = new JMenuItem();
     JMenuItem jMenuHelpAbout = new JMenuItem();
 
-    //Construct the frame
     public AppFrame() {
         enableEvents(AWTEvent.WINDOW_EVENT_MASK);
         try {
@@ -265,16 +264,13 @@ public class AppFrame extends JFrame {
             new ExceptionDialog(e);
         }
     }
-    //Component initialization
     private void jbInit() throws Exception {
         this.setIconImage(new ImageIcon(AppFrame.class.getResource(
                 "resources/icons/jnotes16.png"))
                 .getImage());
         contentPane = (JPanel) this.getContentPane();
         contentPane.setLayout(borderLayout1);
-        //this.setSize(new Dimension(800, 500));
         this.setTitle("Memoranda - " + CurrentProject.get().getTitle());
-        //Added a space to App.VERSION_INFO to make it look some nicer
         statusBar.setText(" Version:" + App.VERSION_INFO + " (Build "
                 + App.BUILD_INFO + " )");
 
@@ -325,28 +321,16 @@ public class AppFrame extends JFrame {
         		EffortTimerFrame.getInstance().setVisible(true);
         	}
         });
-        //jButton3.setIcon(image3);
         jButton3.setToolTipText(Local.getString("Help"));
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
         splitPane.setContinuousLayout(true);
         splitPane.setDividerSize(3);
-        //splitPane.setOneTouchExpandable(true);
         splitPane.setDividerLocation(28);
-        //projectsPanel.setMaximumSize(new Dimension(2147483647, 200));
         projectsPanel.setMinimumSize(new Dimension(10, 28));
         projectsPanel.setPreferredSize(new Dimension(10, 28));
-        /*workPanel.setMinimumSize(new Dimension(734, 300));
-         workPanel.setPreferredSize(new Dimension(1073, 300));*/
         splitPane.setDividerLocation(28);
 
-        /* jMenuFileNewPrj.setText(Local.getString("New project") + "...");
-         jMenuFileNewPrj.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-         ProjectDialog.newProject();
-         }
-         });
-         */
         jMenuFileNewPrj.setAction(projectsPanel.newProjectAction);
 
         jMenuFileUnpackPrj.setText(Local.getString("Unpack project") + "...");
@@ -491,7 +475,6 @@ public class AppFrame extends JFrame {
         menuBar.add(jMenuGo);
         menuBar.add(jMenuHelp);
         this.setJMenuBar(menuBar);
-        //contentPane.add(toolBar, BorderLayout.NORTH);
         contentPane.add(statusBar, BorderLayout.SOUTH);
         contentPane.add(splitPane, BorderLayout.CENTER);
         splitPane.add(projectsPanel, JSplitPane.TOP);
@@ -512,7 +495,6 @@ public class AppFrame extends JFrame {
         jMenuInsert.add(jMenuInsertTable);
         jMenuInsert.add(jMenuInsertLink);
         jMenuInsert.add(jMenuInsertList);
-        //jMenuInsert.add(jMenuInsertSpecial);
         jMenuInsertList.add(jMenuInsertListUL);
         jMenuInsertList.add(jMenuInsertListOL);
         jMenuInsert.addSeparator();
@@ -661,7 +643,6 @@ public class AppFrame extends JFrame {
         Util.runBrowser(App.GUIDE_URL);
     }
     
-    //File | Exit action performed
     public void doExit() {
         if (Configuration.get("ASK_ON_EXIT").equals("yes")) {
                         Dimension frmSize = this.getSize();
@@ -681,9 +662,6 @@ public class AppFrame extends JFrame {
         System.exit(0);
     }
 
-    /*
-     * Prompt user if to auto-switch to new project
-     */
     public void doNewProject() {
         if (Configuration.get("ASK_ON_NEW").equals("yes")) {
                         Dimension frmSize = this.getSize();
@@ -695,21 +673,14 @@ public class AppFrame extends JFrame {
         }
     }
     
-    /*
-     * Minimize window to system tray
-     */
     public void doMinimize() {
         App.minimizeWindow();
     }
     
-    /*
-     * Maximize window from system tray
-     */
     public void doMaximize() {
         App.reOpenWindow();
     }
 
-    //Help | About action performed
     public void jMenuHelpAbout_actionPerformed(ActionEvent e) {
          AppFrame_AboutBox dlg = new AppFrame_AboutBox(this);        
          Dimension dlgSize = dlg.getSize();
@@ -735,13 +706,9 @@ public class AppFrame extends JFrame {
             super.processWindowEvent(e);
     }
     
-    /*
-     * Create system tray icon, with open exit option
-     */
     public void addSystemTrayIcon(){
     	
-    	//Check the SystemTray is supported
-        if (!SystemTray.isSupported()) {
+    	if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");
             return;
         }
@@ -750,11 +717,9 @@ public class AppFrame extends JFrame {
         final SystemTray tray = SystemTray.getSystemTray();
         trayIcon.setToolTip("Memoranda");
        
-        //Create a popup menu components
         MenuItem openItem = new MenuItem("Open");
         MenuItem exitItem = new MenuItem("Exit");
          
-        //Add components to popup menu
         popup.add(openItem);
         popup.addSeparator();  
         popup.add(exitItem);
@@ -807,7 +772,6 @@ public class AppFrame extends JFrame {
     }
 
     public void doPrjPack() {
-        // Fix until Sun's JVM supports more locales...
         UIManager.put("FileChooser.saveInLabelText", Local
                 .getString("Save in:"));
         UIManager.put("FileChooser.upFolderToolTipText", Local.getString(
@@ -835,14 +799,9 @@ public class AppFrame extends JFrame {
         chooser.setDialogTitle(Local.getString("Pack project"));
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        //chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.RTF));
         chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));
-        // fixes XP style look cosmetical problems JVM 1.4.2 and 1.4.2_01
         chooser.setPreferredSize(new Dimension(550, 375));
 
-        //Added to fix the problem with packing a file then deleting that file.
-        //(jcscoobyrs) 17-Nov-2003 at 14:57:06 PM
-        //---------------------------------------------------------------------
         File lastSel = null;
 
         try {
@@ -863,7 +822,6 @@ public class AppFrame extends JFrame {
     }
 
     public void doPrjUnPack() {
-        // Fix until Sun's JVM supports more locales...
         UIManager.put("FileChooser.lookInLabelText", Local
                 .getString("Look in:"));
         UIManager.put("FileChooser.upFolderToolTipText", Local.getString(
@@ -892,13 +850,8 @@ public class AppFrame extends JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.ZIP));
-        //chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.RTF));
-        // fixes XP style look cosmetical problems JVM 1.4.2 and 1.4.2_01
         chooser.setPreferredSize(new Dimension(550, 375));
 
-        //Added to fix the problem with packing a file then deleting that file.
-        //(jcscoobyrs) 17-Nov-2003 at 14:57:06 PM
-        //---------------------------------------------------------------------
         File lastSel = null;
 
         try {
@@ -927,7 +880,6 @@ public class AppFrame extends JFrame {
     }
     
             protected void ppExport_actionPerformed(ActionEvent e) {
-                // Fix until Sun's JVM supports more locales...
                 UIManager.put(
                         "FileChooser.lookInLabelText",
                         Local.getString("Save in:"));
@@ -1056,8 +1008,7 @@ public class AppFrame extends JFrame {
             catch (ClassCastException cce) {
                 lastSel = new File(System.getProperty("user.dir") + File.separator);
             }
-            //---------------------------------------------------------------------
-
+            
             if (lastSel != null)
                 chooser.setCurrentDirectory(lastSel);
             if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
@@ -1150,8 +1101,7 @@ public class AppFrame extends JFrame {
             catch (ClassCastException cce) {
                 lastSel = new File(System.getProperty("user.dir") + File.separator);
             }
-            //---------------------------------------------------------------------
-
+            
             if (lastSel != null)
                 chooser.setCurrentDirectory(lastSel);
             if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)

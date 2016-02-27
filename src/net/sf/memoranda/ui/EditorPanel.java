@@ -67,7 +67,6 @@ public class EditorPanel extends JPanel {
 
 	JButton insTimeB = new JButton();
 
-	// JButton printB = new JButton();
 	JButton undoB = new JButton();
 
 	JButton cutB = new JButton();
@@ -113,12 +112,7 @@ public class EditorPanel extends JPanel {
 		}
 	};
 
-	/*
-	 * public Action printAction = new AbstractAction( "Print", new
-	 * ImageIcon(net.sf.memoranda.ui.AppFrame.class.getResource("resources/icons/print.png"))) {
-	 * public void actionPerformed(ActionEvent e) { doPrint(); } };
-	 */
-
+	
 	public Action newAction = new AbstractAction(Local.getString("New note"),
 			new ImageIcon(net.sf.memoranda.ui.AppFrame.class
 					.getResource("resources/icons/filenew.png"))) {
@@ -323,7 +317,6 @@ public class EditorPanel extends JPanel {
 		editorToolBar.add(exportB, null);
 		editorToolBar.addSeparator(new Dimension(8, 24));
 		editorToolBar.add(previewB, null);
-		// editorToolBar.add(printB, null);
 		jPanel1.add(editorToolBar, BorderLayout.NORTH);
 		jPanel1.add(editor, BorderLayout.CENTER);
 		this.add(titleBar, BorderLayout.NORTH);
@@ -331,8 +324,6 @@ public class EditorPanel extends JPanel {
 		titleBar.add(titleField, null);
 		initCSS();
 		editor.editor.setAntiAlias(Configuration.get("ANTIALIAS_TEXT").toString().equalsIgnoreCase("yes"));
-		// editor.editor.enableInputMethods(false);
-		// editor.editor.getInputContext().selectInputMethod(Locale.getDefault());
 		titleField.addKeyListener(new KeyListener() {
 
 			public void keyPressed(KeyEvent ke) {
@@ -400,7 +391,6 @@ public class EditorPanel extends JPanel {
 	}
 
 	void exportB_actionPerformed(ActionEvent e) {
-		// Fix until Sun's JVM supports more locales...
 		UIManager.put("FileChooser.lookInLabelText", Local
 				.getString("Save in:"));
 		UIManager.put("FileChooser.upFolderToolTipText", Local
@@ -431,8 +421,6 @@ public class EditorPanel extends JPanel {
 		chooser
 				.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.XHTML));
 		chooser.addChoosableFileFilter(new AllFilesFilter(AllFilesFilter.HTML));
-		// chooser.addChoosableFileFilter(new
-		// AllFilesFilter(AllFilesFilter.RTF));
 		String lastSel = (String) Context.get("LAST_SELECTED_EXPORT_FILE");
 		if (lastSel != null)
 			chooser.setCurrentDirectory(new File(lastSel));
@@ -471,11 +459,6 @@ public class EditorPanel extends JPanel {
 			template = dlg.templF.getText();
 			Context.put("EXPORT_TEMPLATE", template);
 		}
-		/*
-		 * if (chooser.getFileFilter().getDescription().equals("Rich Text
-		 * Format")) new RTFFileExport(chooser.getSelectedFile(),
-		 * editor.document); else
-		 */
 		int ei = dlg.encCB.getSelectedIndex();
 		enc = null;
 		if (ei == 1)
@@ -488,9 +471,6 @@ public class EditorPanel extends JPanel {
 	String initialTitle = "";
 
 	public void setDocument(Note note) {
-		// Note note = CurrentProject.getNoteList().getActiveNote();
-		// try {
-		// this.editor.editor.setPage(CurrentStorage.get().getNoteURL(note));
 		editor.document = (HTMLDocument) CurrentStorage.get().openNote(note);
 		editor.initEditor();
 		if (note != null)
@@ -511,7 +491,6 @@ public class EditorPanel extends JPanel {
 	}
 
 	void importB_actionPerformed(ActionEvent e) {
-		// Fix until Sun's JVM supports more locales...
 		UIManager.put("FileChooser.lookInLabelText", Local
 				.getString("Look in:"));
 		UIManager.put("FileChooser.upFolderToolTipText", Local

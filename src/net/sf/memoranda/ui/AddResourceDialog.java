@@ -239,7 +239,6 @@ public class AddResourceDialog extends JDialog {
 	 */
 	 
     void browseB_actionPerformed(ActionEvent e) {
-        // Fix until Sun's JVM supports more locales...
         UIManager.put("FileChooser.lookInLabelText", 
             Local.getString("Look in:"));
         UIManager.put("FileChooser.upFolderToolTipText", 
@@ -269,15 +268,8 @@ public class AddResourceDialog extends JDialog {
         chooser.setAcceptAllFileFilterUsed(true);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);        
         chooser.setPreferredSize(new Dimension(550, 375));
-        /*java.io.File lastSel = (java.io.File) Context.get("LAST_SELECTED_RESOURCE_FILE");
-        if (lastSel != null)
-            chooser.setCurrentDirectory(lastSel);*/
         if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
             return;
-        /*try {
-            Context.put("LAST_SELECTED_RESOURCE_FILE", chooser.getSelectedFile());
-        }
-        catch (Exception ex) {}*/
         pathField.setText(chooser.getSelectedFile().getPath());
         checkOkEnabled();
     }

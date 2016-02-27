@@ -20,8 +20,7 @@ import net.sf.memoranda.util.Configuration;
 
 /*$Id: App.java,v 1.28 2007/03/20 06:21:46 alexeya Exp $*/
 public class App {
-	// boolean packFrame = false;
-
+	
 	static AppFrame frame = null;
 	
 	public static final String GUIDE_URL = "http://memoranda.sourceforge.net/guide.html";
@@ -30,16 +29,11 @@ public class App {
 
 	private JFrame splash = null;
 
-	/*========================================================================*/ 
-	/* Note: Please DO NOT edit the version/build info manually!
-       The actual values are substituted by the Ant build script using 
-       'version' property and datestamp.*/
-
+	
 	public static final String VERSION_INFO = "@VERSION@";
 	public static final String BUILD_INFO = "@BUILD@";
 	
-	/*========================================================================*/
-
+	
 	public static AppFrame getFrame() {
 		return frame;
 	}
@@ -86,7 +80,6 @@ public class App {
 				fdow = "sun";
 			Configuration.put("FIRST_DAY_OF_WEEK", fdow);
 			Configuration.saveConfig();
-			/* DEBUG */
 			System.out.println("[DEBUG] first day of week is set to " + fdow);
 		}
 
@@ -100,23 +93,6 @@ public class App {
 	}
 
 	void init() {
-		/*
-		 * if (packFrame) { frame.pack(); } else { frame.validate(); }
-		 * 
-		 * Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		 * 
-		 * Dimension frameSize = frame.getSize(); if (frameSize.height >
-		 * screenSize.height) { frameSize.height = screenSize.height; } if
-		 * (frameSize.width > screenSize.width) { frameSize.width =
-		 * screenSize.width; }
-		 * 
-		 * 
-		 * Make the window fullscreen - On Request of users This seems not to
-		 * work on sun's version 1.4.1_01 Works great with 1.4.2 !!! So update
-		 * your J2RE or J2SDK.
-		 */
-		/* Used to maximize the screen if the JVM Version if 1.4 or higher */
-		/* --------------------------------------------------------------- */
 		double JVMVer =
 			Double
 				.valueOf(System.getProperty("java.version").substring(0, 3))
@@ -128,37 +104,24 @@ public class App {
 		} else {
 			frame.setExtendedState(Frame.NORMAL);
 		}
-		/* --------------------------------------------------------------- */
-		/* Added By Jeremy Whitlock (jcscoobyrs) 07-Nov-2003 at 15:54:24 */
-
-		// Not needed ???
 		frame.setVisible(true);
 		frame.toFront();
 		frame.requestFocus();
 
 	}
 
-	/*
-	 * close window completely
-	 */
 	public static void closeWindow() {
 		if (frame == null)
 			return;
 		frame.dispose();
 	}
 	
-	/*
-	 * minimize window to system tray
-	 */
 	public static void minimizeWindow() {
 		if (frame == null)
 			return;
 		frame.setState(Frame.ICONIFIED);
 	}
 	
-	/*
-	 * Reopen window when minimized to system tray
-	 */
 	public static void reOpenWindow() {
 		if (frame == null)
 			return;
