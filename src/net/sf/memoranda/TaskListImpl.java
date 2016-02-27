@@ -140,7 +140,7 @@ public class TaskListImpl implements TaskList {
      * @see net.sf.memoranda.TaskList#removeTask(import net.sf.memoranda.Task)
      */
 
-    public void removeTask(Task task) {
+    public void removeTask(TaskImpl task) {
     	if (task.isLocked()) return;
         String parentTaskId = task.getParentId();
         if (parentTaskId == null) {

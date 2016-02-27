@@ -17,7 +17,7 @@ import net.sf.memoranda.date.CalendarDate;
  */
 /*$Id: Task.java,v 1.9 2005/06/16 04:21:32 alexeya Exp $*/
 public interface Task {
-    
+     
     public static final int SCHEDULED = 0;
 
     public static final int ACTIVE = 1;
@@ -69,9 +69,6 @@ public interface Task {
     void setEstimatedEffort(long effort);
     long getEstimatedEffort();
     
-    void setActualEffort(long effort);
-    long getActualEffort();
-    
     void setDescription(String description);
     String getDescription();
 
@@ -80,9 +77,7 @@ public interface Task {
     
     void freeze();
     void unfreeze();
-    void lock();
-    void unlock();
-    boolean isLocked();
+
 	long getRate();
     
     nu.xom.Element getContent();
