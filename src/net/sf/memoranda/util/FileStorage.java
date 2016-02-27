@@ -20,7 +20,6 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
 import net.sf.memoranda.EventsManager;
-<<<<<<< 7609051fde4a8ae98544350882703e35710c3e8f
 import net.sf.memoranda.MiscTrackingList;
 import net.sf.memoranda.Note;
 import net.sf.memoranda.NoteList;
