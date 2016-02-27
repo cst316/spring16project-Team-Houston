@@ -103,7 +103,7 @@ public class FileStorage implements Storage {
     }
 
     /**
-<<<<<<< 7609051fde4a8ae98544350882703e35710c3e8f
+      7609051fde4a8ae98544350882703e35710c3e8f
      * @see net.sf.memoranda.util.Storage#storeNote(net.sf.memoranda.Note)
      */
     public void storeNote(Note note, javax.swing.text.Document doc) {
@@ -176,8 +176,6 @@ public class FileStorage implements Storage {
     }
 
     /**
-=======
->>>>>>> Here we go again
      * @see net.sf.memoranda.util.Storage#openProjectManager()
      */
     public void openProjectManager() {
@@ -253,7 +251,7 @@ public class FileStorage implements Storage {
         dir.mkdirs();
     }
     /**
-<<<<<<< 7609051fde4a8ae98544350882703e35710c3e8f
+       7609051fde4a8ae98544350882703e35710c3e8f
      * @see net.sf.memoranda.util.Storage#openNoteList(net.sf.memoranda.Project)
      */
     public NoteList openNoteList(Project prj) {
@@ -287,8 +285,6 @@ public class FileStorage implements Storage {
             JN_DOCPATH + prj.getID() + File.separator + ".notes");
     }
     /**
-=======
->>>>>>> Here we go again
      * @see net.sf.memoranda.util.Storage#openEventsList()
      */
     public void openEventsManager() {
