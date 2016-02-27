@@ -33,6 +33,7 @@ import javax.swing.table.TableCellRenderer;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Task;
+import net.sf.memoranda.TaskImpl;
 import net.sf.memoranda.date.CalendarDate;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.util.Local;
@@ -357,7 +358,7 @@ public class JNCalendar extends JTable {
 			                toremove.add(t);
 			        }
 			        for (int i = 0; i < toremove.size(); i++) {
-			            CurrentProject.getTaskList().removeTask((Task)toremove.get(i));
+			            CurrentProject.getTaskList().removeTask((TaskImpl)toremove.get(i));
 			        }
 			        trDialog.taskTable.tableChanged();
 			        CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());

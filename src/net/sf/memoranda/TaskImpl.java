@@ -23,7 +23,7 @@ import nu.xom.Node;
  *
  */
 /*$Id: TaskImpl.java,v 1.15 2005/12/01 08:12:26 alexeya Exp $*/
-public class TaskImpl implements Task, Comparable {
+public class TaskImpl implements Task, Comparable, Timeable {
 
     private Element _element = null;
     private TaskList _tl = null;
@@ -428,6 +428,11 @@ public class TaskImpl implements Task, Comparable {
     			return 0;
     		}
     	}
+	}
+
+	@Override
+	public void addActualEffort(long effortToAdd) {
+		setAttr("effort_actual", String.valueOf(getActualEffort() + effortToAdd)); 
 	}
 
 	

@@ -25,6 +25,7 @@ import javax.swing.Timer;
 
 import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.Task;
+import net.sf.memoranda.TaskImpl;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.util.CurrentStorage;
 import net.sf.memoranda.util.Local;
@@ -172,10 +173,9 @@ public class EffortTimerPanel extends JPanel {
 	}
 	
 	private void saveEffort() {
-		TaskList curTasks = CurrentStorage.get().openTaskList(CurrentProject.get());
 		try {
-			Task target = (Task) taskBox.getSelectedItem();
-			target.setActualEffort(currentEffort + target.getActualEffort());
+			TaskImpl target = (TaskImpl) taskBox.getSelectedItem();
+			target.addActualEffort(currentEffort);
 			setUIDefaults(); // saving should trigger UI reset
 		}
 		catch (Exception e) {
@@ -190,7 +190,7 @@ public class EffortTimerPanel extends JPanel {
 		clearButton.setEnabled(false);
 		editButton.setVisible(false);
 		taskBox.setEnabled(true);
-		Task curTask = (Task) taskBox.getSelectedItem();
+		TaskImpl curTask = (TaskImpl) taskBox.getSelectedItem();
 		if (curTask != null)
 			curTask.unlock();
 		hasUnsavedProgress = false;
@@ -208,7 +208,7 @@ public class EffortTimerPanel extends JPanel {
 				startTime = System.nanoTime();
 			toggleButton.setText(PAUSE_TEXT);
 			hasUnsavedProgress = true;
-			Task curTask = (Task) taskBox.getSelectedItem();
+			TaskImpl curTask = (TaskImpl) taskBox.getSelectedItem();
 			curTask.lock();
 			panelTimer.start();
 		}

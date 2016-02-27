@@ -20,7 +20,7 @@ import nu.xom.Element;
  * 
  */
 /*$Id: EventImpl.java,v 1.9 2004/10/06 16:00:11 ivanrise Exp $*/
-public class EventImpl implements Event, Comparable {
+public class EventImpl implements Event, Comparable, Timeable {
     
     private Element _elem = null;
 
@@ -151,5 +151,53 @@ public class EventImpl implements Event, Comparable {
 		Event event = (Event) o;
 		return (getHour() * 60 + getMinute()) - (event.getHour() * 60 + event.getMinute());
 	}
+
+
+	@Override
+	public void lock() {
+		if (this.isLocked())
+    		_elem.removeAttribute(_elem.getAttribute("locked"));
+	}
+
+
+	@Override
+	public void unlock() {
+		setAttr("locked", "yes");
+	}
+
+
+	@Override
+	public boolean isLocked() {
+		return _elem.getAttribute("locked") != null;
+	}
+
+
+	@Override
+	public long getActualEffort() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void setActualEffort(long newActualEffort) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void addActualEffort(long effortToAdd) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void setAttr(String a, String value) {
+        Attribute attr = _elem.getAttribute(a);
+        if (attr == null)
+           _elem.addAttribute(new Attribute(a, value));
+        else
+            attr.setValue(value);
+    }
 
 }
