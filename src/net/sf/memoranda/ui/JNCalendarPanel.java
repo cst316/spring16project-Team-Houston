@@ -27,7 +27,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import net.sf.memoranda.CurrentProject;
-import net.sf.memoranda.NoteList;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectListener;
 import net.sf.memoranda.ResourcesList;
@@ -107,8 +106,6 @@ public class JNCalendarPanel extends JPanel {
   };
       
   void jbInit() throws Exception {
-    //dayBackAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, KeyEvent.ALT_MASK));
-    //dayForwardAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, KeyEvent.ALT_MASK));
     todayAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_HOME, KeyEvent.ALT_MASK));
     
     monthsCB.setRequestFocusEnabled(false);
@@ -198,12 +195,6 @@ public class JNCalendarPanel extends JPanel {
         setCurrentDateDay(jnCalendar.get(), jnCalendar.get().getDay());
       }
     });
-    /*CurrentDate.addChangeListener(new ActionListener()  {
-      public void actionPerformed(ActionEvent e) {
-        _date = CurrentDate.get();
-        refreshView();
-      }
-    });*/
     monthsCB.setFont(new java.awt.Font("Dialog", 0, 11));
 
     monthsCB.addActionListener(new java.awt.event.ActionListener() {
@@ -218,7 +209,7 @@ public class JNCalendarPanel extends JPanel {
       }
     });
     CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, NoteList nl, TaskList tl, ResourcesList rl) {}
+            public void projectChange(Project p, TaskList tl, ResourcesList rl) {}
             public void projectWasChanged() {
                 jnCalendar.updateUI();
             }
@@ -235,11 +226,6 @@ public class JNCalendarPanel extends JPanel {
     refreshView();
   }
   
-  /*
-   * Used for generating a smaller calendar for
-   * editing event/task start and end dates
-   * 
-   */
   public void setSpecial(CalendarDate date) {
 	    _date = date;
 	    jnCalendar.getTableHeader().setPreferredSize(new Dimension(200, 15));

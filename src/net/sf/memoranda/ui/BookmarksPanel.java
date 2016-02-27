@@ -17,8 +17,7 @@ import javax.swing.JScrollPane;
 public class BookmarksPanel extends JPanel {
   BorderLayout borderLayout1 = new BorderLayout();
   JScrollPane scrollPane = new JScrollPane();
-  public NotesList notesList = new NotesList(NotesList.BOOKMARKS);
-
+  
   public BookmarksPanel() {
     try {
       jbInit();
@@ -30,8 +29,7 @@ public class BookmarksPanel extends JPanel {
   void jbInit() throws Exception {
     this.setLayout(borderLayout1);
     this.add(scrollPane, BorderLayout.CENTER);
-    scrollPane.getViewport().add(notesList, null);
-
+    
     
   }
 

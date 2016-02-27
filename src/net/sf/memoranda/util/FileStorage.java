@@ -20,10 +20,13 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
 import net.sf.memoranda.EventsManager;
+<<<<<<< 7609051fde4a8ae98544350882703e35710c3e8f
 import net.sf.memoranda.MiscTrackingList;
 import net.sf.memoranda.Note;
 import net.sf.memoranda.NoteList;
 import net.sf.memoranda.NoteListImpl;
+=======
+>>>>>>> Here we go again
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.ResourcesList;
@@ -48,14 +51,12 @@ public class FileStorage implements Storage {
     private HTMLEditorKit editorKit = new HTMLEditorKit();
 
     public FileStorage() {
-        /*The 'MEMORANDA_HOME' key is an undocumented feature for 
-          hacking the default location (Util.getEnvDir()) of the memoranda 
-          storage dir. Note that memoranda.config file is always placed at fixed 
-          location (Util.getEnvDir()) anyway */
-        String mHome = (String) Configuration.get("MEMORANDA_HOME");
+       String mHome = (String) Configuration.get("MEMORANDA_HOME");
         if (mHome.length() > 0) {
             JN_DOCPATH = mHome;
+            7609051fde4a8ae98544350882703e35710c3e8f
         	System.out.println("[DEBUG]***Memoranda storage path has set to: " +
+
         	 JN_DOCPATH);
         }
     }
@@ -65,9 +66,6 @@ public class FileStorage implements Storage {
          * @todo: Configurable parameters
          */
         try {
-            /*The XOM bug: reserved characters are not escaped*/
-            //Serializer serializer = new Serializer(new FileOutputStream(filePath), "UTF-8");
-            //serializer.write(doc);
             OutputStreamWriter fw =
                 new OutputStreamWriter(new FileOutputStream(filePath), "UTF-8");
             fw.write(doc.toXML());
@@ -105,6 +103,7 @@ public class FileStorage implements Storage {
     }
 
     /**
+<<<<<<< 7609051fde4a8ae98544350882703e35710c3e8f
      * @see net.sf.memoranda.util.Storage#storeNote(net.sf.memoranda.Note)
      */
     public void storeNote(Note note, javax.swing.text.Document doc) {
@@ -177,6 +176,8 @@ public class FileStorage implements Storage {
     }
 
     /**
+=======
+>>>>>>> Here we go again
      * @see net.sf.memoranda.util.Storage#openProjectManager()
      */
     public void openProjectManager() {
@@ -252,6 +253,7 @@ public class FileStorage implements Storage {
         dir.mkdirs();
     }
     /**
+<<<<<<< 7609051fde4a8ae98544350882703e35710c3e8f
      * @see net.sf.memoranda.util.Storage#openNoteList(net.sf.memoranda.Project)
      */
     public NoteList openNoteList(Project prj) {
@@ -285,6 +287,8 @@ public class FileStorage implements Storage {
             JN_DOCPATH + prj.getID() + File.separator + ".notes");
     }
     /**
+=======
+>>>>>>> Here we go again
      * @see net.sf.memoranda.util.Storage#openEventsList()
      */
     public void openEventsManager() {
