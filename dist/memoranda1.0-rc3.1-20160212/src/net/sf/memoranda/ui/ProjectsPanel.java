@@ -146,10 +146,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 			}
 		});
 
-		/*
-		 * buttonsPanel.add(newProjectB, null); buttonsPanel.add(editProjectB,
-		 * null);
-		 */
+		
 		ppNewProject.setFont(new java.awt.Font("Dialog", 1, 11));
 		ppNewProject.setAction(newProjectAction);
 
@@ -423,8 +420,6 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 			dlg.endDate.getModel().setValue(
 				prj.getEndDate().getCalendar().getTime());
 		}
-		/*if (prj.getStatus() == Project.FROZEN)
-			dlg.freezeChB.setSelected(true);*/
 		dlg.setVisible(true);
 		if (dlg.CANCELLED)
 			return;
@@ -438,9 +433,7 @@ public class ProjectsPanel extends JPanel implements ExpandablePanel {
 		else
 			prj.setEndDate(null);
 		prjTablePanel.updateUI();
-		/*
-		 * if (dlg.freezeChB.isSelected()) prj.freeze(); else
-		 */
+		
 	}
 
 	void ppShowActiveOnlyChB_actionPerformed(ActionEvent e) {
