@@ -1,7 +1,7 @@
 package net.sf.memoranda.ui;
 
 import java.io.File;
-import java.util.Vector;
+import java.util.*;
 
 
 import net.sf.memoranda.date.CurrentDate;
@@ -98,6 +98,9 @@ public class PreferencesDialog extends JDialog {
 	JLabel headerFontLabel = new JLabel();
 	JLabel monoFontLabel = new JLabel();
 	JLabel baseFontSizeLabel = new JLabel();
+	String[] languages = {"English" , "Espanol"};
+	JComboBox languageCB = new JComboBox(languages);
+	JLabel languageLabel = new JLabel("Language Selection");
 	
 	JButton calcButton = new JButton("Progress Calculation Preferences");
 	
@@ -120,7 +123,7 @@ public class PreferencesDialog extends JDialog {
 				.getString("Sound"));
 		this.setResizable(true);
 		
-		// Build Tab1
+		
 		enableSoundCB.setText(Local.getString("Enable sound notifications"));
 		enableSoundCB.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -553,7 +556,39 @@ public class PreferencesDialog extends JDialog {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		GeneralPanel.add(maxSnoozeAmt, gbc);
 
-		// Build Tab2
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 23;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		GeneralPanel.add(languageLabel, gbc);
+		
+		
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 24;
+		gbc.insets = new Insets(2, 0, 0, 10);
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		GeneralPanel.add(languageCB, gbc);
+		languageCB.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (languageCB.getSelectedItem().equals("English")){
+					Local.setLocale(new Locale("en"));
+					Configuration.put("LOCALES_DIR", "en");
+					JOptionPane.showMessageDialog(null, "Change will not take place until "
+							+ "Memoranda is restarted.");
+				}
+				else if(languageCB.getSelectedItem().equals("Espanol")){
+					Local.setLocale(new Locale("es"));
+					Configuration.put("LOCALES_DIR", "es");
+					JOptionPane.showMessageDialog(null, "Los cambios no se van a aplicar hasta "
+							+ "que se reinicie Memoranda.");
+				}
+			}
+		});
+		
 		rstPanelBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 		
 		
@@ -570,6 +605,8 @@ public class PreferencesDialog extends JDialog {
 			}
 		});
 		
+		
+		
 		JButton resetter = new JButton();
 		resetter.setText("Reset Resource Location");
 		resetter.addActionListener(new java.awt.event.ActionListener() {
@@ -582,7 +619,6 @@ public class PreferencesDialog extends JDialog {
 		buttonPane.add(resourceSelector);
 		buttonPane.add(resetter);
 		resourcePanel.add(buttonPane, BorderLayout.WEST);
-		// Build editorConfigPanel
 		normalFontLabel.setText(Local.getString("Normal text font"));
 		normalFontLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		headerFontLabel.setText(Local.getString("Header font"));
