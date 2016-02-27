@@ -25,8 +25,6 @@ import net.sf.memoranda.MiscTrackingList;
 import net.sf.memoranda.Note;
 import net.sf.memoranda.NoteList;
 import net.sf.memoranda.NoteListImpl;
-=======
->>>>>>> Here we go again
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.ResourcesList;
