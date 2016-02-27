@@ -577,12 +577,14 @@ public class PreferencesDialog extends JDialog {
 				if (languageCB.getSelectedItem().equals("English")){
 					Local.setLocale(new Locale("en"));
 					Configuration.put("LOCALES_DIR", "en");
-					System.out.print(Local.getCurrentLocale().toString());
+					JOptionPane.showMessageDialog(null, "Change will not take place until "
+							+ "Memoranda is restarted.");
 				}
 				else if(languageCB.getSelectedItem().equals("Espanol")){
 					Local.setLocale(new Locale("es"));
 					Configuration.put("LOCALES_DIR", "es");
-					System.out.print(Local.getCurrentLocale().toString());
+					JOptionPane.showMessageDialog(null, "El cambio no tendrá lugar "
+							+ "hasta que aparezca ");
 				}
 			}
 		});
@@ -610,7 +612,6 @@ public class PreferencesDialog extends JDialog {
 		resetter.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Configuration.put("RESOURCE_PATH", "");
-				System.out.print(Local.getCurrentLocale().toString());
 			}
 		});
 		
