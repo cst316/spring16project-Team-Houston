@@ -3,12 +3,17 @@ package net.sf.memoranda.ui;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import net.sf.memoranda.util.Util;
 
@@ -21,7 +26,7 @@ public class EffortTimerFrame extends JFrame {
 	
 	private EffortTimerFrame() {
 		super("Memoranda - Effort Timer");
-		init();
+		this.init();
 		pack();
 	}
 	
@@ -36,6 +41,7 @@ public class EffortTimerFrame extends JFrame {
 		addMouseMotionListener(new DragListener());
 		setAlwaysOnTop(true);
 		setLocationRelativeTo(App.getFrame());
+		setJMenuBar(new EffortTimerMenu());
 	}
 	
 	public static EffortTimerFrame getInstance() {
@@ -77,6 +83,35 @@ public class EffortTimerFrame extends JFrame {
 			curPos.y += (curClick.y - lastClick.y);
 			lastClick = curClick;
 			EffortTimerFrame.getInstance().setBounds(curPos);
+		}
+	}
+	
+	private static class EffortTimerMenu extends JMenuBar {
+		public EffortTimerMenu() {
+			super();
+			this.init();
+		}
+		
+		private void init() {
+			JMenu mainMenu = new JMenu("Menu");
+			JMenuItem manualEntry = new JMenuItem("Add new manual entry...");
+			manualEntry.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent ae) {
+					ManualTimeEntryDialog manualEntry = new ManualTimeEntryDialog();
+					manualEntry.setVisible(true);
+				}
+			});
+			JMenuItem hideFrame = new JMenuItem("Hide");
+			hideFrame.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent ae) {
+					EffortTimerFrame.getInstance().setVisible(false);
+				}
+			});
+			mainMenu.add(manualEntry);
+			mainMenu.add(hideFrame);
+			this.add(mainMenu);
 		}
 	}
 }

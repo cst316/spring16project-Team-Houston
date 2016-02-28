@@ -10,7 +10,10 @@
 package net.sf.memoranda;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.AbstractMap;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import net.sf.memoranda.ui.AppFrame;
@@ -27,6 +30,7 @@ public class CurrentProject {
     private static Project _project = null;
     private static TaskList _tasklist = null;
     private static ResourcesList _resources = null;
+    private static MiscTrackingList _miscTrackingList = null;
     private static Vector projectListeners = new Vector();
 
         
@@ -48,6 +52,7 @@ public class CurrentProject {
 		
         _tasklist = CurrentStorage.get().openTaskList(_project);
         _resources = CurrentStorage.get().openResourcesList(_project);
+        _miscTrackingList = CurrentStorage.get().openMiscTrackingList(_project);
         AppFrame.addExitListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 save();                                               
@@ -69,15 +74,25 @@ public class CurrentProject {
     public static ResourcesList getResourcesList() {
             return _resources;
     }
+    
+    public static MiscTrackingList getMiscTrackingList() {
+    	return _miscTrackingList;
+    }
 
     public static void set(Project project) {
         if (project.getID().equals(_project.getID())) return;
         TaskList newtasklist = CurrentStorage.get().openTaskList(project);
         ResourcesList newresources = CurrentStorage.get().openResourcesList(project);
-        notifyListenersBefore(project, newtasklist, newresources);
+        MiscTrackingList newMiscTrackingList = CurrentStorage.get().openMiscTrackingList(project);
+        Map<String,Object> newLists = new HashMap<String, Object>();
+        newLists.put("tasklist", newtasklist);
+        newLists.put("resources", newresources);
+        newLists.put("miscTrackingList", newMiscTrackingList);
+        notifyListenersBefore(project, newLists);
         _project = project;
         _tasklist = newtasklist;
         _resources = newresources;
+        _miscTrackingList = newMiscTrackingList;
         notifyListenersAfter();
         Context.put("LAST_OPENED_PROJECT_ID", project.getID());
     }
@@ -90,10 +105,9 @@ public class CurrentProject {
         return projectListeners;
     }
 
-    private static void notifyListenersBefore(Project project, TaskList tl, ResourcesList rl) {
+    private static void notifyListenersBefore(Project project, Map<String, Object> newLists) {
         for (int i = 0; i < projectListeners.size(); i++) {
-            ((ProjectListener)projectListeners.get(i)).projectChange(project, tl, rl);
-           
+            ((ProjectListener)projectListeners.get(i)).projectChange(project, newLists);
         }
     }
     
@@ -108,6 +122,7 @@ public class CurrentProject {
 
         storage.storeTaskList(_tasklist, _project); 
         storage.storeResourcesList(_resources, _project);
+        storage.storeMiscTrackingList(_miscTrackingList, _project);
         storage.storeProjectManager();
     }
     

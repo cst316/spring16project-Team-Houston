@@ -52,9 +52,9 @@ public class TaskListImpl implements TaskList {
     }
     
     public TaskListImpl(Project prj) {            
-            _root = new Element("tasklist");
-            _doc = new Document(_root);
-            _project = prj;
+        _root = new Element("tasklist");
+        _doc = new Document(_root);
+        _project = prj;
     }
     
 	public Project getProject() {

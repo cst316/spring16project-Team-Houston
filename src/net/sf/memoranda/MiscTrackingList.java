@@ -13,7 +13,7 @@ import nu.xom.Elements;
 /**
 * Classname: MiscTrackingList
 * 
-* Description: Singleton that maintains a current list of MiscTracking objects loaded in system.
+* Description: Object that maintains a "list" of MiscTracking objects loaded in system.
 * 
 * Version information: 1.0
 * 
@@ -23,29 +23,25 @@ public class MiscTrackingList {
 
 	private static final String ROOT_TYPE = "misctrackinglist";
 	private static final String CHILD_TYPE = "misctracking";
-	private static MiscTrackingList _instance = null;
 	private Project _project = null;
     private Document _doc = null;
     private Element _root = null;
 	
     private Hashtable<String,Element> elements = new Hashtable<String,Element>();
     
-	private MiscTrackingList() {
+	public MiscTrackingList(Document doc, Project prj) {
+		setDocument(doc);
+		setProject(prj);
+	}
+	
+	public MiscTrackingList(Project prj) {
+		this();
+		setProject(prj);
+	}
+    
+    public MiscTrackingList() {
 		_root = new Element(ROOT_TYPE);
         _doc = new Document(_root);
-	}
-
-	/**
-	 * Returns the current instance of the class, generating a new instance
-	 * if one does not already exist.
-	 * 
-	 * @return current instance of MiscTrackingList 
-	 */
-	public static synchronized MiscTrackingList getInstance() {
-		if (_instance == null) {
-			_instance = new MiscTrackingList();
-		}
-		return _instance;
 	}
 	
 	/**
@@ -85,6 +81,10 @@ public class MiscTrackingList {
 	 */
 	public void setProject(Project prj) {
 		_project = prj;
+	}
+	
+	public void addMiscTrackingObj(MiscTracking newObj) {
+		_root.appendChild(newObj.getElement());
 	}
 	
 	/**

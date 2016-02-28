@@ -28,7 +28,6 @@ import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.History;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectListener;
-import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.Task;
 import net.sf.memoranda.TaskImpl;
 import net.sf.memoranda.TaskList;
@@ -290,7 +289,7 @@ public class TaskPanel extends JPanel {
             }
         });
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, TaskList tl, ResourcesList rl) {
+            public void projectChange(Project p, Object newLists) {
                 newTaskB.setEnabled(
                     CurrentDate.get().inPeriod(p.getStartDate(), p.getEndDate()));
             }

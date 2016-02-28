@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -30,7 +31,6 @@ import net.sf.memoranda.HistoryItem;
 import net.sf.memoranda.HistoryListener;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectListener;
-import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.Task;
 import net.sf.memoranda.TaskList;
 import net.sf.memoranda.date.CalendarDate;
@@ -46,7 +46,7 @@ import net.sf.memoranda.util.Util;
 
 /*$Id: DailyItemsPanel.java,v 1.22 2005/02/13 03:06:10 rawsushi Exp $*/
 public class DailyItemsPanel extends JPanel {
-    BorderLayout borderLayout1 = new BorderLayout();
+	BorderLayout borderLayout1 = new BorderLayout();
     JSplitPane splitPane = new JSplitPane();
     JPanel controlPanel = new JPanel(); /* Contains the calendar */
     JPanel mainPanel = new JPanel();
@@ -94,7 +94,7 @@ public class DailyItemsPanel extends JPanel {
 	JTabbedPane agendaTabbedPane = new JTabbedPane();
     Border border2;
 
-	String CurrentPanel;
+	String currentPanel;
 	
     Cursor waitCursor = new Cursor(Cursor.WAIT_CURSOR);
 
@@ -213,9 +213,8 @@ public class DailyItemsPanel extends JPanel {
         });
 
         CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, TaskList tl, ResourcesList rl) {
-
-            	currentProjectChanged(p, tl, rl);
+            public void projectChange(Project p, Object newLists) {
+            	currentProjectChanged(p, newLists);
             }
             public void projectWasChanged() {
             }
@@ -287,14 +286,15 @@ public class DailyItemsPanel extends JPanel {
         App.getFrame().setCursor(cur);
     }
 
-	void currentProjectChanged(Project newprj, TaskList tl, ResourcesList rl) {
-
+    void currentProjectChanged(Project newprj, Object newLists) {
         Cursor cur = App.getFrame().getCursor();
         App.getFrame().setCursor(waitCursor);
         if (!changedByHistory)
             History.add(new HistoryItem(CurrentDate.get(), newprj));
-        
-        
+        CurrentProject.save();
+        @SuppressWarnings("unchecked")
+		Map<String, Object> listMap = (Map<String, Object>) newLists;
+        TaskList tl = (TaskList) listMap.get("tasklist");
         updateIndicators(CurrentDate.get(), tl);
         App.getFrame().setCursor(cur);
     }
@@ -330,11 +330,6 @@ public class DailyItemsPanel extends JPanel {
             if (tl.getActiveSubTasks(null,date).size() > 0)
                 indicatorsPanel.add(taskB, null);
             if (EventsScheduler.isEventScheduled()) {
-                /*String evlist = "";
-                for (Iterator it = EventsScheduler.getScheduledEvents().iterator(); it.hasNext();) {
-                    net.sf.memoranda.Event ev = (net.sf.memoranda.Event)it.next();   
-                    evlist += ev.getTimeString()+" - "+ev.getText()+"\n";
-                } */
                 net.sf.memoranda.Event ev = EventsScheduler.getFirstScheduledEvent();
                 alarmB.setToolTipText(ev.getTimeString() + " - " + ev.getText());
                 indicatorsPanel.add(alarmB, null);
@@ -350,18 +345,16 @@ public class DailyItemsPanel extends JPanel {
     public void selectPanel(String pan) {
         if (calendar.jnCalendar.renderer.getTask() != null) {
             calendar.jnCalendar.renderer.setTask(null);
-         //   calendar.jnCalendar.updateUI();
         }
-        if (pan.equals("TASKS") && (tasksPanel.taskTable.getSelectedRow() > -1)) {
+        if (pan.equals("TASKS") && (TaskPanel.taskTable.getSelectedRow() > -1)) {
             Task t =
                 CurrentProject.getTaskList().getTask(
-                    tasksPanel
+                    TaskPanel
                         .taskTable
                         .getModel()
-                        .getValueAt(tasksPanel.taskTable.getSelectedRow(), TaskTable.TASK_ID)
+                        .getValueAt(TaskPanel.taskTable.getSelectedRow(), TaskTable.TASK_ID)
                         .toString());
             calendar.jnCalendar.renderer.setTask(t);
-       //     calendar.jnCalendar.updateUI();
         }
         boolean isAg = pan.equals("AGENDA");
         agendaPanel.setActive(isAg);
@@ -370,11 +363,11 @@ public class DailyItemsPanel extends JPanel {
         cardLayout1.show(editorsPanel, pan);
         cardLayout2.show(mainTabsPanel, pan + "TAB");
 		calendar.jnCalendar.updateUI();
-		CurrentPanel=pan;
+		currentPanel=pan;
     }
 
 	public String getCurrentPanel() {
-		return CurrentPanel;
+		return currentPanel;
 	}
     void taskB_actionPerformed(ActionEvent e) {
         parentPanel.tasksB_actionPerformed(null);

@@ -209,7 +209,7 @@ public class JNCalendarPanel extends JPanel {
       }
     });
     CurrentProject.addProjectListener(new ProjectListener() {
-            public void projectChange(Project p, TaskList tl, ResourcesList rl) {}
+            public void projectChange(Project p, Object newLists) {}
             public void projectWasChanged() {
                 jnCalendar.updateUI();
             }

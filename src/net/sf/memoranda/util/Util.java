@@ -241,7 +241,7 @@ public class Util {
     	TimeUnit[] unitList = {TimeUnit.DAYS, TimeUnit.HOURS, TimeUnit.MINUTES, TimeUnit.SECONDS};
     	long[] timeValues = new long[4];
 		StringBuilder returnValue = new StringBuilder();
-		timeFormat = timeFormat.toLowerCase();
+		timeFormat = timeFormat.toLowerCase(Local.getCurrentLocale());
 		for (int i = 0; i < acceptableFormats.length(); i++) {
 			if (i > 0) {
 				timeDifference -= TimeUnit.NANOSECONDS.convert(timeValues[i-1], unitList[i-1]);

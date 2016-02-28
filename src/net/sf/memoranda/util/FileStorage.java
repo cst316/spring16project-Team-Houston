@@ -21,9 +21,6 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import net.sf.memoranda.EventsManager;
 import net.sf.memoranda.MiscTrackingList;
-import net.sf.memoranda.Note;
-import net.sf.memoranda.NoteList;
-import net.sf.memoranda.NoteListImpl;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectManager;
 import net.sf.memoranda.ResourcesList;
@@ -96,78 +93,6 @@ public class FileStorage implements Storage {
 
     public static boolean documentExists(String filePath) {
         return new File(filePath).exists();
-    }
-
-    /**
-     * @see net.sf.memoranda.util.Storage#storeNote(net.sf.memoranda.Note)
-     */
-    public void storeNote(Note note, javax.swing.text.Document doc) {
-        String filename =
-            JN_DOCPATH + note.getProject().getID() + File.separator;
-        doc.putProperty(
-            javax.swing.text.Document.TitleProperty,
-            note.getTitle());        
-        CalendarDate d = note.getDate();
-
-        filename += note.getId();//d.getDay() + "-" + d.getMonth() + "-" + d.getYear();
-        System.out.println("[DEBUG] Save note: "+ filename);
-
-        try {
-            OutputStreamWriter fw =
-                new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
-            AltHTMLWriter writer = new AltHTMLWriter(fw, (HTMLDocument) doc);
-            writer.write();
-            fw.flush();
-            fw.close();
-            
-        }
-        catch (Exception ex) {
-            new ExceptionDialog(
-                ex,
-                "Failed to write a document to " + filename,
-                "");
-        }
-    }
-    /**
-     * @see net.sf.memoranda.util.Storage#openNote(net.sf.memoranda.Note)
-     */
-    public javax.swing.text.Document openNote(Note note) {
-        HTMLDocument doc = (HTMLDocument) editorKit.createDefaultDocument();
-        if (note == null)
-            return doc;
-       
-        String filename = getNotePath(note);
-        try {
-
-        	doc.setBase(new URL(getNoteURL(note)));
-        	editorKit.read(
-                new InputStreamReader(new FileInputStream(filename), "UTF-8"),
-                doc,
-                0);
-        }
-        catch (Exception ex) {
-            
-            // Do nothing - we've got a new empty document!
-        }
-        
-        return doc;
-    }
-
-    public String getNoteURL(Note note) {        
-        return "file:" + JN_DOCPATH + note.getProject().getID() + "/" + note.getId();
-    }
-
-   public String getNotePath(Note note) {
-        String filename = JN_DOCPATH + note.getProject().getID() + File.separator;
-        filename += note.getId();//d.getDay() + "-" + d.getMonth() + "-" + d.getYear();
-        return filename;
-   }
-
-
-    public void removeNote(Note note) {
-        File f = new File(getNotePath(note));
-        System.out.println("[DEBUG] Remove note:" + getNotePath(note));
-        f.delete();
     }
 
     /**
@@ -244,39 +169,6 @@ public class FileStorage implements Storage {
             "[DEBUG] Create project dir: " + JN_DOCPATH + prj.getID());
         File dir = new File(JN_DOCPATH + prj.getID());
         dir.mkdirs();
-    }
-    /**
-     * @see net.sf.memoranda.util.Storage#openNoteList(net.sf.memoranda.Project)
-     */
-    public NoteList openNoteList(Project prj) {
-        String fn = JN_DOCPATH + prj.getID() + File.separator + ".notes";
-        if (documentExists(fn)) {
-            System.out.println(
-                "[DEBUG] Open note list: "
-                    + JN_DOCPATH
-                    + prj.getID()
-                    + File.separator
-                    + ".notes");
-            return new NoteListImpl(openDocument(fn), prj);
-        }
-        else {
-            System.out.println("[DEBUG] New note list created");
-            return new NoteListImpl(prj);
-        }
-    }
-    /**
-     * @see net.sf.memoranda.util.Storage#storeNoteList(net.sf.memoranda.NoteList, net.sf.memoranda.Project)
-     */
-    public void storeNoteList(NoteList nl, Project prj) {
-        System.out.println(
-            "[DEBUG] Save note list: "
-                + JN_DOCPATH
-                + prj.getID()
-                + File.separator
-                + ".notes");
-        saveDocument(
-            nl.getXMLContent(),
-            JN_DOCPATH + prj.getID() + File.separator + ".notes");
     }
     /**
      * @see net.sf.memoranda.util.Storage#openEventsList()
@@ -387,9 +279,9 @@ public class FileStorage implements Storage {
         }
     }
 
-    public void openMiscTrackingList(Project prj) {
+    public MiscTrackingList openMiscTrackingList(Project prj) {
         String fn = JN_DOCPATH + prj.getID() + File.separator + ".misctrackinglist";
-        MiscTrackingList mtl = MiscTrackingList.getInstance();
+        MiscTrackingList mtl = null;
 
         if (documentExists(fn)) {
             Util.debug("Open misc tracking list: "
@@ -398,27 +290,23 @@ public class FileStorage implements Storage {
                     + File.separator
                     + ".misctrackinglist");
             
-            Document mtlDoc = openDocument(fn);
-            
-            mtl.setDocument(mtlDoc);
-            mtl.setProject(prj);
+            mtl = new MiscTrackingList(openDocument(fn), prj);
         }
         else {
             Util.debug("New misc tracking list created");
-            mtl.setProject(prj);
+            mtl = new MiscTrackingList(prj);
         }
+        return mtl;
     }
 
-    public void storeMiscTrackingList(Project prj) {
-    	MiscTrackingList mtl = MiscTrackingList.getInstance();
-    	
+    public void storeMiscTrackingList(MiscTrackingList mtl, Project prj) {
         Util.debug("Save misc tracking list: "
                 + JN_DOCPATH
                 + prj.getID()
                 + File.separator
-                + ".tasklist");
+                + ".misctrackinglist");
         Document mtlDoc = mtl.getXMLContent();
         
-        saveDocument(mtlDoc,JN_DOCPATH + prj.getID() + File.separator + ".tasklist");
+        saveDocument(mtlDoc,JN_DOCPATH + prj.getID() + File.separator + ".misctrackinglist");
     }
 }

@@ -3,10 +3,8 @@ package net.sf.memoranda.ui;
 import java.awt.AWTEvent;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
-import java.awt.CheckboxMenuItem;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Menu;
 import java.awt.MenuItem;
 import java.awt.Point;
 import java.awt.PopupMenu;
@@ -15,8 +13,6 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -36,7 +32,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
@@ -48,8 +43,6 @@ import net.sf.memoranda.CurrentProject;
 import net.sf.memoranda.History;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ProjectListener;
-import net.sf.memoranda.ResourcesList;
-import net.sf.memoranda.TaskList;
 import net.sf.memoranda.date.CurrentDate;
 import net.sf.memoranda.ui.htmleditor.HTMLEditor;
 import net.sf.memoranda.util.Configuration;
@@ -574,8 +567,7 @@ public class AppFrame extends JFrame {
 
         CurrentProject.addProjectListener(new ProjectListener() {
 
-            public void projectChange(Project prj, TaskList tl,
-                    ResourcesList rl) {
+            public void projectChange(Project prj, Object newLists) {
             }
 
             public void projectWasChanged() {
