@@ -8,6 +8,7 @@
  */
 package net.sf.memoranda.util;
 
+import net.sf.memoranda.MiscTrackingList;
 import net.sf.memoranda.Project;
 import net.sf.memoranda.ResourcesList;
 import net.sf.memoranda.TaskList;
@@ -34,6 +35,9 @@ public interface Storage {
    
     ResourcesList openResourcesList(Project prj);
     void storeResourcesList(ResourcesList rl, Project prj);
+    
+    MiscTrackingList openMiscTrackingList(Project prj);
+    void storeMiscTrackingList(MiscTrackingList mtl, Project prj);
     
     void restoreContext();
     void storeContext(); 
