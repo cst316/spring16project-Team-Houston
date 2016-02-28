@@ -21,4 +21,6 @@ public interface Wizard {
 	public void finishB_actionPerformed(ActionEvent e);
 	public void cancelB_actionPerformed(ActionEvent e);
 	public void setVisible(boolean val);
+	public void setLocation(int i, int j);
+	public Object getSize();
 }

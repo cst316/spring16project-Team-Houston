@@ -38,6 +38,9 @@ import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.ProjectManager;
+
 @SuppressWarnings("serial")
 public class DefectWizard extends JDialog implements Wizard {
 	
@@ -277,8 +280,18 @@ public class DefectWizard extends JDialog implements Wizard {
 			return;
 		}
 		
-		//values set create/update Defect Object here :)
+		String id = CurrentProject.get().getID();
 		
+		Defect defectData = new Defect (_phase, _defectType, _defectName, _notes);
+		Phase phase = ProjectManager.loadPSPData(id);
+		
+		if(phase == null){
+			phase = new Phase();
+		}
+		
+		phase.addDefect(defectData);
+		ProjectManager.savePSPData(CurrentProject.get().getID(), phase);
+			
 		//close wizard once correct values are set
 		this.dispose();
 	}
