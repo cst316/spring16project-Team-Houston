@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Vector;
 
 import net.sf.memoranda.util.Util;
 import nu.xom.Document;
@@ -119,7 +120,7 @@ public class MiscTrackingList {
 	}
     
     private Collection<MiscTracking> convertToMiscTrackingObjects(Elements mto) {
-    	List<MiscTracking> mtl = new ArrayList<MiscTracking>();
+    	Vector<MiscTracking> mtl = new Vector<MiscTracking>();
 
         for (int i = 0; i < mto.size(); i++) {
             MiscTracking mt = new MiscTracking(mto.get(i));

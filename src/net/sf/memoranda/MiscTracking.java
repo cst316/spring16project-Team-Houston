@@ -80,6 +80,7 @@ public class MiscTracking implements Timeable {
 	 * Returns the description of this object.
 	 * @return the description or null if no description found
 	 */
+	@Override
 	public String getDescription() {
 		return getChild("description");
 	}
@@ -217,5 +218,10 @@ public class MiscTracking implements Timeable {
     		targetEl.appendChild(value);
     	}
     }
+
+	@Override
+	public String getDisplayName() {
+		return getName();
+	}
 
 }

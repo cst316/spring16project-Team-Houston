@@ -107,6 +107,7 @@ public class TaskImpl implements Task, Comparable, Timeable {
 		return null;
 	}
 
+	@Override
     public String getDescription() {
     	Element thisElement = _element.getFirstChildElement("description");
     	if (thisElement == null) {
@@ -433,6 +434,11 @@ public class TaskImpl implements Task, Comparable, Timeable {
 	@Override
 	public void addActualEffort(long effortToAdd) {
 		setAttr("effort_actual", String.valueOf(getActualEffort() + effortToAdd)); 
+	}
+
+	@Override
+	public String getDisplayName() {
+		return getText();
 	}
 
 	

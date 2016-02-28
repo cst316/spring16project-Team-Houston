@@ -200,4 +200,16 @@ public class EventImpl implements Event, Comparable, Timeable {
             attr.setValue(value);
     }
 
+
+	@Override
+	public String getDisplayName() {
+		return getText();
+	}
+
+
+	@Override
+	public String getDescription() {
+		return getContent().getValue();
+	}
+
 }
