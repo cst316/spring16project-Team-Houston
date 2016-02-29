@@ -50,7 +50,7 @@ public class TaskImpl implements Task, Comparable, Timeable {
 
     public CalendarDate getEndDate() {
 		String ed = _element.getAttribute("endDate").getValue();
-		if (ed != "")
+		if (!ed.isEmpty())
 			return new CalendarDate(_element.getAttribute("endDate").getValue());
 		Task parent = this.getParentTask();
 		if (parent != null)
@@ -65,7 +65,8 @@ public class TaskImpl implements Task, Comparable, Timeable {
     public void setEndDate(CalendarDate date) {
 		if (date == null)
 			setAttr("endDate", "");
-		setAttr("endDate", date.toString());
+		else
+			setAttr("endDate", date.toString());
     }
 
     public long getEstimatedEffort() {
@@ -283,7 +284,10 @@ public class TaskImpl implements Task, Comparable, Timeable {
      * @see net.sf.memoranda.Task#getProgress()
      */
     public int getProgress() {
-        return new Integer(_element.getAttribute("progress").getValue()).intValue();
+    	Attribute attr = _element.getAttribute("progress");
+    	if (attr == null)
+    		_element.addAttribute(new Attribute("progress","0"));
+    	return new Integer(_element.getAttribute("progress").getValue()).intValue();
     }
     /**
      * @see net.sf.memoranda.Task#setProgress(int)

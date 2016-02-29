@@ -155,41 +155,37 @@ public class EventImpl implements Event, Comparable, Timeable {
 
 	@Override
 	public void lock() {
+		setAttr("locked", "yes");
+	}
+
+
+	@Override
+	public void unlock() {
 		if (this.isLocked())
     		_elem.removeAttribute(_elem.getAttribute("locked"));
 	}
 
 
 	@Override
-	public void unlock() {
-		setAttr("locked", "yes");
-	}
-
-
-	@Override
 	public boolean isLocked() {
+		System.out.println(_elem.getAttribute("locked"));
 		return _elem.getAttribute("locked") != null;
 	}
 
 
 	@Override
 	public long getActualEffort() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
 	@Override
 	public void setActualEffort(long newActualEffort) {
-		// TODO Auto-generated method stub
-		
 	}
 
 
 	@Override
 	public void addActualEffort(long effortToAdd) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	private void setAttr(String a, String value) {

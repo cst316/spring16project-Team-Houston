@@ -10,7 +10,6 @@
 package net.sf.memoranda;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +30,7 @@ public class CurrentProject {
     private static TaskList _tasklist = null;
     private static ResourcesList _resources = null;
     private static MiscTrackingList _miscTrackingList = null;
-    private static Vector projectListeners = new Vector();
-
+    private static Vector<ProjectListener> projectListeners = new Vector<ProjectListener>();
         
     static {
         String prjId = (String)Context.get("LAST_OPENED_PROJECT_ID");
@@ -59,7 +57,6 @@ public class CurrentProject {
             }
         });
     }
-        
 
     public static Project get() {
         return _project;
@@ -68,8 +65,6 @@ public class CurrentProject {
     public static TaskList getTaskList() {
             return _tasklist;
     }
-
-    
     
     public static ResourcesList getResourcesList() {
             return _resources;
@@ -101,7 +96,7 @@ public class CurrentProject {
         projectListeners.add(pl);
     }
 
-    public static Collection getChangeListeners() {
+    public static Collection<ProjectListener> getChangeListeners() {
         return projectListeners;
     }
 

@@ -95,11 +95,15 @@ public class MiscTracking implements Timeable {
 	}
 	
     /**
-     * Returns the ID of this object
+     * Returns the ID of this object, if it exists
      * @return the ID of this object
      */
     public String getID() {
-        return _element.getAttribute("id").getValue();
+    	Attribute attr = _element.getAttribute("id");
+    	if (attr != null) {
+    		return attr.getValue();
+    	}
+    	return null;
     }
     
     /**
@@ -206,7 +210,10 @@ public class MiscTracking implements Timeable {
             attr.setValue(value);
     }
     
-    private void setChild(String child, String value) {
+    private void setChild(String child, String value) throws IllegalArgumentException {
+    	if (child.isEmpty()) {
+    		throw new IllegalArgumentException("Cannot use a blank key");
+    	}
     	Element targetEl = _element.getFirstChildElement(child);
     	if (targetEl == null) {
     		targetEl = new Element(child);
