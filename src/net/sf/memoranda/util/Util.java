@@ -87,7 +87,11 @@ public class Util {
         return Util.getDateStamp(date.getCalendar());
     }
 
-    public static int[] parseDateStamp(String s) {
+    public static int[] parseDateStamp(String s) 
+    		throws IllegalArgumentException {
+    	if (!s.contains("/")) { 
+    		throw new IllegalArgumentException("Cannot parse blank date");
+    	}
         s = s.trim();
         int i1 = s.indexOf("/");
         int i2 = s.indexOf("/", i1 + 1);

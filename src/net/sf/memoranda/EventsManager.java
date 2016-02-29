@@ -58,12 +58,6 @@ public class EventsManager {
 
 	}
 
-	
-
-	
-
-	
-
 	public static boolean isNREventsForDate(CalendarDate date) {
 		Day d = getDay(date);
 		if (d == null)

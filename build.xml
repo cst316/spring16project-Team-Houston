@@ -200,14 +200,14 @@
 		<mkdir dir="${tests.junit.dir}"/>
 		<mkdir dir="${tests.jacoco.dir}"/>
 		<jacoco:coverage destfile="lib/jacoco.exec">
-			<junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="no" fork="on">
+			<junit printsummary="withOutAndErr" haltonfailure="yes" haltonerror="yes" fork="on">
 		    	<classpath>
 		    		<path refid="classpath" />
 		    	</classpath>
 		    	<formatter type="xml"/>
 		    	<batchtest todir="${tests.junit.dir}">
 		    		<fileset dir="${source.dir}">
-		        		<include name="**/*Test*.java"/>
+		        		<include name="**/TestAllPackages.java"/>
 		        	</fileset>
 		    	</batchtest>
 		    </junit>

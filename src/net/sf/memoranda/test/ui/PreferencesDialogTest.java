@@ -1,4 +1,4 @@
-package net.sf.memoranda.test;
+package net.sf.memoranda.test.ui;
 
 import java.util.Vector;
 
