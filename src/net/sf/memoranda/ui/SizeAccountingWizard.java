@@ -36,6 +36,9 @@ import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import net.sf.memoranda.CurrentProject;
+import net.sf.memoranda.ProjectManager;
+
 @SuppressWarnings("serial")
 public class SizeAccountingWizard extends JDialog implements Wizard {
 
@@ -298,7 +301,17 @@ public class SizeAccountingWizard extends JDialog implements Wizard {
 			return;
 		}
 
-		// values set create/update SizeAccounting Object here :)
+		String id = CurrentProject.get().getID();
+		
+		ProjectSize projectSizeData = new ProjectSize (_addedLOC, _modifiedLOC, _deletedLOC, _notes);
+		Phase phase = ProjectManager.loadPSPData(id);
+		
+		if(phase == null){
+			phase = new Phase();
+		}
+		
+		phase.setProjSize(projectSizeData);
+		ProjectManager.savePSPData(CurrentProject.get().getID(), phase);
 
 		// close wizard once correct values are set
 		this.dispose();
