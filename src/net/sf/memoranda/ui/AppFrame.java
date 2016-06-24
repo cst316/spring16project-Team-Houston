@@ -350,7 +350,7 @@ public class AppFrame extends JFrame {
 			}
 		});
 
-		jMenuGoTimer.setText(Local.getString("Task Timer"));
+		jMenuGoTimer.setText(Local.getString("Effort Timer"));
 		jMenuGoTimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EffortTimerFrame.getInstance().setVisible(true);
@@ -490,6 +490,8 @@ public class AppFrame extends JFrame {
 		jMenuHelp.addSeparator();
 		jMenuHelp.add(jMenuHelpAbout);
 
+		jMenuPSP.add(jMenuGoTimer);
+		jMenuPSP.addSeparator();
 		jMenuPSP.add(jMenuEstimateWizard);
 		jMenuPSP.add(jMenuDefectWizard);
 		jMenuPSP.add(jMenuActualWizard);
@@ -499,8 +501,8 @@ public class AppFrame extends JFrame {
 
 		menuBar.add(jMenuFile);
 		menuBar.add(jMenuGo);
-		menuBar.add(jMenuHelp);
 		menuBar.add(jMenuPSP);
+		menuBar.add(jMenuHelp);
 
 		this.setJMenuBar(menuBar);
 		contentPane.add(statusBar, BorderLayout.SOUTH);
@@ -544,7 +546,6 @@ public class AppFrame extends JFrame {
 		jMenuGo.add(jMenuGoDayBack);
 		jMenuGo.add(jMenuGoDayFwd);
 		jMenuGo.add(jMenuGoToday);
-		jMenuGo.add(jMenuGoTimer);
 
 		splitPane.setBorder(null);
 		workPanel.setBorder(null);
